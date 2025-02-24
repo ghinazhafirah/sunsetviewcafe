@@ -14,11 +14,14 @@
                         <h5 class="card-title">{{ $post['title'] }}</h5>
                         <p class="card-text"> {!! $post->body !!}</p>
                         <div class="row">
-                            <div class="col-md-8 ">
+                            <div class="col-md-8 d-flex align-items-center">
                                 @livewire('counter')
+                                <a href="#" class="btn btn-warning ms-2">
+                                    <i class="fas fa-shopping-cart" style="font-size:24px"></i>
+                                </a>
                             </div>
-                            <div class="col-md-4 w-3">
-                                <a href="/menu" class="btn btn-warning w-100 ms-auto ">Back to Menu</a>
+                            <div class="col-md-4 d-flex justify-content-end">
+                                <a href="/menu" class="btn btn-warning w-100">Back to Menu</a>
                             </div>
                         </div>
                     </div>

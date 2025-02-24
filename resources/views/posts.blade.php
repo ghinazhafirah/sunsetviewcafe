@@ -87,8 +87,15 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ $post->title }}</h5>
                                             <p class="card-text">{{ $post->excerpt }}</p>
-                                            <a href="/posts/{{ $post->slug }}" class="btn btn-light text-dark">Add</a>
-                                            <i class="fa fa-thumbs-up" style="font-size:36px"></i>                                        </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="/posts/{{ $post->slug }}"
+                                                    class="btn btn-light text-dark">Add</a>
+                                                <div class="ms-auto">
+                                                    {{-- <i class='far fa-thumbs-up' style='font-size:24px;'></i> --}}
+                                                    <i class='far fa-heart' style='font-size:24px;'></i>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
