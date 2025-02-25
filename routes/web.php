@@ -18,8 +18,8 @@ Route::get('/home', function (){
         "title" => "home",
         "name" => "Sunset View Cafe",
         "email" => "sunsetviewcandisari@gmail.com",
-        "image" => "logocafe.png"
-
+        "image" => "logocafe.png",
+        'active' => 'home',
     ]);
 
 });
@@ -56,19 +56,22 @@ Route::get('/posts/{post:slug}', [PostController::class, 'show']); //ditangkap k
 Route::get('/categories', function(){
     return view('categories', [
         'title' => 'Post Categories',
-        'categories' => Category::all(),
+        'active' => 'categories',
+        'categories' => Category::all()
     ]);
 });
 
 // Route::get('/categories/{category:slug}', function(Category $category) {
-//     return view('category', [
+//     return view('posts', [
 //         'title' => "Post By Category :$category->name",
 //         'posts' => $category->posts->load('category', 'author')
 //     ]);
 // });
+
 Route::get('/categories/{category:slug}', function(Category $category){
     return view('category',[
         'title' => $category->name,
+        'active' => 'categories',
         'posts' => $category->posts, //1 kategori punya banyak post (dari metod post ke model category)
         'category' => $category->name
     ]);

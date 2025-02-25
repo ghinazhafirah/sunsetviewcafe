@@ -11,9 +11,7 @@ class Post extends Model
     // protected $fillable = ['title', 'excerpt', 'body']; //penting, properti yang boleh diisi
     protected $guarded = ['id']; //properti yang gaboleh diisi
     protected $with = ['category'];
-    protected $casts = [
-        'images' => 'array',
-    ];
+    protected $casts = ['images' => 'array'];
     
 
     public function category()

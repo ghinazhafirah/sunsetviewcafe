@@ -9,14 +9,6 @@ class PostController extends Controller
 {
     public function index()
     {
-    //     return view('posts', [
-    //         "title" => "All Posts",
-    //         // "posts" => Post::latest()->get(), //konek ke model menggunakan metode
-    //         "posts" => Post::with('category')->latest()->get(),
-    //         // "posts" => Post::paginate(10), //konek ke model menggunakan metode
-    //         "image" => "logocafe.png",
-    //         "active" => "posts"
-    //    ]);
             return view('posts', [
                 "title" => "All Posts",
                 "posts" => Post::latest()->get(), // Pastikan kategori dimuat
@@ -30,7 +22,6 @@ class PostController extends Controller
 //         "title" => "All Categories",
 //         // "categories" => Category::all(), //konek ke model menggunakan metode
 //         "categories" => Category::latest()->get(),
-//         // "posts" => Post::paginate(10), //konek ke model menggunakan metode
 //         "images" => ["logocafe.png", "ayampenyet.png", "magelangan.jpg"]
 //    ]);
     }
@@ -39,7 +30,8 @@ class PostController extends Controller
     {
         return view('post', [
             "title" => "Single Post",
-            "post" => $post //ga perlu di query
+            "post" => $post, //ga perlu di query
+             "active" => "post"
         ]);
     }
 

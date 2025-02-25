@@ -59,9 +59,8 @@
 
                         @foreach ($categories as $category)
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('categories/' . $category->slug) ? 'active' : '' }}"
-                                    href="/categories/{{ $category->slug }}"
-                                    class="text-decoration-none bg-warning text-light">
+                                <a class="nav-link text-dark {{ request()->is('categories/' . $category->slug) ? 'active' : '' }}"
+                                    href="/categories/{{ $category->slug }}" class="text-decoration-none">
                                     {{ $category->name }}
                                 </a>
                             </li>
@@ -88,9 +87,14 @@
                                             <h5 class="card-title">{{ $post->title }}</h5>
                                             <p class="card-text">{{ $post->excerpt }}</p>
                                             <div class="d-flex justify-content-between align-items-center">
+                                                <tr>
+                                                    <td>{{ $post->name }}</td>
+                                                    <td>Rp {{ number_format($post->harga, 0, ',', '.') }},000</td>
+                                                </tr>
                                                 <a href="/posts/{{ $post->slug }}"
-                                                    class="btn btn-light text-dark">Add</a>
+                                                    class="btn btn-light text-dark ms-2">Add</a>
                                                 <div class="ms-auto">
+
                                                     {{-- <i class='far fa-thumbs-up' style='font-size:24px;'></i> --}}
                                                     <i class='far fa-heart' style='font-size:24px;'></i>
                                                 </div>

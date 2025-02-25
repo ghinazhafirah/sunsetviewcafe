@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-warning ">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="/home">Sunset View Cafe</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,10 +8,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title === 'Home' ? 'active' : '' }}" href="/home">Home</a>
+                    <a class="nav-link {{ $active === 'home' ? 'active' : '' }}" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $title === 'Posts' ? 'active' : '' }}" href="/menu">Menu</a>
+                    <a class="nav-link {{ $active === 'posts' ? 'active' : '' }}" href="/menu">Menu</a>
                 </li>
             </ul>
         </div>

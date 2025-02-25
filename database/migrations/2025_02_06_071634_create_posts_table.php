@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('excerpt'); //field untuk menyimpan sebagian kecil dari tulisan body blog kita 'read more'
             $table->text('body'); //deskripsi menu
-            $table->string('image')->nullable(); // gambar
+            // $table->string('image')->nullable(); // gambar
             $table->timestamp('published_at')->nullable(); // tipe data timestamp
             $table->timestamps(); // untuk creat at/updated at
         });

@@ -14,10 +14,10 @@
                         <h5 class="card-title">{{ $post['title'] }}</h5>
                         <p class="card-text"> {!! $post->body !!}</p>
                         <div class="row">
-                            <div class="col-md-8 d-flex align-items-center">
+                            <div class="col-md-8 d-flex mb-1 align-items-center">
                                 @livewire('counter')
-                                <a href="#" class="btn btn-warning ms-2">
-                                    <i class="fas fa-shopping-cart" style="font-size:24px"></i>
+                                <a href="#"  class="btn btn-warning ms-2 text-dark">Add
+                                    {{-- <i class="fas fa-shopping-cart" style="font-size:24px"></i> --}}
                                 </a>
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">

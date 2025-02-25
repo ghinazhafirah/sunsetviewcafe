@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
             'excerpt' => 'Hidangan khas Indonesia yang terdiri dari ayam goreng yang dipenyet (ditekan) dengan ulekan dan disajikan dengan sambal khas',
             'body' => 'ayam goreng dengan sambel yang pedes bangeeeetttttt',
             // 'images' => json_encode(["posts/ayampenyet.jpg"]),
+            'harga' => '20.000',
             'category_id' => 1,
             'user_id' => 1
         ]);
@@ -68,6 +69,7 @@ class DatabaseSeeder extends Seeder
             'excerpt' => 'Menu khas warung makan dengan lauk beragam yang disajikan dalam satu piring',
             'body' => 'nasi dengan sayur dan lauk ayam ditambah kerupuk',
             'images' => json_encode(["posts/ayampenyet.jpg", "posts/magelangan.jpg"]),
+            'harga' => '18.000',
             'category_id' => 1,
             'user_id' => 1
         ]);
@@ -78,6 +80,7 @@ class DatabaseSeeder extends Seeder
             'excerpt' => 'Menu nasi goreng khas Jawa yang dicampur dengan mi goreng dan bumbu rempah khas',
             'body' => 'Nasi dan mi goreng dengan suwiran ayam, telur, dan acar timun',
             // 'images' => json_encode(["posts/magelangan.jpg"]),
+            'harga' => '15.000',
             'category_id' => 1,
             'user_id' => 1
         ]);
@@ -87,6 +90,7 @@ class DatabaseSeeder extends Seeder
             'slug' => 'es teh',
             'excerpt' => 'Minuman segar berbahan dasar teh yang cocok untuk menemani hidangan',
             'body' => 'Teh dingin dengan gula pasir atau gula cair',
+            'harga' => '3.000',
             'category_id' => 2,
             'user_id' => 1
         ]);
@@ -96,6 +100,7 @@ class DatabaseSeeder extends Seeder
             'slug' => 'seblak',
             'excerpt' => 'Hidangan khas Sunda yang terbuat dari kerupuk basah dengan bumbu pedas gurih',
             'body' => 'Campuran lengkap kerupuk, telur, ceker, bakso, dan sosis',
+            'harga' => '15.000',
             'category_id' => 3,
             'user_id' => 2
         ]);
