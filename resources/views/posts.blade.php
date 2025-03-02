@@ -10,7 +10,7 @@
     @if ($posts->count())
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
-                <div class="card-body text-center">
+                <div class="card-body text-center mb-2">
                     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             @foreach ($images as $key => $image)
@@ -35,7 +35,7 @@
                         <h3 class="card-title">{{ $posts[0]->title }}</h3>
                         <p class="card-text"> {{ $posts[0]->excerpt }}</p>
                         {{-- @livewire('counter') Tombol Increment & Decrement --}}
-                        <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none bg-warning btn btn-warning">Read
+                        <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-outline-warning text-dark">Read
                             more..</a>
                     </div>
                 </div>
@@ -47,59 +47,52 @@
 
 
 
-    <div class="container mt-2">
+    <div class="container-fluid mt-2 p-0">
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
                 <div class="card-header">
-                    <ul class="nav nav-pills card-header-pills">
-                        @php
-                            // Mengambil daftar kategori unik dari posts & mengurutkannya
-                            $categories = $posts->pluck('category')->unique()->sortBy('name');
-                        @endphp
+                    <div class="d-flex justify-content-between align-items-center">
+                        {{-- bagian kategori --}}
+                        <ul class="nav nav-pills card-header-pills d-flex flex-nowrap overflow-auto">
+                            @php
+                                // Mengambil daftar kategori unik dari posts & mengurutkannya
+                                $categories = $posts->pluck('category')->unique()->sortBy('name');
+                            @endphp
 
-                        @foreach ($categories as $category)
-                            <li class="nav-item">
-                                <a class="nav-link text-dark {{ request()->is('categories/' . $category->slug) ? 'active' : '' }}"
-                                    href="/categories/{{ $category->slug }}" class="text-decoration-none">
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
+                            @foreach ($categories as $category)
+                                <li class="nav-item p-1">
+                                    <a class="nav-link text-dark {{ request()->is('categories/' . $category->slug) ? 'active' : '' }}"
+                                        href="/categories/{{ $category->slug }}" class="text-decoration-none">
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-light ms-2 text-dark ms-auto">Meja
+                            </a>
+                            <a href="/cart" class="btn btn-light ms-2">
+                                <i class="fas fa-shopping-cart" style="font-size:16px"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 @foreach ($posts as $post)
-                    <div class="card-body mb-2 px-2 p-0">
-                        <div class="col-12 mb-2 mt-2">
-                            <div class="card bg-warning">
-                                {{-- <div class="position-absolute px-3 py-2"
-                                    style="background-color: rgba(0, 0, 0, 0.7)"> <a
-                                        href="/categories/{{ $post->category->slug }}" class="text-white text-decoration-none">{{ $post->category->name }}</a>
-                                </div> --}}
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-center">
-                                        <img src="https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd060fe209b4a56733a1dcc9b5aea53a{{ $post->category->name }}"
-                                            class="card-img-top w-70 mx-auto p-2 img-fluid"
-                                            alt="{{ $post->category->name }}">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $post->title }}</h5>
-                                            <p class="card-text">{{ $post->excerpt }}</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <tr>
-                                                    <td>{{ $post->name }}</td>
-                                                    <td>Rp {{ number_format($post->harga, 0, ',', '.') }},000</td>
-                                                </tr>
-                                                <a href="/posts/{{ $post->slug }}"
-                                                    class="btn btn-light text-dark ms-2">Add</a>
-                                                <div class="ms-auto">
-
-                                                    {{-- <i class='far fa-thumbs-up' style='font-size:24px;'></i> --}}
-                                                    <i class='far fa-heart' style='font-size:24px;'></i>
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class="card-body">
+                        <div class="row g-0 align-items-center border-bottom border-warning pb-2">
+                            <div class="col-4">
+                                <img src="https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd060fe209b4a56733a1dcc9b5aea53a{{ $post->category->name }}"
+                                    class="card-img-top img-fluid p-2 rounded" alt="{{ $post->category->name }}">
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body p-0">
+                                    <h5 class="card-title">{{ $post->title }}</h5>
+                                    <p class="card-text">{{ $post->excerpt }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
+                                        <a href="/posts/{{ $post->slug }}" class="btn btn-outline-warning text-dark">Add</a>
+                                        {{-- <i class='far fa-heart'></i> --}}
                                     </div>
                                 </div>
                             </div>

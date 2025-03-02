@@ -12,7 +12,7 @@ class Post extends Model
     protected $guarded = ['id']; //properti yang gaboleh diisi
     protected $with = ['category'];
     protected $casts = ['images' => 'array'];
-    
+
 
     public function category()
     {

@@ -104,5 +104,15 @@ class DatabaseSeeder extends Seeder
             'category_id' => 3,
             'user_id' => 2
         ]);
+
+        // Cart::create([
+        //     'jumlah_menu' => 'Seblak',
+        //     'slug' => 'seblak',
+        //     'excerpt' => 'Hidangan khas Sunda yang terbuat dari kerupuk basah dengan bumbu pedas gurih',
+        //     'body' => 'Campuran lengkap kerupuk, telur, ceker, bakso, dan sosis',
+        //     'harga' => '15.000',
+        //     'category_id' => 3,
+        //     'user_id' => 2
+        // ]);
     }
 }

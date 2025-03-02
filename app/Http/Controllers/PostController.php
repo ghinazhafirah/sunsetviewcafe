@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Cart;
 
 class PostController extends Controller
 {
     public function index()
     {
+        // dd(Cart::latest()->get());
             return view('posts', [
                 "title" => "All Posts",
                 "posts" => Post::latest()->get(), // Pastikan kategori dimuat
@@ -31,7 +33,7 @@ class PostController extends Controller
         return view('post', [
             "title" => "Single Post",
             "post" => $post, //ga perlu di query
-             "active" => "post"
+            "active" => "post"
         ]);
     }
 
