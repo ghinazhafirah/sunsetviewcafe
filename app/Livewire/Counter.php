@@ -2,25 +2,34 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Carbon;
 use App\Models\Cart;
+use App\Models\Post;
+use Livewire\Component;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class Counter extends Component
 {
     public $count = 1; //menyimpan angka counter
     public $postId;
 
+    public function mount($postId)
+    {
+        $this->postId = $postId;
+        $this->count = Session::get("count_{$this->postId}", 1); // Ambil dari session kalau ada
+    }
+
     public function increment()
     {
         $this->count++;
+        Session::put("count_{$this->postId}", $this->count); // Simpan di session
     }
 
     public function decrement()
     {
         if ($this->count > 1) {
             $this->count--;
+            Session::put("count_{$this->postId}", $this->count); // Simpan di session
         }
     }
 
@@ -45,6 +54,7 @@ class Counter extends Component
         
 
         // // Beri notifikasi sukses
+        $this->dispatch('alert', type: 'success', message: "{$product->title} berhasil ditambahkan ke keranjang!");
         // session()->flash('message', "{$product->title} berhasil ditambahkan ke keranjang!");
     }
 

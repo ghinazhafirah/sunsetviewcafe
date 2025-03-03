@@ -69,9 +69,9 @@
                             @endforeach
                         </ul>
                         <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light ms-2 text-dark ms-auto">Meja
+                            <a href="#" class="btn btn-light text-dark ms-auto">Meja
                             </a>
-                            <a href="/cart" class="btn btn-light ms-2">
+                            <a href="/cart" class="btn btn-light">
                                 <i class="fas fa-shopping-cart" style="font-size:16px"></i>
                             </a>
                         </div>
@@ -80,7 +80,7 @@
 
                 @foreach ($posts as $post)
                     <div class="card-body">
-                        <div class="row g-0 align-items-center border-bottom border-warning pb-2">
+                        <div class="row align-items-center border-bottom border-warning pb-2">
                             <div class="col-4">
                                 <img src="https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd060fe209b4a56733a1dcc9b5aea53a{{ $post->category->name }}"
                                     class="card-img-top img-fluid p-2 rounded" alt="{{ $post->category->name }}">

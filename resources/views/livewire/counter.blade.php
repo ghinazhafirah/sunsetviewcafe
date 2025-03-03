@@ -5,7 +5,7 @@
 </div> --}}
 
 <div class="row d-flex justify-content-end align-items-center">
-    <div class="col-auto p-0 d-flex align-items-center" >
+    <div class="col-auto p-0 d-flex align-items-center">
         <button wire:click="decrement" class="btn btn-light border-0 px-2">-</button>
         <span class="mx-2 fw-bold">{{ $count }}</span>
         <button wire:click="increment" class="btn btn-light border-0 px-2">+</button>
@@ -15,4 +15,15 @@
     </div>
 </div>
 
-
+<script>
+    window.addEventListener('alert', event => {
+        Swal.fire({
+            title: "Sukses!",
+            text: event.detail.message,
+            icon: event.detail.type,
+            width: "300px", // Ukuran lebih kecil
+            showConfirmButton: false, // Hilangkan tombol OK
+            timer: 1500 // Alert akan hilang dalam 1.5 detik
+        });
+    });
+</script>
