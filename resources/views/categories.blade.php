@@ -1,4 +1,4 @@
-{{-- @dd($posts) --}}
+{{-- @dd($posts)
 
 @extends('layouts.home')
 
@@ -23,4 +23,4 @@
             @endforeach
         </div>
     </div>
-@endsection
+@endsection --}}

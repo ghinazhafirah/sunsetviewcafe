@@ -31,7 +31,7 @@
 /* body {
     font-family: "Heebo", sans-serif;
     font-size: 1rem;
-} */
+}
 
 /* h1,
 h2,
@@ -721,7 +721,6 @@ img {
     flex: 1; /* Biarkan flexbox mengatur lebar otomatis */
     width: 100%; /* Isi seluruh lebar */
     max-width: 600%;
- 
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .main-content-wrapper .cart-table-area {
@@ -967,6 +966,7 @@ img {
 .main-content-wrapper .cart-table-area .cart-summary h5 {
     font-size: 18px;
     margin-bottom: 0;
+    text-align: center;
 }
 .main-content-wrapper .cart-table-area .cart-summary .summary-table {
     margin-top: 30px;
@@ -974,10 +974,10 @@ img {
 .main-content-wrapper .cart-table-area .cart-summary .summary-table li {
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+    display: flex !important;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
-    justify-content: space-between;
+    justify-content: space-between !important;
     margin-bottom: 30px;
     text-transform: capitalize;
 }

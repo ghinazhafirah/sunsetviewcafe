@@ -56,7 +56,7 @@ class CartController extends Controller
     public function showCart()
     {
         // Ambil semua data cart dari database
-         $cartItems = Cart::with('post')->get(); // Jika ingin mengambil data terkait dengan post
+         $cartItems = Cart::with('post')->get();
 
         //hitung subtotal
         $subtotal = $cartItems->sum(function($cart){
@@ -66,32 +66,9 @@ class CartController extends Controller
         return view('cart', [
             'title' => 'Cart',
             'cart' => $cartItems,
-            'subtotal' => $subtotal, // Kirim subtotal ke view
-            'total' => $subtotal, // Jika ada tax atau diskon, bisa ditambah di sini
+            'total' => $subtotal, // Kirim subtotal ke view
             'active' => 'cart'
         ]);
     }
-
-    // // Menghapus item dari cart
-    // public function removeFromCart($posts_id)
-    // {
-    //     $cart = Session::get('cart', []);
-
-    //     //filter item berdasarkan posts_id
-    //     $cart = array_filter($cart, function ($item) use ($posts_id) {
-    //         return $item['posts_id'] != $posts_id;
-    //     });
-
-    //     Session::put('cart', $cart);
-
-    //     return redirect()->back()->with('success', 'Item berhasil dihapus dari cart!');
-    // }
-
-    // // Menghapus seluruh cart
-    // public function clearCart()
-    // {
-    //     Session::forget('cart');
-    //     return redirect()->back()->with('success', 'Cart berhasil dikosongkan!');
-    // }
 }
 

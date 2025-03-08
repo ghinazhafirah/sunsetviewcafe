@@ -1,19 +1,9 @@
-{{-- @dd($posts) --}}
+{{-- @dd($posts)
 
 @extends('layouts.home')
 
 
 @section('container')
-    {{-- @foreach ($posts as $post)
-        <article>
-            <h2>
-                <a href="/posts/{{ $post->slug }}">{{ $post->title }}</a>
-            </h2>
-            <p>{{ $post->excerpt }}</p>
-            {{-- <h5>{{  $posts}}</h5>
-        </article>
-    @endforeach --}}
-
     <div class="container mt-2">
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
@@ -30,9 +20,9 @@
                                     <h5 class="card-title">{{ $post->title }}</h5>
                                     <p class="card-text">{{ $post->excerpt }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span>Rp {{ number_format($post->harga, 0, ',', '.') }},000</span>
+                                        <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
                                         <a href="/posts/{{ $post->slug }}" class="btn btn-warning">Add</a>
-                                        {{-- <i class='far fa-heart'></i> --}}
+                                        {{-- <i class='far fa-heart'></i>
                                     </div>
                                 </div>
                             </div>
@@ -42,4 +32,4 @@
             </div>
         </div>
     </div>
-@endsection
+@endsection --}}
