@@ -13,7 +13,14 @@
                         </div>
                         <div class="col-md-4 col-6 p-0">
                             <div class="cart-title">
-                                <h2>Shopping Cart</h2>
+                                {{-- <h4>Pesanan Meja : {{ $tableNumber ?? 'Tidak Diketahui' }}</h4> --}}
+
+                                @if (is_numeric($tableNumber))
+                                    <h4>Pesanan Meja : {{ $tableNumber }}</h4>
+                                @else
+                                    <h4>Pesanan Meja : Tidak Diketahui</h4>
+                                @endif
+
                             </div>
                         </div>
                     </div>

@@ -10,17 +10,23 @@ class Counter extends Component
 {
     public $count = 1; //menyimpan angka counter
     public $postId; // id dari menu(post)
+    public $post;
    
-    public function mount($postId)
+    public function mount($postId = null)
     {
-        $this->postId = $postId;
+        // $this->postId = $postId;
 
-        // Cek menu sudah ada di dalam keranjang
-        $cartItem = Cart::where('posts_id', $this->postId)->first();
+        // // Cek menu sudah ada di dalam keranjang
+        // $cartItem = Cart::where('posts_id', $this->postId)->first();
 
-        if ($cartItem) { //kalo ada
-        $this->count = $cartItem->jumlah_menu; // Ambil jumlah yang sudah ada di keranjang
+        // if ($cartItem) { //kalo ada
+        // $this->count = $cartItem->jumlah_menu; // Ambil jumlah yang sudah ada di keranjang
+        // }
+        if (!$postId) {
+            throw new \Exception("Post ID tidak ditemukan di Counter");
         }
+        // $this->postId = $postId;
+        $this->post = Post::find($postId);
     }
 
     public function increment()

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->integer('table_number')->default(0);
             $table->foreignId('pesenan_id');
             $table->foreignId('posts_id');
             $table->integer('jumlah_menu');

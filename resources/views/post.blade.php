@@ -1,3 +1,6 @@
+{{-- <pre>{{ var_dump($post) }}</pre> --}}
+
+
 @extends('layouts.home')
 
 @section('container')
@@ -17,7 +20,7 @@
                         <div class="mt-auto">
                             <div class="row d-flex align-items-center">
                                 <div class="col-md-4 col-5 d-flex gap-2 ">
-                                <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
+                                    <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="col-md-8 col-7 text-end">
                                     <div>

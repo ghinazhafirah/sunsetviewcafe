@@ -6,7 +6,16 @@
         <button wire:click="increment" class="btn btn-light border-0 px-2">+</button>
     </div>
     <div class="col-auto px-2">
-        <button wire:click="addToCart" class="btn btn-outline-warning ms-2 text-dark">Add</button>
+        @if ($post)
+            <form method="POST" action="{{ route('cart.add') }}">
+                @csrf
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <input type="hidden" name="table_number" value="{{ session('tableNumber') ?? $tableNumber }}">
+                <button type="submit" class="btn btn-outline-warning text-dark">Add</button>
+            </form>
+        @else
+            <p class="text-danger">❌ Post tidak ditemukan.</p>
+        @endif
     </div>
 </div>
 

@@ -1,12 +1,8 @@
-{{-- @dd($posts) --}}
-
 @extends('layouts.home')
-
 
 @section('container')
     <h1 class="container-fluid"></h1>
-
-    {{-- menghitung jumlah post --}}
+       {{-- menghitung jumlah post --}}
     @if ($posts->count())
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
@@ -48,8 +44,9 @@
     <div class="container-fluid mt-2 p-0">
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
-                @livewire('category-filter') {{-- Menampilkan kategori dengan Livewire --}}
+                @livewire('category-filter', ['tableNumber' => session('tableNumber')])
             </div>
         </div>
     </div>
 @endsection
+

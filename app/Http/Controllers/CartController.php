@@ -11,64 +11,112 @@ class CartController extends Controller
 {
     //menambahkan item ke cart
     public function addToCart(Request $request)
+    {  
+        // dd($request->all()); // Debugging
+        \Log::info('Data yang diterima dalam addToCart:', $request->all());        // dd(session('table_number'), $request->table_number);
+        // \Log::info('Request Data:', $request->all()); // Log semua data yang dikirim
+
+        $tableNumber = $request->input('table_number') ?? session('tableNumber');    
+
+       // Simpan nomor meja ke session jika belum ada
+        session(['tableNumber' => $tableNumber]);
+        
+        // dd($tableNumber);
+
+
+         // Pastikan nomor meja yang diterima valid (misalnya hanya angka)
+        if (!is_numeric($tableNumber)) {
+            \Log::warning('Nomor meja tidak valid: ' . $tableNumber);
+            return back()->with('error', 'Nomor meja tidak valid.');
+        }
+        
+        \Log::info('Nomor Meja dari Request:', ['tableNumber' => $tableNumber]);
+    
+        // Ambil data menu berdasarkan ID
+        $postId = $request->input('post_id');
+        $post = Post::find($postId);
+        
+        if (!$post) {
+            \Log::error('Menu dengan ID ' . $postId . ' tidak ditemukan.');
+            return back()->with('error', 'Menu tidak ditemukan');
+        }
+        // dd($post);
+
+        $cart = Cart::where('table_number', $tableNumber)
+            ->where('posts_id', $post->id)
+            ->first();
+
+        if ($cart) {
+            // Jika item sudah ada, update jumlah dan total harga
+            $cart->increment('jumlah_menu', 1);
+            $cart->increment('total_menu', $post->harga);
+        } else {
+            // Jika item belum ada, buat item baru, simpan database
+            Cart::create([
+                'pesenan_id' => 8, // Sesuaikan dengan sistem pesananmu
+                'posts_id' => $post->id,
+                'jumlah_menu' => 1,
+                'total_menu' => $post->harga,
+                'table_number' => $tableNumber
+            ]);
+        }
+        //  dd($cart);
+         \Log::info('Menu berhasil ditambahkan ke Cart dengan Nomor Meja:', ['tableNumber' => $tableNumber]);
+
+         return redirect()->route('menu', ['tableNumber' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
+      } 
+         
+    // public function showCart()
+    // {
+    //    $tableNumber = session('tableNumber');
+     
+    //    if (!$tableNumber) {
+    //     \Log::warning('Nomor meja tidak ditemukan saat membuka cart.');
+    //     return redirect()->route('menu', ['tableNumber' => 1])->with('error', 'Nomor meja tidak ditemukan.');
+    //    }
+
+    //    // Ambil item cart hanya untuk nomor meja saat ini
+    //    $cartItems = Cart::where('table_number', $tableNumber)->with('post')->get();
+    //    \Log::info('isi Cart:', $cartItems->toArray()); // Debugging untuk cek isi cart
+    //    $subtotal = $cartItems->sum(fn($cart) => $cart->post->harga * $cart->jumlah_menu);
+
+    //     return view('cart', [
+    //         'title' => 'Cart',
+    //         'cart' => $cartItems,
+    //         'total' => $subtotal, // Kirim subtotal ke view
+    //         'active' => 'cart',
+    //         'tableNumber' => $tableNumber
+    //     ]);
+    // }
+    public function showCart($tableNumber = null)
     {
-        //ambil data post berdasarkan id
-        $post = Post::findOrFail($request->posts_id); //memastikan item ada sebelum tambah ke cart
-        $cart = Session::get('cart', []);
+        // Ambil nomor meja dari session jika tidak ada di parameter URL
+        if (!$tableNumber) {
+            $tableNumber = session('tableNumber');
+        }
 
-        //hitung total harga berdasarkan jumlah
-        $jumlah_menu = $request->jumlah_menu ?? 1;
-        $total_menu = $jumlah_menu * $post->harga;
+        \Log::info('Nomor Meja saat membuka cart:', ['tableNumber' => $tableNumber]);
 
-        //data item yang akan ditambahkan ke cart
-        $item = [
-            'pesenan_id' => '8',
-            'posts_id' => $post->id,
-            'jumlah_menu' => $this->count,
-            'total_menu' => $total_menu,
-            'created_at' => date('Y-m-d H:i:s'),
-        ];
+        // Jika tetap tidak ada, redirect ke menu dengan pesan error
+        if (!$tableNumber) {
+            \Log::warning('Nomor meja tidak ditemukan saat membuka cart.');
+            return redirect()->route('menu')->with('error', 'Nomor meja tidak ditemukan.');
+        }
 
-    $cartCollection = collect($cart);
-    $existingItem = $cartCollection->firstWhere('posts_id', $post->id);
+        // Simpan nomor meja ke session jika belum ada
+        session(['tableNumber' => $tableNumber]);
 
-    if ($existingItem) {
-        // Jika item sudah ada, update jumlah & total harga
-        $cart = $cartCollection->map(function ($cartItem) use ($post, $jumlah_menu) {
-            if ($cartItem['posts_id'] == $post->id) {
-                $cartItem['jumlah_menu'] += $jumlah_menu;
-                $cartItem['total_menu'] += $jumlah_menu * $post->price;
-            }
-            return $cartItem;
-        })->toArray();
-    } else {
-        // Jika item belum ada, tambahkan ke cart
-        $cart[] = $item;
-    }
-
-    // Simpan kembali ke session
-    Session::put('cart', $cart);
-
-    return redirect()->back()->with('success', 'Item berhasil ditambahkan ke cart!');
-}
-
-    // Menampilkan halaman cart
-    public function showCart()
-    {
-        // Ambil semua data cart dari database
-         $cartItems = Cart::with('post')->get();
-
-        //hitung subtotal
-        $subtotal = $cartItems->sum(function($cart){
-            return $cart->post->harga * $cart->jumlah_menu;
-        });
+        // Ambil item cart hanya untuk nomor meja saat ini
+        $cartItems = Cart::where('table_number', $tableNumber)->with('post')->get();
+        $subtotal = $cartItems->sum(fn($cart) => $cart->post->harga * $cart->jumlah_menu);
 
         return view('cart', [
             'title' => 'Cart',
             'cart' => $cartItems,
-            'total' => $subtotal, // Kirim subtotal ke view
-            'active' => 'cart'
+            'total' => $subtotal,
+            'active' => 'cart',
+            'tableNumber' => $tableNumber // Kirim ke view agar bisa ditampilkan
         ]);
     }
-}
 
+}

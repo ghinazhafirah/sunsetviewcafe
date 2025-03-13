@@ -10,11 +10,22 @@ class CategoryFilter extends Component
 {
     public $selectedCategory; //nyimpen kategory yang dipilih
     public $posts; //nyimpen daftar menu yang ditampilkan
+    public $tableNumber; // nyimpen no meja
 
-    public function mount()
+    public function mount($tableNumber = null)
     {
         $this->selectedCategory = null; //default, tidak ada kategori yang dipilih
         $this->posts = Post::all(); //semua menu tampil saat pertama kali load
+    
+        // Ambil nomor meja dari parameter atau session
+        if ($tableNumber) {
+            $this->tableNumber = $tableNumber;
+            session(['tableNumber' => $this->tableNumber]); // Simpan ke session
+        } else {
+            $this->tableNumber = session('tableNumber', null); // Ambil dari session jika ada
+        }
+
+        \Log::info('Nomor meja yang diambil:', ['tableNumber' => $this->tableNumber]);
     }
 
     public function filterByCategory($categoryId)
@@ -26,7 +37,8 @@ class CategoryFilter extends Component
     public function render()
     {
         return view('livewire.category-filter', [
-            'categories' => Category::all() //ngirim category ke view 
+            'categories' => Category::all(), //ngirim category ke view 
+            'tableNumber' => $this->tableNumber // Kirim ke view
         ]);
     }
 

@@ -1,5 +1,8 @@
+{{-- @php dd($tableNumber); @endphp --}}
+
+
 <div class="container-fluid p-0">
-    <div class="card-header">
+    <div class="card-header bg-warning">
         <div class="d-flex justify-content-between align-items-center">
             <div class="col-8">
                 {{-- navbar bagian kategori --}}
@@ -19,9 +22,14 @@
                 </ul>
             </div>
             <div class="col-4 text-end">
-                <a href="#" class="btn btn-light text-dark">Meja
-                </a>
-                <a href="/cart" class="btn btn-light py-2">
+                @if (session()->has('tableNumber'))
+                    <div class="btn btn-light text-dark">
+                        <h6>Meja: {{ session('tableNumber') ?? 'Tidak ada' }}</h6>
+                    </div>
+                @endif
+                {{-- <a href="#" class="btn btn-light text-dark">Meja
+                </a> --}}
+                <a href="{{ route('cart.show') }}" class="btn btn-light py-2">
                     <i class="fas fa-shopping-cart" style="font-size:16px"></i>
                 </a>
             </div>
@@ -41,7 +49,19 @@
                             <p class="card-text">{{ $post->excerpt }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
-                                <a href="/posts/{{ $post->slug }}" class="btn btn-outline-warning text-dark">Add</a>
+                                {{-- <a href="/posts/{{ $post->slug }}" class="btn btn-outline-warning text-dark">Add</a> --}}
+                                {{-- <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => session()->has('tableNumber') ? session('tableNumber') : 1]) }}"
+                                   class="btn btn-outline-warning text-dark"> Add </a> --}}
+
+                                <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => session('tableNumber') ?? 1]) }}"
+                                    class="btn btn-outline-warning text-dark"> Add </a>
+
+                                {{-- <form method="POST" action="{{ route('cart.add') }}">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                    <input type="hidden" name="table_number" value="{{ session('tableNumber') ?? $tableNumber }}">
+                                    <button type="submit" class="btn btn-outline-warning text-dark">Add</button>
+                                </form> --}}
                             </div>
                         </div>
                     </div>

@@ -9,7 +9,16 @@ class Cart extends Model
 {
   
     use HasFactory;
-    protected $fillable = ['pesenan_id', 'posts_id', 'jumlah_menu', 'total_menu'];
+
+    protected $table = 'carts';
+    
+    protected $fillable = [
+        'table_number', 
+        'pesenan_id', 
+        'posts_id', 
+        'jumlah_menu', 
+        'total_menu'
+    ];
 
     // Relasi ke Post (menu)
     public function post()
