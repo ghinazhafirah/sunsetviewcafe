@@ -17,14 +17,23 @@ class QrCodeController extends Controller
         }  
 
         session(['tableNumber' => $table]);
-        \Log::info('Nomor meja disimpan dalam session:', ['session' => session('tableNumber')]);
-        session()->save();
+        // session(['tableNumber' => $request->tableNumber]);
+        // \Log::info('Nomor meja disimpan dalam session:', ['session' => session('tableNumber')]);
+        // session()->save();
 
 
         \Log::info('Nomor Meja Disimpan ke Session:', ['tableNumber' => session('tableNumber')]);
 
         // Redirect ke halaman menu agar session bisa digunakan
         return redirect()->route('menu', ['tableNumber' => $table]);
+    }
+    
+        public function showMenu(Request $request)
+    {
+        $tableNumber = session('tableNumber');
+
+        \Log::info('Nomor Meja saat membuka menu:', ['tableNumber' => $tableNumber]);
+
         // Ambil semua post dari database
         $posts = Post::all();
 
@@ -36,11 +45,27 @@ class QrCodeController extends Controller
 
         return view('posts', [
             "title" => "Menu",
-            "posts" => $posts, // Kirim data ke view
+            "posts" => $posts,
             "images" => $images,
             "active" => "posts",
-            "tableNumber" => session('tableNumber')
+            "tableNumber" => $tableNumber
         ]);
+        // // Ambil semua post dari database
+        // $posts = Post::all();
+
+        // $images = [
+        //     'image1.jpg',
+        //     'image2.jpg',
+        //     'image3.jpg'
+        // ];
+
+        // return view('posts', [
+        //     "title" => "Menu",
+        //     "posts" => $posts, // Kirim data ke view
+        //     "images" => $images,
+        //     "active" => "posts",
+        //     "tableNumber" => session('tableNumber')
+        // ]);
     }
 
     public function showQrCode()

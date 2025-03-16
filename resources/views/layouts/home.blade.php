@@ -9,7 +9,8 @@
     {{-- <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="img/core-img/favicon.ico">
-    <link rel="stylesheet" href="css/core-style.css">
+    {{-- <link rel="stylesheet" href="css/core-style.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/core-style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 

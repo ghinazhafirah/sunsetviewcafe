@@ -11,7 +11,8 @@
                 @csrf
                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                 <input type="hidden" name="table_number" value="{{ session('tableNumber') ?? $tableNumber }}">
-                <button type="submit" class="btn btn-outline-warning text-dark">Add</button>
+                {{-- <button type="submit" class="btn btn-outline-warning text-dark">Add</button> --}}
+                <button wire:click="addToCart({{ $post->id }})" class="btn btn-outline-warning text-dark">Add</button>
             </form>
         @else
             <p class="text-danger">❌ Post tidak ditemukan.</p>

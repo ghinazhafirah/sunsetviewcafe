@@ -29,7 +29,7 @@
                 @endif
                 {{-- <a href="#" class="btn btn-light text-dark">Meja
                 </a> --}}
-                <a href="{{ route('cart.show') }}" class="btn btn-light py-2">
+                <a href="{{ route('cart.show', ['table' => session('tableNumber')]) }}" class="btn btn-light py-2">
                     <i class="fas fa-shopping-cart" style="font-size:16px"></i>
                 </a>
             </div>

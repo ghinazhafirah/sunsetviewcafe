@@ -7,9 +7,9 @@
         <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
             <div class="cart-table-area section-padding-50">
                 <div class="container-fluid">
-                    <div class="row py-3">
+                    <div class="row py-3 px-2">
                         <div class="col-md-4 col-3 p-0">
-                            <a href="/menu" class="btn btn-warning"><i class="fa fa-angle-left"></i></a>
+                            <a href="{{ route('menu', ['table' => session('tableNumber')]) }}" class="btn btn-warning"><i class="fa fa-angle-left"></i></a>
                         </div>
                         <div class="col-md-4 col-6 p-0">
                             <div class="cart-title">
@@ -49,14 +49,14 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4 mt-auto pb-3">
+                        <div class="d-flex col-12 col-lg-4 mt-auto pb-3">
                             <div class="cart-summary">
                                 <h5>Cart Total</h5>
-                                <ul class="summary-table p-0">
-                                    <li><span>Total:</span> <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
+                                <ul class="summary-table p-0 list-unstyled">
+                                    <li ><span>Total:</span> <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                                     </li>
                                 </ul>
-                                <div class="cart-btn mt-70">
+                                <div class="cart-btn">
                                     <a href="/checkout" class="btn amado-btn w-100">Next</a>
                                 </div>
                             </div>

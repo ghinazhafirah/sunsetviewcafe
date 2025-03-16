@@ -30,6 +30,11 @@ class CounterCart extends Component
         $this->count++;
         $this->updateCart();
     }
+    public function addToCart($postId)
+    {
+        $this->dispatch('addToCart', $postId, $this->count);
+    }
+
 
     public function decrement()
     {
