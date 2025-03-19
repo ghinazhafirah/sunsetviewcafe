@@ -4,7 +4,7 @@
 <div class="container-fluid p-0">
     <div class="card-header bg-warning">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="col-8">
+            <div class="col-7">
                 {{-- navbar bagian kategori --}}
                 <ul class="nav nav-pills card-header-pills d-flex flex-nowrap overflow-auto">
                     <li class="nav-item p-1">
@@ -21,7 +21,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="col-4 text-end">
+            <div class="col-5 text-end">
                 @if (session()->has('tableNumber'))
                     <div class="btn btn-light text-dark">
                         <h6>Meja: {{ session('tableNumber') ?? 'Tidak ada' }}</h6>
@@ -49,19 +49,8 @@
                             <p class="card-text">{{ $post->excerpt }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
-                                {{-- <a href="/posts/{{ $post->slug }}" class="btn btn-outline-warning text-dark">Add</a> --}}
-                                {{-- <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => session()->has('tableNumber') ? session('tableNumber') : 1]) }}"
-                                   class="btn btn-outline-warning text-dark"> Add </a> --}}
-
                                 <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => session('tableNumber') ?? 1]) }}"
                                     class="btn btn-outline-warning text-dark"> Add </a>
-
-                                {{-- <form method="POST" action="{{ route('cart.add') }}">
-                                    @csrf
-                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                    <input type="hidden" name="table_number" value="{{ session('tableNumber') ?? $tableNumber }}">
-                                    <button type="submit" class="btn btn-outline-warning text-dark">Add</button>
-                                </form> --}}
                             </div>
                         </div>
                     </div>

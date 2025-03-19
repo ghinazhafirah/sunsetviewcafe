@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('jumlah_menu');
             $table->string('total_menu');
             $table->timestamps();
+            $table->text('note')->nullable();
         });
     }
 

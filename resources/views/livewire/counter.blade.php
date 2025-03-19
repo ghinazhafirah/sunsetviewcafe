@@ -1,22 +1,21 @@
-<div class="row d-flex justify-content-end align-items-center">
-    <div class="col-auto p-0 d-flex align-items-center">
+<div class="row d-flex align-items-center">
+    {{-- catatan pelanggan --}}
+    <div class="mb-3">
+        <label for="exampleDataList" class="form-label fw-bold">Catatan:</label>
+        <textarea class="form-control border-warning" wire:model.defer="note" id="exampleDataList" rows="2"
+            placeholder="Opsional" style="width: 100%;"></textarea>
+    </div>
+    <div class="col-md-4 col-5 d-flex">
+        <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
+    </div>
+    <div class="col-auto d-flex align-items-center ms-auto">
         <button wire:click="decrement" class="btn btn-light border-0 px-2">-</button>
         <span class="mx-2 fw-bold">{{ $count }}</span>
-        {{-- <input type="text" wire:model={{ $count }} class="form-control text-center mx-1" style="width: 50px;" readonly> --}}
         <button wire:click="increment" class="btn btn-light border-0 px-2">+</button>
     </div>
     <div class="col-auto px-2">
-        @if ($post)
-            <form method="POST" action="{{ route('cart.add') }}">
-                @csrf
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                <input type="hidden" name="table_number" value="{{ session('tableNumber') ?? $tableNumber }}">
-                {{-- <button type="submit" class="btn btn-outline-warning text-dark">Add</button> --}}
-                <button wire:click="addToCart({{ $post->id }})" class="btn btn-outline-warning text-dark">Add</button>
-            </form>
-        @else
-            <p class="text-danger">❌ Post tidak ditemukan.</p>
-        @endif
+        {{-- <button wire:click="addToCart({{ $post->id }})" class="btn btn-outline-warning text-dark">Add</button> --}}
+        <button wire:click.prevent="addToCart({{ $postId }})" class="btn btn-outline-warning text-dark">Add</button>
     </div>
 </div>
 

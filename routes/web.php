@@ -34,6 +34,7 @@ Route::get('/dashboard', function () {
 
 // Route::get('/menu', [PostController::class, 'index']);
 Route::get('/menu/{table?}', [PostController::class, 'index'])->name('menu');
+Route::get('/menu/{table?}/{slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('/cart/{table?}', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::match(['get', 'post'], '/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

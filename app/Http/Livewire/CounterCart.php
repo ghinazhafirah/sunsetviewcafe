@@ -11,18 +11,26 @@ class CounterCart extends Component
     public $count = 1; //simpen jumlah menu/item di cart
     public $cartId; //simpen ID item di cart
     public $totalHarga; //simpen total harga berdasarkan jumlah menu/item yg dipilih
+    public $notes; //simpen note
 
     public function mount($cartId, $jumlahMenu, $totalMenu) //supaya bisa dipake di blade
     {
         $this->cartId = $cartId;
         $this->count = $jumlahMenu;
         $this->totalHarga = $totalMenu;
-
+        // Ambil semua note dari database dan masukkan ke dalam array
+        // $this->notes = Cart::pluck('note', 'id')->toArray();
+      
         //ambil menu/item di cart berdasarkan id
         $cartItem = Cart::find($cartId); //mencari menu dalam cart berdasarkan cart id
         if ($cartItem) {
             $this->totalHarga = $cartItem->jumlah_menu * $cartItem->post->harga;
+            $this->note = $cartItem->note; // Tampilkan catatan tanpa bisa diubah
         }
+        \Log::info("Mounting CounterCart", [
+            'cart_id' => $this->cartId,
+            'note' => $this->note, // Cek apakah note masuk
+        ]);
     }
 
     public function increaseCount()
@@ -30,9 +38,11 @@ class CounterCart extends Component
         $this->count++;
         $this->updateCart();
     }
+
     public function addToCart($postId)
     {
-        $this->dispatch('addToCart', $postId, $this->count);
+        \Log::info('Livewire addToCart dipanggil', ['postId' => $postId, 'note' => $this->note]);
+        $this->dispatch('addToCart', $postId, $this->count, $this->note);   
     }
 
 
@@ -63,6 +73,30 @@ class CounterCart extends Component
             $this->dispatch('cartUpdated');
         }
     }
+
+    // public function updateNote($cartId)
+    // {
+    //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->note]);
+    //     // $cartItem = Cart::find($this->cartId);
+    //     // if ($cartItem) {
+    //     //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->note]);
+    
+    //     //     $cartItem->update(['note' => $this->note]);
+    
+    //     //     $this->dispatch('cartUpdated');
+    //     //     session()->flash('message', 'Catatan berhasil diperbarui.');
+    //     //     $this->dispatch('alert', type: 'success', message: "Catatan berhasil diperbarui!");
+    //     // if (isset($this->notes[$cartId])) {
+    //     //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->notes[$cartId]]);
+    //     //     Cart::where('id', $cartId)->update(['note' => $this->notes[$cartId]]);
+    //     // }
+    //     $cartItem = Cart::find($cartId);
+    //     if ($cartItem) {
+    //         $cartItem->update(['note' => $this->note]); // Simpan note ke database
+    //         $this->dispatch('cartUpdated'); // Emit event agar tampilan Livewire diperbarui
+    //         session()->flash('message', 'Catatan berhasil disimpan.');
+    //     }
+    // }
 
     public function removeFromCart()
     {

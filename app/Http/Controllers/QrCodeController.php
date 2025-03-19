@@ -27,7 +27,7 @@ class QrCodeController extends Controller
         // Redirect ke halaman menu agar session bisa digunakan
         return redirect()->route('menu', ['tableNumber' => $table]);
     }
-    
+
         public function showMenu(Request $request)
     {
         $tableNumber = session('tableNumber');
@@ -71,7 +71,7 @@ class QrCodeController extends Controller
     public function showQrCode()
     {
         // Buat URL yang akan dipindai oleh pelanggan
-        $tableNumbers = range(1, 10);
+        $tableNumbers = range(1, 20);
        
         // Buat QR Code untuk setiap meja
         $qrCodes = [];

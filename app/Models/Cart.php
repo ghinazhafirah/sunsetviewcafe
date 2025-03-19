@@ -17,7 +17,8 @@ class Cart extends Model
         'pesenan_id', 
         'posts_id', 
         'jumlah_menu', 
-        'total_menu'
+        'total_menu',
+        'note'
     ];
 
     // Relasi ke Post (menu)
