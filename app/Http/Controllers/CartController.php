@@ -14,9 +14,8 @@ class CartController extends Controller
     {  
         \Log::info('Request data:', $request->all());
 
-         // Ambil data menu berdasarkan ID
-         $postId = $request->input('post_id');
-         $jumlahMenu = $request->input('jumlah_menu', 1); // Ambil jumlah dari Livewire
+         $postId = $request->input('post_id'); // Ambil data menu berdasarkan ID
+         $quantity = $request->input('quantity', 1); // Ambil quantity dari Livewire
          $note = $request->input('note', ''); // Ambil catatan pelanggan jika ada
 
          \Log::info('Note yang diterima:', ['note' => $note]); // Cek apakah nilai `note` masuk ke controller
@@ -35,36 +34,24 @@ class CartController extends Controller
             \Log::warning('Nomor meja tidak ditemukan dalam request maupun session.');
             return back()->with('error', 'Nomor meja tidak ditemukan.');
         }
-        // if ($tableNumber) {
-        //     session(['tableNumber' => $tableNumber]);
-        // } else {
-        //     \Log::warning('Nomor meja tidak ditemukan dalam request maupun session.');
-        //     return back()->with('error', 'Nomor meja tidak ditemukan.');
-        // }
-
-        // Pastikan nomor meja yang diterima valid (misalnya hanya angka)
-        // if (!is_numeric($tableNumber)) {
-        //     \Log::warning('Nomor meja tidak valid: ' . $tableNumber);
-        //     return back()->with('error', 'Nomor meja tidak valid.');
-        // }
-        
+               
         $cart = Cart::where('table_number', $tableNumber)
                     ->where('posts_id', $post->id)
                     ->first();
                                
         if ($cart) {
             $cart->update([
-                'jumlah_menu' => $cart->jumlah_menu + $jumlahMenu,
-                'total_menu' => $cart->total_menu + ($post->harga * $jumlahMenu),
+                'quantity' => $cart->quantity + $quantity,
+                'total_menu' => $cart->total_menu + ($post->harga * $quantity),
                 'note' => $note, // Simpan catatan jika ada perubahan
             ]);
         } else {
             // Jika item belum ada, buat item baru, simpan database
             Cart::create([
-                'pesenan_id' => 8, // Sesuaikan dengan sistem pesananmu
+                'order_id' => 8, // Sesuaikan dengan sistem pesananmu
                 'posts_id' => $post->id,
-                'jumlah_menu' => $jumlahMenu,
-                'total_menu' => $post->harga * $jumlahMenu,
+                'quantity' => $quantity,
+                'total_menu' => $post->harga * $quantity,
                 'table_number' => $tableNumber,
                 'note' => $note, // Simpan catatan pertama kali
             ]);
@@ -74,24 +61,6 @@ class CartController extends Controller
          return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
       } 
 
-      // Memperbarui catatan pelanggan di cart
-    // public function updateNote(Request $request, $cartId)
-    // {
-    //     $cartItem = Cart::find($cartId);
-    //     if (!$cartItem) {
-    //         return back()->with('error', 'Item tidak ditemukan di cart.');
-    //     }
-
-    //     $note = $request->input('note', '');
-    //     $cartItem->update([
-    //         'note' => $note // Update catatan
-    //     ]);
-
-    //     \Log::info('Catatan diperbarui untuk cart ID ' . $cartId, ['note' => $cartItem->note]);
-
-    //     return back()->with('success', 'Catatan berhasil diperbarui.');
-    // }
-         
     public function showCart($table)
     {
          // Simpan nomor meja ke session jika belum ada
@@ -100,7 +69,7 @@ class CartController extends Controller
 
         // Ambil item cart hanya untuk nomor meja saat ini
         $cartItems = Cart::where('table_number', $table)->with('post')->get();
-        $subtotal = $cartItems->sum(fn($cart) => $cart->post->harga * $cart->jumlah_menu);
+        $subtotal = $cartItems->sum(fn($cart) => $cart->post->harga * $cart->quantity);
 
         return view('cart', [
             'title' => 'Cart',
@@ -108,8 +77,6 @@ class CartController extends Controller
             'total' => $subtotal,
             'active' => 'cart',
             'tableNumber' => $table, // Kirim ke view agar bisa ditampilkan
-            // 'note' => $note,
         ]);
     }
-
 }

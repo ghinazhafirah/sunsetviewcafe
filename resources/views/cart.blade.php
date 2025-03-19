@@ -44,7 +44,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center ">
-                                                    @livewire('counter-cart', ['cartId' => $item->id, 'jumlahMenu' => $item->jumlah_menu, 'totalMenu' => $item->total_menu])
+                                                    @livewire('counter-cart', ['cartId' => $item->id, 'quantity' => $item->quantity, 'totalMenu' => $item->total_menu])
                                                 </td>
                                                 <td class="text-end">Rp {{ number_format($item->total_menu, 0, ',', '.') }}
                                                 </td>
@@ -65,7 +65,7 @@
                                         <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                                     </div>
                                     <div class="cart-btn mt-3">
-                                        <a href="/checkout" class="btn amado-btn w-100">Next</a>
+                                        <button href="/checkout" class="btn amado-btn w-100">Next</button>
                                     </div>
                                 </div>
                             </div>

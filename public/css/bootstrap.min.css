@@ -4008,7 +4008,7 @@ fieldset:disabled .btn {
 }
 @media (max-width: 991px) { /* Hanya berlaku di layar mobile */
     .cart-btn {
-        position: relative;
+        position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;

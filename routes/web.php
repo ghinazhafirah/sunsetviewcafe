@@ -32,14 +32,11 @@ Route::get('/dashboard', function () {
     ]) ;   
 });
 
-// Route::get('/menu', [PostController::class, 'index']);
 Route::get('/menu/{table?}', [PostController::class, 'index'])->name('menu');
 Route::get('/menu/{table?}/{slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('/cart/{table?}', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::match(['get', 'post'], '/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/posts/{slug}/{tableNumber?}', [PostController::class, 'show'])->name('posts.show');
-// Route::get('/post/{slug}/{tableNumber?}', [PostController::class, 'show'])->name('post.show');
 
 Route::get('/posts/{slug}/{tableNumber?}', [PostController::class, 'show'])
     ->where('tableNumber', '[0-9]+')

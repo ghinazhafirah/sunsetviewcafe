@@ -36,7 +36,7 @@ class Counter extends Component
                         ->first();
 
         if ($cartItem) {
-            $this->count = $cartItem->jumlah_menu; // Gunakan jumlah yang sudah ada di cart
+            $this->count = $cartItem->quantity; // Gunakan quantity yang sudah ada di cart
             $this->note = $cartItem->note ?? ''; // Simpan note di array berdasarkan ID
         }
     }
@@ -58,8 +58,6 @@ class Counter extends Component
         // Debugging untuk cek isi catatan
         \Log::info('Note yang diterima:', ['note' => $this->note]);
 
-        // dd($this->note);
-
         // Ambil data produk dari ID
         $product = \App\Models\Post::find($this->postId);
         if (!$product) return;
@@ -70,7 +68,7 @@ class Counter extends Component
             return;
         }
 
-        // Simpan ke keranjang (kalau sudah ada, update jumlahnya)
+        // Simpan ke keranjang (kalau sudah ada, update quantitynya)
         $cartItem = Cart::where('posts_id', $this->postId)
                         ->where('table_number', $this->tableNumber)
                         ->first();
@@ -78,7 +76,7 @@ class Counter extends Component
         if ($cartItem) {
             $totalMenu = $this->count * $product->harga; 
             $cartItem->update([
-            'jumlah_menu' => $this->count,
+            'quantity' => $this->count,
             'total_menu' => $totalMenu,
             'note' => $this->note ?? '', // Jika note sebelumnya kosong, tambahkan note baru
             ]);
@@ -87,9 +85,9 @@ class Counter extends Component
             $totalMenu = $this->count * $product->harga; 
             //kalo ga ada, tambahin jadi item/menu baru
              Cart::create([
-                 'pesenan_id' => '8',
+                 'order_id' => '8',
                  'posts_id' => $product->id,
-                 'jumlah_menu' => $this->count,
+                 'quantity' => $this->count,
                  'total_menu' => $totalMenu,
                  'table_number' => $this->tableNumber,
                  'note' => $this->note ?? '', // Simpan catatan ke database
@@ -97,10 +95,10 @@ class Counter extends Component
             ]);
         }
 
-        // Ambil jumlah terbaru dari database setelah update
+        // Ambil quantity terbaru dari database setelah update
         $this->count = Cart::where('posts_id', $this->postId) 
                             ->where('table_number', $this->tableNumber)
-                            ->value('jumlah_menu');
+                            ->value('quantity');
 
         // Pastikan catatan tersimpan dengan cek database
         $savedNote = Cart::where('posts_id', $this->postId)
@@ -113,23 +111,7 @@ class Counter extends Component
         $this->dispatch('cartUpdated');
         // // Beri notifikasi sukses
         $this->dispatch('alert', type: 'success', message: "{$product->title} berhasil ditambahkan ke keranjang!");
-        // session()->flash('message', "{$product->title} berhasil ditambahkan ke keranjang!");
     }
-
-    // public function updateNote($cartId)
-    // {
-    //     $cartItem = Cart::find($cartId);
-    //     if (!$cartItem) {
-    //         return;
-    //     }
-
-    //     $cartItem->update(['note' => $this->note]);
-
-    //     \Log::info("Note diperbarui untuk cart ID {$cartId}", ['note' => $this->note]);
-
-    //     $this->dispatch('cartUpdated');
-    // }
-
 
     public function render()
     {

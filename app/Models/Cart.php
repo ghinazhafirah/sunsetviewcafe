@@ -14,9 +14,9 @@ class Cart extends Model
     
     protected $fillable = [
         'table_number', 
-        'pesenan_id', 
+        'order_id', 
         'posts_id', 
-        'jumlah_menu', 
+        'quantity', 
         'total_menu',
         'note'
     ];

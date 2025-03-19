@@ -8,15 +8,15 @@ use App\Models\Post;
 
 class CounterCart extends Component
 {
-    public $count = 1; //simpen jumlah menu/item di cart
+    public $count = 1; //simpen quantity menu/item di cart
     public $cartId; //simpen ID item di cart
-    public $totalHarga; //simpen total harga berdasarkan jumlah menu/item yg dipilih
+    public $totalHarga; //simpen total harga berdasarkan quantity menu/item yg dipilih
     public $notes; //simpen note
 
-    public function mount($cartId, $jumlahMenu, $totalMenu) //supaya bisa dipake di blade
+    public function mount($cartId, $quantity, $totalMenu) //supaya bisa dipake di blade
     {
         $this->cartId = $cartId;
-        $this->count = $jumlahMenu;
+        $this->count = $quantity;
         $this->totalHarga = $totalMenu;
         // Ambil semua note dari database dan masukkan ke dalam array
         // $this->notes = Cart::pluck('note', 'id')->toArray();
@@ -24,7 +24,7 @@ class CounterCart extends Component
         //ambil menu/item di cart berdasarkan id
         $cartItem = Cart::find($cartId); //mencari menu dalam cart berdasarkan cart id
         if ($cartItem) {
-            $this->totalHarga = $cartItem->jumlah_menu * $cartItem->post->harga;
+            $this->totalHarga = $cartItem->quantity * $cartItem->post->harga;
             $this->note = $cartItem->note; // Tampilkan catatan tanpa bisa diubah
         }
         \Log::info("Mounting CounterCart", [
@@ -52,7 +52,7 @@ class CounterCart extends Component
             $this->count--;
             $this->updateCart();
         } else {
-            $this->removeFromCart(); // fungsi hapus, jika jumlah=0
+            $this->removeFromCart(); // fungsi hapus, jika quantity=0
         }
     }
 
@@ -61,11 +61,11 @@ class CounterCart extends Component
         $cartItem = Cart::find($this->cartId);
         if ($cartItem) {
             //hitung ulang total harga
-            $this->totalHarga = $this->count * $cartItem->post->harga; //total harga berubah saat jumlah menu berubah
+            $this->totalHarga = $this->count * $cartItem->post->harga; //total harga berubah saat quantity menu berubah
 
             //update ke database
             $cartItem->update([
-                'jumlah_menu' => $this->count,
+                'quantity' => $this->count,
                 'total_menu' => $this->totalHarga,
             ]);
             

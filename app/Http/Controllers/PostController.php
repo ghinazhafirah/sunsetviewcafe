@@ -28,8 +28,7 @@ class PostController extends Controller
         
         $posts = Post::with('category')->get(); // Ambil semua menu dengan kategorinya
 
-        // dd(Cart::latest()->get());
-        $images = [  // Contoh array gambar (bisa diambil dari database jika ada)
+            $images = [  // Contoh array gambar (bisa diambil dari database jika ada)
             'image1.jpg',
             'image2.jpg',
             'image3.jpg'
@@ -37,8 +36,6 @@ class PostController extends Controller
             return view('posts', [
                 "title" => "Menu",
                 "posts" => Post::latest()->get(), // Pastikan kategori dimuat
-                // "image" => "logocafe.png",
-                // "images" => ["logocafe.png", "ayampenyet.png", "magelangan.jpg"], // Kirim lebih dari satu gambar
                 "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
                 "active" => "posts",
                 "tableNumber" => $table
@@ -83,19 +80,7 @@ class PostController extends Controller
         'body' => 'required'
     ]);
 
-    // if ($request->file('image')) {
-    //     $validatedData['image'] = $request->file('image')->store('posts'); 
-    // }
-
-    // $validatedData['user_id'] = auth()->user()->id;
-    // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
-
-    // Post::create($validatedData);
-
-    // return redirect('/posts')->with('success', 'Post berhasil ditambahkan!');
     Post::create($validatedData);
-
     return redirect()->route('posts.index')->with('success', 'Post berhasil ditambahkan!');
     }
-
 }
