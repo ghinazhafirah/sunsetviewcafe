@@ -6,7 +6,7 @@
             placeholder="Opsional" style="width: 100%;"></textarea>
     </div>
     <div class="col-md-4 col-5 d-flex">
-        <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
+        <span>Rp {{ number_format($post->price, 0, ',', '.') }}</span>
     </div>
     <div class="col-auto d-flex align-items-center ms-auto">
         <button wire:click="decrement" class="btn btn-light border-0 px-2">-</button>

@@ -741,12 +741,12 @@ img {
 @media only screen and (max-width: 767px) {
     .main-content-wrapper .cart-table-area {
         overflow-y: auto; /* Paksa scrollbar horizontal muncul */
-        white-space: nowrap; /* Hindari elemen turun ke bawah */
-        max-width: 100vw; /* Pastikan tidak lebih besar dari layar */
+        /* white-space: nowrap; Hindari elemen turun ke bawah */
+        /* max-width: 100vw; Pastikan tidak lebih besar dari layar */
     }
     .cart-table {
         display: block;
-        width: 100%; /* Buat lebih besar dari layar agar scrollbar muncul */
+        /* width: 100%; Buat lebih besar dari layar agar scrollbar muncul */
     }
 }
 .main-content-wrapper .cart-table-area .cart-title h2 {
@@ -810,13 +810,13 @@ img {
 @media only screen and (max-width: 767px) {
     .cart-table {
         display: block;
-        overflow-x: auto; /* Tambahkan scroll horizontal jika tabel terlalu lebar */
-        white-space: nowrap;
+        overflow-y: auto; /* Tambahkan scroll horizontal jika tabel terlalu lebar */
+        white-space: normal;
     }
 
     .harga-col {
         text-align: right;
-        display: inline-block; /* Pastikan harga tetap di satu baris */
+        display: block; /* Pastikan harga tetap di satu baris */
     }
 }
 .main-content-wrapper .cart-table-area table tbody tr td h5 {

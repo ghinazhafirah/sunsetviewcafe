@@ -1,7 +1,7 @@
 @extends('layouts.home')
 
 @section('container')
-    <h1 class="container-fluid"></h1>
+    {{-- <h1 class="container-fluid"></h1> --}}
     {{-- menghitung jumlah post --}}
     @if ($posts->count())
         <div class="row justify-content-center">

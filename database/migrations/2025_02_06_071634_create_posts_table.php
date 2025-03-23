@@ -16,10 +16,13 @@ return new class extends Migration
             $table->foreignId('category_id'); //kategori_menu_id
             $table->foreignId('user_id');
             $table->string('title'); //nama_menu
+            $table->integer('price')->nullable();
             $table->string('slug')->unique();
+            $table->enum('status', ['available', 'not_available'])->default('available');
+            $table->boolean('favorite')->default(false);
+            $table->string('image')->nullable();
             $table->text('excerpt'); //field untuk menyimpan sebagian kecil dari tulisan body blog kita 'read more'
             $table->text('body'); //deskripsi menu
-            // $table->string('image')->nullable(); // gambar
             $table->timestamp('published_at')->nullable(); // tipe data timestamp
             $table->timestamps(); // untuk creat at/updated at
         });

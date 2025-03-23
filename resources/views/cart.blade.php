@@ -4,7 +4,7 @@
 @section('container')
     <h1 class="container-fluid mt-2 p-0"></h1>
     <div class="row justify-content-center">
-        <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
+        <div class="card col-12 col-md-10 col-lg-8 p-0" style="max-width: 700px; width: 100%;">
             <div class="cart-table-area section-padding-50">
                 <div class="container">
                     <div class="row py-3 px-2 mx-0">
@@ -65,7 +65,7 @@
                                         <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                                     </div>
                                     <div class="cart-btn mt-3">
-                                        <button href="/checkout" class="btn amado-btn w-100">Next</button>
+                                        <a href="{{ route('checkout.index', ['table' => $tableNumber]) }}" class="btn amado-btn w-100">Next</a>
                                     </div>
                                 </div>
                             </div>

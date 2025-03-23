@@ -9,6 +9,7 @@ use App\Models\Post;
 
 class CartController extends Controller
 {
+    // punya ghina
     //menambahkan item ke cart
     public function addToCart(Request $request)
     {  
@@ -29,7 +30,10 @@ class CartController extends Controller
         // Ambil nomor meja dari request atau session
         $tableNumber = $request->input('table_number') ?? session('tableNumber');    // Ambil nomor meja dari request atau session
 
-         // Simpan nomor meja ke session jika belum ada
+        // Simpan nomor meja ke session jika belum ada
+        session(['tableNumber' => $tableNumber]); 
+        
+        // Simpan nomor meja ke session jika belum ada
          if (!$tableNumber) {
             \Log::warning('Nomor meja tidak ditemukan dalam request maupun session.');
             return back()->with('error', 'Nomor meja tidak ditemukan.');
@@ -42,7 +46,7 @@ class CartController extends Controller
         if ($cart) {
             $cart->update([
                 'quantity' => $cart->quantity + $quantity,
-                'total_menu' => $cart->total_menu + ($post->harga * $quantity),
+                'total_menu' => $cart->total_menu + ($post->price * $quantity),
                 'note' => $note, // Simpan catatan jika ada perubahan
             ]);
         } else {
@@ -51,13 +55,12 @@ class CartController extends Controller
                 'order_id' => 8, // Sesuaikan dengan sistem pesananmu
                 'posts_id' => $post->id,
                 'quantity' => $quantity,
-                'total_menu' => $post->harga * $quantity,
+                'total_menu' => $post->price * $quantity,
                 'table_number' => $tableNumber,
                 'note' => $note, // Simpan catatan pertama kali
             ]);
         }
         \Log::info('Note yang disimpan:', ['note' => $note]); // Pastikan ini muncul di log
-        // $this->dispatch('cartUpdated');
          return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
       } 
 
@@ -69,7 +72,10 @@ class CartController extends Controller
 
         // Ambil item cart hanya untuk nomor meja saat ini
         $cartItems = Cart::where('table_number', $table)->with('post')->get();
-        $subtotal = $cartItems->sum(fn($cart) => $cart->post->harga * $cart->quantity);
+        $subtotal = $cartItems->sum(fn($cart) => $cart->post->price * $cart->quantity);
+
+         // Simpan total ke session agar bisa digunakan di checkout
+        session(['cart_total' => $subtotal]);
 
         return view('cart', [
             'title' => 'Cart',

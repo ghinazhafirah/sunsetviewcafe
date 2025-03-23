@@ -74,7 +74,7 @@ class Counter extends Component
                         ->first();
 
         if ($cartItem) {
-            $totalMenu = $this->count * $product->harga; 
+            $totalMenu = $this->count * $product->price; 
             $cartItem->update([
             'quantity' => $this->count,
             'total_menu' => $totalMenu,
@@ -82,7 +82,7 @@ class Counter extends Component
             ]);
         } else {
              // Hitung total harga
-            $totalMenu = $this->count * $product->harga; 
+            $totalMenu = $this->count * $product->price; 
             //kalo ga ada, tambahin jadi item/menu baru
              Cart::create([
                  'order_id' => '8',

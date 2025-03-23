@@ -48,7 +48,7 @@
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">{{ $post->excerpt }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Rp {{ number_format($post->harga, 0, ',', '.') }}</span>
+                                <span>Rp {{ number_format($post->price, 0, ',', '.') }}</span>
                                 <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => session('tableNumber') ?? 1]) }}"
                                     class="btn btn-outline-warning text-dark"> Add </a>
                             </div>

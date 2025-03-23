@@ -18,13 +18,11 @@ class CounterCart extends Component
         $this->cartId = $cartId;
         $this->count = $quantity;
         $this->totalHarga = $totalMenu;
-        // Ambil semua note dari database dan masukkan ke dalam array
-        // $this->notes = Cart::pluck('note', 'id')->toArray();
-      
+            
         //ambil menu/item di cart berdasarkan id
         $cartItem = Cart::find($cartId); //mencari menu dalam cart berdasarkan cart id
         if ($cartItem) {
-            $this->totalHarga = $cartItem->quantity * $cartItem->post->harga;
+            $this->totalHarga = $cartItem->quantity * $cartItem->post->price;
             $this->note = $cartItem->note; // Tampilkan catatan tanpa bisa diubah
         }
         \Log::info("Mounting CounterCart", [
@@ -61,7 +59,7 @@ class CounterCart extends Component
         $cartItem = Cart::find($this->cartId);
         if ($cartItem) {
             //hitung ulang total harga
-            $this->totalHarga = $this->count * $cartItem->post->harga; //total harga berubah saat quantity menu berubah
+            $this->totalHarga = $this->count * $cartItem->post->price; //total harga berubah saat quantity menu berubah
 
             //update ke database
             $cartItem->update([
@@ -73,30 +71,6 @@ class CounterCart extends Component
             $this->dispatch('cartUpdated');
         }
     }
-
-    // public function updateNote($cartId)
-    // {
-    //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->note]);
-    //     // $cartItem = Cart::find($this->cartId);
-    //     // if ($cartItem) {
-    //     //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->note]);
-    
-    //     //     $cartItem->update(['note' => $this->note]);
-    
-    //     //     $this->dispatch('cartUpdated');
-    //     //     session()->flash('message', 'Catatan berhasil diperbarui.');
-    //     //     $this->dispatch('alert', type: 'success', message: "Catatan berhasil diperbarui!");
-    //     // if (isset($this->notes[$cartId])) {
-    //     //     \Log::info('Updating note:', ['cart_id' => $cartId, 'note' => $this->notes[$cartId]]);
-    //     //     Cart::where('id', $cartId)->update(['note' => $this->notes[$cartId]]);
-    //     // }
-    //     $cartItem = Cart::find($cartId);
-    //     if ($cartItem) {
-    //         $cartItem->update(['note' => $this->note]); // Simpan note ke database
-    //         $this->dispatch('cartUpdated'); // Emit event agar tampilan Livewire diperbarui
-    //         session()->flash('message', 'Catatan berhasil disimpan.');
-    //     }
-    // }
 
     public function removeFromCart()
     {
