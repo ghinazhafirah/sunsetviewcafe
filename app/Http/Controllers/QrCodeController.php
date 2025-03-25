@@ -8,19 +8,54 @@ use App\Models\Post;
 
 class QrCodeController extends Controller
 {
-    public function generateQrCode(Request $request, $table)
+    //halaman form masukin jumlah meja
+    public function showQrForm()
+    {
+        return view('qr-code', [
+            "title" => "Generate QR Code Meja",
+            "qrCodes" => null, // Awalnya kosong, QR Code akan muncul setelah generate
+            "active" => "qr-code"
+        ]);
+    }
+
+    public function generateQrCode(Request $request)
+    {
+       // Validasi input agar jumlah meja harus angka positif
+        $request->validate([
+            'jumlah_meja' => 'required|integer|min:1'
+        ]);
+
+        $jumlahMeja = $request->input('jumlah_meja');
+
+        // Buat QR Code untuk setiap meja
+        $qrCodes = [];
+        for ($i = 1; $i <= $jumlahMeja; $i++) {
+            $url = route('menu', ['table' => $i]); // Ubah parameter agar sesuai dengan route menu
+            \Log::info('URL untuk QR Code:', ['url' => $url]);
+            $qrCodes[$i] = QrCode::size(200)->generate($url);
+        }
+
+        return view('qr-code', [
+            "title" => "QR Code Meja",
+            "qrCodes" => $qrCodes,
+            "jumlahMeja" => $jumlahMeja,
+            "active" => "qr-code"
+        ]);
+    }
+
+    public function redirectToMenu($table)
     {
         \Log::info('Nomor Meja dari URL:', ['table' => $table]);
-        
+
         if (!is_numeric($table)) {
-            \Log::error('Nomor Meja yang diterima tidak valid: ' . $table);
-        }  
+            \Log::error('Nomor Meja tidak valid: ' . $table);
+            abort(400, 'Nomor Meja tidak valid');
+        }
 
         session(['tableNumber' => $table]);
         \Log::info('Nomor Meja Disimpan ke Session:', ['tableNumber' => session('tableNumber')]);
 
-        // Redirect ke halaman menu agar session bisa digunakan
-        return redirect()->route('menu', ['tableNumber' => $table]);
+        return redirect()->route('menu', ['table' => $table]);
     }
 
     public function showMenu(Request $request)
@@ -44,26 +79,6 @@ class QrCodeController extends Controller
             "images" => $images,
             "active" => "posts",
             "tableNumber" => $tableNumber
-        ]);
-    }
-
-    public function showQrCode()
-    {
-        // Buat URL yang akan dipindai oleh pelanggan
-        $tableNumbers = range(1, 20);
-       
-        // Buat QR Code untuk setiap meja
-        $qrCodes = [];
-        foreach ($tableNumbers as $tableNumber) {
-            $url = route('menu', ['table' => $tableNumber]); 
-            \Log::info('URL untuk QR Code:', ['url' => $url]);
-            $qrCodes[$tableNumber] = QrCode::size(200)->generate($url);
-        }
-
-        return view('qr-code', [
-            "title" => "QR Code Meja",
-            "qrCodes" => $qrCodes,
-            "active" => "qr-code"
         ]);
     }
 }
