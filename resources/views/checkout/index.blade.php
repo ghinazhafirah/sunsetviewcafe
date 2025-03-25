@@ -9,7 +9,8 @@
                     <main>
                         <div class="py-5 text-center">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="{{ route('cart.show', ['table' => $tableNumber]) }}" class="btn btn-warning"><i class="fa fa-angle-left"></i></a>
+                                <a href="{{ route('cart.show', ['table' => $tableNumber]) }}" class="btn btn-warning"><i
+                                        class="fa fa-angle-left"></i></a>
                                 <div class="flex-grow-1 text-center">
                                     <h2 class="m-0">Checkout Form</h2>
                                 </div>
@@ -24,24 +25,28 @@
                                     <span class="text-warning">Pesanan</span>
                                     {{-- <span class="badge bg-primary bg-warning rounded-square">13</span> --}}
                                     @if (session()->has('tableNumber'))
-                                    <div class="badge bg-primary bg-warning rounded-square">
-                                        <h6>{{ session('tableNumber') ?? 'Tidak ada' }}</h6>
-                                    </div>
-                                @endif
+                                        <div class="badge bg-primary bg-warning rounded-square">
+                                            <h6>{{ session('tableNumber') ?? 'Tidak ada' }}</h6>
+                                        </div>
+                                    @endif
                                 </h4>
 
                                 {{-- TAMPILKAN CART --}}
                                 <ul class="list-group mb-3">
-                                    {{-- @foreach ($cart as $item)
+                                    @foreach ($cart as $item)
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0">{{ $item['menu_name'] }}</h6>
+                                                <h6 class="my-0">{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</h6>
                                                 <small class="text-body-secondary">{{ $item['quantity'] }}X</small>
+                                                @if (!empty($item->note))
+                                                    <textarea class="form-control border-warning mt-2" readonly
+                                                        style="height: auto; overflow-y: hidden; padding: 1; line-height: 1;">{{ trim($item->note) }}</textarea>
+                                                @endif
                                             </div>
                                             <span class="text-body-secondary">Rp
                                                 {{ number_format($item['total_menu'], 0, ',', '.') }}</span>
                                         </li>
-                                    @endforeach --}}
+                                    @endforeach
 
                                     <li class="list-group-item d-flex justify-content-between">
                                         <span>Total</span>
@@ -67,15 +72,6 @@
                                                     Valid first name is required.
                                                 </div>
                                             </div>
-
-                                            {{-- <div class="col-12">
-                  <label for="email" class="form-label">Email <span class="text-body-secondary">(Optional)</span></label>
-                  <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                  <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                  </div>
-                </div> --}}
-
                                             <div class="col-12">
                                                 <label for="customer_whatsapp" class="form-label">Nomor WhatsApp</label>
                                                 <input type="tel" class="form-control" name="customer_whatsapp"

@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('dashboard.layouts.main') {{-- mengambil menggunakan layout main.blade --}}
 
 @section('container')
     <h2 class="text-center">Generate QR Code Meja</h2>

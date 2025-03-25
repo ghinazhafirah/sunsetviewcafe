@@ -14,6 +14,7 @@ class QrCodeController extends Controller
         return view('qr-code', [
             "title" => "Generate QR Code Meja",
             "qrCodes" => null, // Awalnya kosong, QR Code akan muncul setelah generate
+            "image" => "logocafe.png",
             "active" => "qr-code"
         ]);
     }
@@ -39,6 +40,7 @@ class QrCodeController extends Controller
             "title" => "QR Code Meja",
             "qrCodes" => $qrCodes,
             "jumlahMeja" => $jumlahMeja,
+            "image" => "logocafe.png",
             "active" => "qr-code"
         ]);
     }

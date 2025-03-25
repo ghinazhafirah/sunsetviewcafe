@@ -3,26 +3,26 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Transaction;
+use App\Models\Order;
 
 class CheckoutStatus extends Component
 {
-    public $transaction;
+public $order;
     public $showReceipt = false; // ✅ Tambahkan variabel ini agar bisa diakses di Blade
 
     protected $listeners = ['paymentUpdated' => 'refreshStatus'];
 
-    public function mount($transactionId)
+    public function mount($orderId)
     {
-        $this->transaction = Transaction::find($transactionId);
+        $this->order = Order::find($orderId);
     }
 
     public function refreshStatus($id)
     {
         // dd("Event Diterima dengan ID:", $id); // Debugging
 
-        if ($this->transaction->id == $id) {
-            $this->transaction = Transaction::find($id);
+        if ($this->order->id == $id) {
+            $this->order = Order::find($id);
         }
     }
 
@@ -34,13 +34,13 @@ class CheckoutStatus extends Component
 
     // public function render()
     // {
-    //     return view('livewire.checkout-status', ['transaction' => $this->transaction]);
+    //     return view('livewire.checkout-status', ['order' => $this->order]);
     // }
 
     public function render()
     {
         return view('livewire.checkout-status', [
-            'transaction' => $this->transaction,
+            'order' => $this->order,
             'showReceipt' => $this->showReceipt, // ✅ Kirim ke Blade agar tidak undefined
         ]);
     }

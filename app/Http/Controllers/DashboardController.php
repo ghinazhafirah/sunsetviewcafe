@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,12 +10,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::latest()->get();
+        $order = Order::latest()->get();
        
         return view('dashboard.index', [
             "title" => "Dashboard",
             "image" => "logocafe.png",
-            "transactions" => $transactions
+            "order" => $order
         ]);
         
     }
@@ -34,9 +34,9 @@ class DashboardController extends Controller
 
     public function confirmPayment($id)
     {
-        $transaction = Transaction::findOrFail($id);
-        if ($transaction->payment_method == 'cash' && $transaction->status == 'pending') {
-            $transaction->update(['status' => 'paid']);
+        $order = Order::findOrFail($id);
+        if ($order->payment_method == 'cash' && $order->status == 'pending') {
+            $order->update(['status' => 'paid']);
             return redirect()->back()->with('success', 'Pembayaran berhasil dikonfirmasi!');
         }
         return redirect()->back()->with('error', 'Transaksi tidak valid!');
@@ -102,13 +102,13 @@ class DashboardController extends Controller
     
     public function destroy($id)
     {
-        $transaction = Transaction::find($id); // Gunakan find() dulu, bukan findOrFail()
+        $order = Order::find($id); // Gunakan find() dulu, bukan findOrFail()
         
-        if (!$transaction) {
+        if (!$order) {
             return redirect('dashboard.index')->with('error', 'Transaksi tidak ditemukan!');
         }
 
-        $transaction->delete(); // Hapus transaksi
+        $order->delete(); // Hapus transaksi
 
         return redirect()->route('dashboard.index')->with('success', 'Transaksi berhasil dihapus!');
     }

@@ -3,21 +3,21 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Transaction;
+use App\Models\Order;
 
 class OrderStatus extends Component
 {
-    public $transaction;
+    public $order;
     protected $listeners = ['paymentUpdated' => 'refreshStatus'];
 
-    public function mount($transactionId)
+    public function mount($orderId)
     {
-        $this->transaction = Transaction::find($transactionId);
+        $this->order = Order::find($orderId);
     }
 
     public function refreshStatus()
     {
-        $this->transaction = Transaction::find($this->transaction->id);
+        $this->order = Order::find($this->order->id);
     }
     
     public function render()

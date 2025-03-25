@@ -6,6 +6,7 @@ use App\Models\Cart; //import model cart untuk update data
 use App\Models\Post;
 use Livewire\Component;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
 
 class Counter extends Component
 {
@@ -35,9 +36,16 @@ class Counter extends Component
                         ->where('table_number', $this->tableNumber)
                         ->first();
 
-        if ($cartItem) {
-            $this->count = $cartItem->quantity; // Gunakan quantity yang sudah ada di cart
-            $this->note = $cartItem->note ?? ''; // Simpan note di array berdasarkan ID
+        // if ($cartItem) {
+        //     $this->count = $cartItem->quantity; // Gunakan quantity yang sudah ada di cart
+        //     $this->note = $cartItem->note ?? ''; // Simpan note di array berdasarkan ID
+        // }
+
+        if (!session()->has("order_id_{$this->tableNumber}")) {
+            $this->orderId = Cart::where('table_number', $this->tableNumber)
+                                 ->orderBy('created_at', 'desc')
+                                 ->value('order_id');
+            session(["order_id_{$this->tableNumber}" => $this->orderId]);
         }
     }
 
@@ -68,6 +76,13 @@ class Counter extends Component
             return;
         }
 
+         // **Cek jumlah pesanan sebelumnya untuk meja ini**
+         $lastOrderCount = Cart::where('table_number', $this->tableNumber)->count();
+         $orderNumber = $lastOrderCount + 1;
+ 
+         // **Buat order_id dengan format ORD{tableNumber}{orderNumber}**
+         $orderId = 'ORD' . $this->tableNumber . $orderNumber;
+
         // Simpan ke keranjang (kalau sudah ada, update quantitynya)
         $cartItem = Cart::where('posts_id', $this->postId)
                         ->where('table_number', $this->tableNumber)
@@ -85,7 +100,7 @@ class Counter extends Component
             $totalMenu = $this->count * $product->price; 
             //kalo ga ada, tambahin jadi item/menu baru
              Cart::create([
-                 'order_id' => '8',
+                 'order_id' => $orderId,
                  'posts_id' => $product->id,
                  'quantity' => $this->count,
                  'total_menu' => $totalMenu,

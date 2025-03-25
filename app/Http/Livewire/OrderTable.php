@@ -4,9 +4,9 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Transaction;
+use App\Models\Order;
 
-class TransactionTable extends Component
+class OrderTable extends Component
 {
     use WithPagination;
 
@@ -15,12 +15,12 @@ class TransactionTable extends Component
 
     public function render()
     {
-        return view('livewire.transaction-table', [
-            'transactions' => Transaction::latest()->paginate(10) // Ambil data terbaru
+        return view('livewire.order-table', [
+            'orders' => Order::latest()->paginate(10) // Ambil data terbaru
         ]);
     }
 
-    // public function confirmPayment($transactionId)
+    // public function confirmPayment($orderId)
     // {
     //     $transaction = Transaction::find($transactionId);
     //     if ($transaction && $transaction->status == 'pending') {
@@ -37,4 +37,5 @@ class TransactionTable extends Component
     //         session()->flash('success', 'Transaksi berhasil dihapus.');
     //     }
     // }
+
 }

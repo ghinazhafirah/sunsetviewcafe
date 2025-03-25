@@ -6,15 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->integer('table_number')->default(0);
-            $table->foreignId('order_id');
+            $table->string('order_id')->unique(); 
             $table->foreignId('posts_id');
             $table->integer('quantity');
             $table->string('total_menu');
@@ -23,9 +20,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('carts');

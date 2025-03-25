@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
-use App\Models\Transaction;
+use App\Models\Order;
+use App\Models\Cart;
 use Livewire\Livewire;
 
 class CheckoutController extends Controller
@@ -24,26 +25,21 @@ class CheckoutController extends Controller
              return back()->with('error', 'Nomor meja tidak ditemukan.');
          }
 
-        //  $cart = Session::get('cart', []);
-        //  $subtotal = $cart->sum(fn($cartItem) => $cartItem['total_menu']); // Gunakan array notation
-
         // Ambil nomor meja dari session (dari halaman cart)
         $tableNumber = session('tableNumber');
 
         // Ambil data cart dari database berdasarkan nomor meja
-        $cart = \App\Models\Cart::where('table_number', $tableNumber)->with('post')->get();
+        // $cart = \App\Models\Cart::where('table_number', $tableNumber)->with('post')->get();
+        $orderId = session("order_id_{$tableNumber}") ?? null;
+        if (!$orderId) {
+            return back()->with('error', 'Order tidak ditemukan.');
+        }
+
+        $cart = Cart::where('order_id', $orderId)->with('post')->get();
+
 
         // Hitung total harga berdasarkan database, bukan session
         $subtotal = $cart->sum(fn($cartItem) => $cartItem->total_menu);
-
-        return view('checkout.index', [
-            "title" => "Checkout",
-            "active" => "checkout",
-            "cart" => $cart,
-            "total" => $subtotal,
-            "tableNumber" => $tableNumber,
-        ]);
-
 
         return view('checkout.index', [
             "title" => "Checkout",
@@ -70,13 +66,15 @@ class CheckoutController extends Controller
         $subtotal = $cart->sum(fn($cartItem) => $cartItem['total_menu']); // Gunakan array notation
 
         // Simpan data pelanggan ke database (tabel transactions)
-        $transaction = Transaction::create([
+        $orderId = session("order_id_{$tableNumber}");
+        $order = Order::create([
             'customer_name' => $request->customer_name,
             'customer_whatsapp' => $request->customer_whatsapp,
             'total' => $subtotal, // Set default price (nanti bisa diupdate)
             'payment_method' => $request->payment_method, // Cash atau Digital
             'status' => $request->payment_method == 'cash' ? 'pending' : 'paid', // Status awal
             'table_number' => $tableNumber, // Simpan nomor meja dalam transaksi
+            'order_id' => $orderId, // Pastikan order_id digunakan
         ]);
 
         // **Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai**
@@ -85,15 +83,16 @@ class CheckoutController extends Controller
         $tahun = date('y'); // Tahun 2 digit (misal: 25)
 
         // Format kode transaksi
-        $kodeTransaction = "TR-SVC{$tanggal}{$bulan}{$tahun}-{$transaction->id}";
+        $kodeTransaction = "SVC-{$tanggal}{$bulan}{$tahun}-{$order->id}";
 
         // Simpan kembali kode transaksi ke database
-        $transaction->update([
+        $order->update([
             'kode_transaction' => $kodeTransaction
         ]);
 
         // Hapus cart dari sesi setelah checkout
-        Session::forget('cart');
+        session()->forget("order_id_{$tableNumber}");
+        // Session::forget('cart');
 
 
         //Jika Jika metode pembayaran digital, arahkan ke Midtrans
@@ -103,32 +102,31 @@ class CheckoutController extends Controller
         // }
 
         // Jika cash, arahkan ke halaman sukses
-        return redirect()->route('checkout.success', ['uuid' => $transaction->uuid]);
+        return redirect()->route('checkout.success', ['uuid' => $order->uuid]);
         return redirect()->route('cart', ['table' => $tableNumber])->with('success', 'Pesanan berhasil diproses!');
     }   
 
     public function success($uuid)
     {
-        $transaction = Transaction::where('uuid', $uuid)->firstOrFail(); // ✅ Benar
+        $order = Order::where('uuid', $uuid)->firstOrFail(); // ✅ Benar
 
         return view('checkout.success', [
             'title' => 'Checkout Berhasil',
-            'transaction' => $transaction
+            'order' => $order
         ]);
     }
 
     public function confirmPayment($id)
     {
-        $transaction = Transaction::find($id);
-        if (!$transaction) {
+        $order = Order::find($id);
+        if (!$order) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
         }
 
-        $transaction->status = 'paid';
-        $transaction->save();
+        $order->status = 'paid';
+        $order->save();
 
-        // Livewire::emit('paymentUpdated'); 
-        Livewire::emit('paymentUpdated', $transaction->id); // Update status pesanan di halaman pelanggan
+        Livewire::emit('paymentUpdated', $order->id); // Update status pesanan di halaman pelanggan
 
         return response()->json(['success' => 'Pembayaran dikonfirmasi']);
     }
