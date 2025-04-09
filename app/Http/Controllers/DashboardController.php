@@ -10,27 +10,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $order = Order::latest()->get();
+        $orders = Order::latest()->get();
        
         return view('dashboard.index', [
             "title" => "Dashboard",
             "image" => "logocafe.png",
-            "order" => $order
+            "orders" => $orders
         ]);
         
     }
-
-    // public function confirmPayment($id)
-    // {
-    //     $transaction = Transaction::findOrFail($id);
-    //     $transaction->update([
-    //         'status' => 'paid',
-    //         'payment_method' => 'cash',
-    //     ]);
-
-    //     return redirect()->back()->with('success', 'Pembayaran berhasil dikonfirmasi!');
-
-    // }
 
     public function confirmPayment($id)
     {
@@ -81,25 +69,7 @@ class DashboardController extends Controller
     public function update(Request $request, string $id)
     {
         //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy($id)
-    // {
-    //     $transaction = Transaction::findOrFail($id);
-    //     $transaction->delete();
-
-    //     return redirect()->back()->with('success', 'Transaksi berhasil dihapus!');
-     
-        
-    //     // Transcation::destroy($transaction->id);
-
-    //     // return redirect('/dashboard')->with('success', 'Transaksi berhasil dihapus!');
-
-    // }
-    
+    }    
     public function destroy($id)
     {
         $order = Order::find($id); // Gunakan find() dulu, bukan findOrFail()

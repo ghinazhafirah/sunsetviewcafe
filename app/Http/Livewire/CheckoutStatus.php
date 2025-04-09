@@ -32,12 +32,7 @@ public $order;
         $this->showReceipt = true; // Ketika tombol diklik, tampilkan struk
     }
 
-    // public function render()
-    // {
-    //     return view('livewire.checkout-status', ['order' => $this->order]);
-    // }
-
-    public function render()
+     public function render()
     {
         return view('livewire.checkout-status', [
             'order' => $this->order,

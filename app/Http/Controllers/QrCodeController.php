@@ -5,15 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\Post;
+use App\Models\Qr;
 
 class QrCodeController extends Controller
 {
     //halaman form masukin jumlah meja
     public function showQrForm()
     {
+        // Ambil jumlah meja terakhir dari database
+        $maxTableRecord = Qr::where('key', 'max_table')->first();
+        $jumlahMeja = $maxTableRecord ? (int) $maxTableRecord->value : null;
+
+        $qrCodes = [];
+
+        // Jika sudah pernah generate, buat ulang QR Code
+        if ($jumlahMeja) {
+            for ($i = 1; $i <= $jumlahMeja; $i++) {
+                $url = route('menu.redirect', ['table' => $i]);
+                $qrCodes[$i] = QrCode::size(200)->generate($url);
+            }
+        }
+
         return view('qr-code', [
             "title" => "Generate QR Code Meja",
-            "qrCodes" => null, // Awalnya kosong, QR Code akan muncul setelah generate
+            "qrCodes" => $qrCodes,
+            "jumlahMeja" => $jumlahMeja,
             "image" => "logocafe.png",
             "active" => "qr-code"
         ]);
@@ -28,10 +44,15 @@ class QrCodeController extends Controller
 
         $jumlahMeja = $request->input('jumlah_meja');
 
+        Qr::updateOrCreate(
+            ['key' => 'max_table'],
+            ['value' => $jumlahMeja]
+        );
+
         // Buat QR Code untuk setiap meja
         $qrCodes = [];
         for ($i = 1; $i <= $jumlahMeja; $i++) {
-            $url = route('menu', ['table' => $i]); // Ubah parameter agar sesuai dengan route menu
+            $url = route('menu.redirect', ['table' => $i]); // Ubah parameter agar sesuai dengan route menu
             \Log::info('URL untuk QR Code:', ['url' => $url]);
             $qrCodes[$i] = QrCode::size(200)->generate($url);
         }
@@ -49,9 +70,11 @@ class QrCodeController extends Controller
     {
         \Log::info('Nomor Meja dari URL:', ['table' => $table]);
 
-        if (!is_numeric($table)) {
-            \Log::error('Nomor Meja tidak valid: ' . $table);
-            abort(400, 'Nomor Meja tidak valid');
+        $maxTableRecord = Qr::where('key', 'max_table')->first();
+        $maxTable = $maxTableRecord ? (int) $maxTableRecord->value : 0;
+
+        if (!is_numeric($table) || $table < 1 || $table > $maxTable) {
+            abort(404, 'Nomor meja tidak valid');
         }
 
         session(['tableNumber' => $table]);

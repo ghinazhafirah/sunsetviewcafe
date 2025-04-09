@@ -40,8 +40,14 @@
             <div class="card-body">
                 <div class="row align-items-center border-bottom border-warning pb-2">
                     <div class="col-4">
-                        <img src="https://images.unsplash.com/5/unsplash-kitsune-4.jpg?w=400&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s={{ $post->category->name }}"
-                            class="card-img-top img-fluid p-2 rounded" alt="{{ $post->category->name }}">
+                        @if ($posts[0]->image)
+                            <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
+                                class="img-fluid">
+                        @else
+                            {{-- tambahan ketika menu gada gambarnya --}}
+                            <img src="{{ asset('img/notavailable.png') }}" alt="Image Not Available"
+                                class="img-fluid small-img">
+                        @endif
                     </div>
                     <div class="col-8">
                         <div class="card-body p-0">

@@ -104,6 +104,10 @@ Livewire::listen('addToCart', [CartController::class, 'addToCart']);
 Route::get('/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
 Route::post('/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
 Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect');
+Route::get('/cek-max-table', function () {
+    return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
+});
+
 
 //session
 Route::get('/test-session', [QrCodeController::class, 'testSession']);

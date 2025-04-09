@@ -56,7 +56,7 @@
         <div class="table-responsive">
             <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
-                    <tr class="text-dark  text-center">
+                    <tr class="text-dark text-center">
                         {{-- <th scope="col"><input class="form-check-input" type="checkbox"></th> --}}
                         <th scope="col">No.</th>
                         <th scope="col">Nama</th>
@@ -108,15 +108,10 @@
             </table>
         </div>
     </div>
-    </div>
     <!-- Tabel Pendataan Menu End -->
 
     <!-- Pagination -->
     {{-- <div class="mt-3 d-flex justify-content-center">
         {{ $posts->links() }}
     </div> --}}
-
-
-
-    </div>
 @endsection

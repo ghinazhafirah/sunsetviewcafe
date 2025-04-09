@@ -38,8 +38,6 @@ class DashboardPostController extends Controller
             'image' => 'logocafe.png',
             'posts' => $query->get() //ambilkan data post yang user id = user yg login
             // 'posts' => $query->paginate(15) // Pagination: 10 menu per halaman
-
-
         ]);
     }
 
@@ -49,17 +47,11 @@ class DashboardPostController extends Controller
             "image" => "logocafe.png",
             "title" => "All Posts",
             'categories' => Category::all(),
-
-            
-    
-
-
         ]);
     }
 
     public function store(Request $request) //store untuk proses datanya
     {
-
         $validatedData = $request->validate([
             'title' => 'required|max:255|regex:/^[A-Za-z\s]+$/',
             'slug' => 'required|unique:posts',
@@ -90,7 +82,6 @@ class DashboardPostController extends Controller
             "image" => "logocafe.png",
             "title" => "All Posts",
             'post' => $post
-
         ]);
     }
 
@@ -157,9 +148,7 @@ class DashboardPostController extends Controller
     //PART 18 (21.07)
     public function checkSlug(Request $request)
     {
-
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
-
     }
 }

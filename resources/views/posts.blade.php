@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="card col-12 col-md-10 col-lg-8 p-0" style="width: 700px";>
                 <div class="card-body text-center mb-2">
-                    <div id="carouselExampleCaptions" class="carousel slide">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
                                 class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -17,14 +17,18 @@
                                 aria-label="Slide 3"></button>
                         </div>
                         <div class="carousel-inner">
-                            @foreach ($images as $key => $image)
+                            @foreach ($posts as $key => $post)
                                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                    <img src="https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd060fe209b4a56733a1dcc9b5aea53a{{ $posts[0]->category->name }}"
-                                        class="d-block w-70 mx-auto" alt="{{ $posts[0]->category->name }}">
+                                    @if ($post->image && file_exists(public_path('storage/' . $post->image)))
+                                        <img src="{{ asset('storage/' . $post->image) }}" class="d-block w-70 mx-auto"
+                                            alt="{{ $post->category->name }}">
+                                    @else
+                                        <img src="{{ asset('img/notavailable.png') }}" class="d-block w-70 mx-auto"
+                                            alt="Image Not Available">
+                                    @endif
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5 class="text-dark">{{ $posts[0]->title }}</h5>
-                                        {{-- <p class="text-dark"> {{ $posts[0]->excerpt }}</p> --}}
-                                        <a href="/posts/{{ $posts[0]->slug }}"
+                                        <h5 class="text-dark">{{ $post->title }}</h5>
+                                        <a href="/posts/{{ $post->slug }}"
                                             class="text-decoration-none btn btn-warning text-dark">Read
                                             more..</a>
                                     </div>

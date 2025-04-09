@@ -46,23 +46,25 @@
 </head>
 
 <body>
-    {{-- <div class="container-xxl position-relative bg-white d-flex p-0"> --}}
-    @include('partials.navbar')
-    <div class="container">
-        @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        @include('partials.navbar')
+        <div class="container">
+            @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/active.js"></script>
+        <script src="js/html2canvas.min.js"></script>
+
+        @livewireScripts
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/active.js"></script>
-    @livewireScripts
-
 </body>
 
 </html>

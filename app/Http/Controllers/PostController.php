@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Cart;
+use App\Models\Qr;
 
 class PostController extends Controller
 {
@@ -12,20 +13,24 @@ class PostController extends Controller
     {
         $Request = request();
         \Log::info('Nomor meja yang diterima:', ['tableNumber' => $table]);
+        
+        $maxTableQr = Qr::where('key', 'max_table')->first();
+        $maxTable = $maxTableQr ? (int) $maxTableQr->value : 0;
 
-        // Jika $table ada di URL, simpan ke session
+
+        // Jika $table ada di URL
         if ($table) {
+            if (!is_numeric($table) || $table < 1 || $table > $maxTable) {
+                abort(404, 'Nomor meja tidak valid');
+            }
             session(['tableNumber' => $table]);
         } else {
-            // Jika tidak ada, ambil dari session
             $table = session('tableNumber');
+            if (!$table || !is_numeric($table) || $table < 1 || $table > $maxTable) {
+                return redirect()->route('qr.form')->with('error', 'Nomor meja tidak valid atau belum diatur.');
+            }
         }
-
-        // Jika tetap tidak ada, redirect dengan pesan error
-        if (!$table) {
-            return redirect()->route('menu')->with('error', 'Nomor meja tidak ditemukan.');
-        }
-        
+            
         $posts = Post::with('category')->get(); // Ambil semua menu dengan kategorinya
 
             $images = [  // Contoh array gambar (bisa diambil dari database jika ada)

@@ -13,7 +13,7 @@
         <button type="submit" class="btn btn-primary mt-2">Generate QR Code</button>
     </form>
 
-    @if (isset($qrCodes))
+    @if (!empty($qrCodes))
         <h3 class="text-center">QR Code untuk {{ $jumlahMeja }} Meja</h3>
         <div class="row">
             @foreach ($qrCodes as $tableNumber => $qrCode)
@@ -44,4 +44,5 @@
             });
         }
     </script>
+{{-- @endsection --}}
 @endsection

@@ -111,18 +111,6 @@
                     </div>
                 </div>
 
-
-
-                {{-- <div class="mb-3">
-                    <label for="favorite" class="form-label">Tandai sebagai Menu Favorit?</label>
-                    <select class="form-select" name="favorite">
-                        <option value="0" {{ old('favorite', $post->favorite ?? 0) == 0 ? 'selected' : '' }}>Tidak</option>
-                        <option value="1" {{ old('favorite', $post->favorite ?? 0) == 1 ? 'selected' : '' }}>Ya</option>
-                    </select>
-                </div>                 --}}
-
-
-
                 <div class="mb-3">
                     <label for="image" class="form-label">Foto Menu</label>
                     <img class="img-preview img-fluid mb-3 col-sm-5">
