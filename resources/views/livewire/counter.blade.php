@@ -9,13 +9,15 @@
         <span>Rp {{ number_format($post->price, 0, ',', '.') }}</span>
     </div>
     <div class="col-auto d-flex align-items-center ms-auto">
-        <button wire:click="decrement" class="btn btn-light border-0 px-2">-</button>
+       <button wire:click="decrement" class="btn btn-light border-0 px-2">-</button>
         <span class="mx-2 fw-bold">{{ $count }}</span>
         <button wire:click="increment" class="btn btn-light border-0 px-2">+</button>
     </div>
     <div class="col-auto px-2">
         {{-- <button wire:click="addToCart({{ $post->id }})" class="btn btn-outline-warning text-dark">Add</button> --}}
-        <button wire:click.prevent="addToCart({{ $postId }})" class="btn btn-outline-warning text-dark">Add</button>
+        {{-- <button wire:click.prevent="addToCart({{ $postId }})" class="btn btn-outline-warning text-dark">Add</button> --}}
+        <button wire:click.prevent="addToCart" class="btn btn-outline-warning text-dark">Add</button>
+
     </div>
 </div>
 

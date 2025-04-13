@@ -11,6 +11,13 @@ class PostController extends Controller
 {
     public function index($table = null)
     {
+        
+        // dd('sebelum', session()->all());
+
+        // session()->flush();
+
+        // dd($table, session()->all());
+
         $Request = request();
         \Log::info('Nomor meja yang diterima:', ['tableNumber' => $table]);
         
@@ -49,6 +56,8 @@ class PostController extends Controller
 
     public function show($slug,  Request $request)  
     {
+        
+        // dd(session()->all());
         // Ambil nomor meja dari session jika tidak ada di URL
         $tableNumber = session('tableNumber');
 
@@ -67,6 +76,9 @@ class PostController extends Controller
             Log::warning('🚫 Post tidak ditemukan:', ['slug' => $slug]);
             return abort(404, 'Post tidak ditemukan');
         }    
+
+        
+        // dd(session()->all());
 
         return view('post', [
             "title" => "Menu",

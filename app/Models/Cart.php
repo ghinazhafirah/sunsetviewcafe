@@ -13,6 +13,7 @@ class Cart extends Model
     protected $table = 'carts';
     
     protected $fillable = [
+        'token',
         'table_number', 
         'order_id', 
         'posts_id', 
@@ -27,4 +28,9 @@ class Cart extends Model
         return $this->belongsTo(Post::class, 'posts_id');
     }
     
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'kode_transaction');
+    }
+
 }

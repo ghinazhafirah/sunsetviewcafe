@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->string('token')->nullable();
             $table->integer('table_number')->default(0);
-            $table->string('order_id')->unique(); 
+            $table->string('order_id'); 
             $table->foreignId('posts_id');
             $table->integer('quantity');
             $table->string('total_menu');

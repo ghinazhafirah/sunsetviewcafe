@@ -18,7 +18,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/', function () {       //halaman utama ketika url diakses
     return view('dashboard.index', [          //ubah bagian view
-         "title" => "menu",
+         "title" => "dashboard",
          "name" => "Sunset View Cafe",
          "image" => "logocafe.png"
     ]) ;   

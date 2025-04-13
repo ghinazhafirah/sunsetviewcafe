@@ -1,6 +1,6 @@
  <!-- Sidebar Start -->
  <div id="sidebar" class="sidebar pe-4 pb-3"
-     style="background-color: orange; min-height: 100vh; width: 18.4%; transition: width 0.3s;">
+     style="background-color: orange; min-height: 100vh; transition: width 0.3s;">
      <nav class="navbar bg-ligth navbar-light">
 
          {{-- Logo & Title --}}
@@ -18,8 +18,7 @@
                  class="nav-item nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}"><i
                      class="bi bi-journals"></i> Manajemen Menu</a>
              {{-- <div class="nav-item dropdown"> --}}
-                <a href="/qr"
-                 class="nav-item nav-link {{ Request::is('qr*') ? 'active' : '' }}"><i
+             <a href="/qr" class="nav-item nav-link {{ Request::is('qr*') ? 'active' : '' }}"><i
                      class="bi bi-journals"></i> QR Code</a>
 
              {{-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-journals"></i> Manajemen Menu</a>
@@ -48,7 +47,6 @@
  <script>
      document.getElementById('sidebarToggle').addEventListener('click', function() {
          var sidebar = document.getElementById('sidebar');
-         sidebar.style.width = sidebar.style.width === '0px' ? '18.4%' : '0px';
      });
  </script>
  <!-- Sidebar End -->

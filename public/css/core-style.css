@@ -1,12 +1,11 @@
 /* [Master Stylesheet v-1.0.0] */
 /* :: :: 1.0 Import Fonts */
-@import url(../css/bootstrap.min.css);
-@import url(../css/owl.carousel.css);
-@import url(../css/animate.css);
-@import url(../css/magnific-popup.css);
-@import url(../css/jquery-ui.min.css);
-/* @import url(../css/nice-select.css); */
-@import url(../css/font-awesome.min.css);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css');
+@import url('https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 /* @font-face {
     font-family: "helveticaneuebold";
     src: url("../fonts/helvetica_neu_bold-webfont.woff2") format("woff2"),

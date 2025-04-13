@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\Post;
 use App\Models\Qr;
+use App\Models\Order;
+use App\Models\Cart;
 
 class QrCodeController extends Controller
 {
@@ -68,6 +70,8 @@ class QrCodeController extends Controller
 
     public function redirectToMenu($table)
     {
+        session()->flush(); //menghapus session sebelumnya jika ada (add by kocha 13042025)
+
         \Log::info('Nomor Meja dari URL:', ['table' => $table]);
 
         $maxTableRecord = Qr::where('key', 'max_table')->first();
@@ -77,33 +81,61 @@ class QrCodeController extends Controller
             abort(404, 'Nomor meja tidak valid');
         }
 
-        session(['tableNumber' => $table]);
-        \Log::info('Nomor Meja Disimpan ke Session:', ['tableNumber' => session('tableNumber')]);
-
+        // Arahkan ke halaman menu dengan order_id di session
         return redirect()->route('menu', ['table' => $table]);
     }
 
     public function showMenu(Request $request)
     {
-        $tableNumber = session('tableNumber');
-
+        
+       $tableNumber = session('tableNumber');
         \Log::info('Nomor Meja saat membuka menu:', ['tableNumber' => $tableNumber]);
 
-        // Ambil semua post dari database
-        $posts = Post::all();
+        // 1. Cek apakah sudah ada order_id di session
+        if (!session()->has('order_id')) {
+        // 2. Cari order yang masih pending untuk meja ini
+        $activeOrder = Order::where('table_number', $tableNumber)
+                            ->where('status', 'pending')
+                            ->latest()                               
+                            ->first();
 
-        $images = [
-            'image1.jpg',
-            'image2.jpg',
-            'image3.jpg'
-        ];
+        if ($activeOrder) {
+            // 3. Jika ada, gunakan yang lama
+            $order_id = $activeOrder->kode_transaction ?? $activeOrder->id;
+        } else {
+            // 4. Kalau belum ada, generate kode transaksi baru
+            $latestOrder = Order::where('table_number', $tableNumber)->latest()->first();
+
+            $nextNumber = $latestOrder ? intval(preg_replace('/[^0-9]/', '', $latestOrder->kode_transaction)) + 1 : 1;
+            $kode_transaction = 'ORD' . $tableNumber . str_pad($nextNumber, 2, '0', STR_PAD_LEFT); // ex: ORD401, ORD402
+
+            $order = Order::create([
+                'uuid' => \Str::uuid(),
+                'table_number' => $tableNumber,
+                'customer_name' => 'Guest', // atau isi dari form jika tersedia
+                'customer_whatsapp' => '08xxxxxx', // sementara default / bisa form juga
+                'kode_transaction' => $kode_transaction,
+                'total_price' => 0, // awalnya 0
+                'status' => 'pending',
+                'payment_method' => 'cash',
+            ]);
+
+            $order_id = $order->kode_transaction;
+        }
+
+        session(['order_id' => $order_id]);
+    }
+
+    // 5. Ambil semua post/menu
+    $posts = Post::all();
 
         return view('posts', [
             "title" => "Menu",
             "posts" => $posts,
-            "images" => $images,
+            "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
             "active" => "posts",
-            "tableNumber" => $tableNumber
+            "tableNumber" => $tableNumber,
+            "order_id" => session('order_id')
         ]);
-    }
+    }    
 }

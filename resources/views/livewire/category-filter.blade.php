@@ -38,15 +38,15 @@
     <div id="menu-section">
         @foreach ($posts as $post)
             <div class="card-body">
-                <div class="row align-items-center border-bottom border-warning pb-2">
+                <div class="row align-items-center border-bottom border-warning pb-1">
                     <div class="col-4">
                         @if ($posts[0]->image)
                             <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
-                                class="img-fluid">
+                                class="img">
                         @else
                             {{-- tambahan ketika menu gada gambarnya --}}
                             <img src="{{ asset('img/notavailable.png') }}" alt="Image Not Available"
-                                class="img-fluid small-img">
+                                class="img">
                         @endif
                     </div>
                     <div class="col-8">

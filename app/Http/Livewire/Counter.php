@@ -14,7 +14,8 @@ class Counter extends Component
     public $postId; // id dari menu(post)
     public $post;
     public $tableNumber; // Nomor meja
-    public $note = []; // Variabel untuk menyimpan catatan
+    public $note = '';
+    public $orderId;
    
     public function mount($postId, $tableNumber = null, $note = '')
     {
@@ -31,21 +32,16 @@ class Counter extends Component
             throw new \Exception("Menu dengan ID {$postId} tidak ditemukan.");
         }
 
+        $this->orderId = session('order_id');
+
         // Cek apakah menu sudah ada di dalam keranjang
         $cartItem = Cart::where('posts_id', $this->postId)
-                        ->where('table_number', $this->tableNumber)
+                        ->where('order_id', $this->orderId)
                         ->first();
 
-        // if ($cartItem) {
-        //     $this->count = $cartItem->quantity; // Gunakan quantity yang sudah ada di cart
-        //     $this->note = $cartItem->note ?? ''; // Simpan note di array berdasarkan ID
-        // }
-
-        if (!session()->has("order_id_{$this->tableNumber}")) {
-            $this->orderId = Cart::where('table_number', $this->tableNumber)
-                                 ->orderBy('created_at', 'desc')
-                                 ->value('order_id');
-            session(["order_id_{$this->tableNumber}" => $this->orderId]);
+        if ($cartItem) {
+            $this->count = $cartItem->quantity; // Gunakan quantity yang sudah ada di cart
+            $this->note = $cartItem->note ?? ''; // Simpan note di array berdasarkan ID
         }
     }
 
@@ -63,6 +59,7 @@ class Counter extends Component
 
     public function addToCart()
     {    
+
         // Debugging untuk cek isi catatan
         \Log::info('Note yang diterima:', ['note' => $this->note]);
 
@@ -76,16 +73,23 @@ class Counter extends Component
             return;
         }
 
-         // **Cek jumlah pesanan sebelumnya untuk meja ini**
-         $lastOrderCount = Cart::where('table_number', $this->tableNumber)->count();
-         $orderNumber = $lastOrderCount + 1;
- 
-         // **Buat order_id dengan format ORD{tableNumber}{orderNumber}**
-         $orderId = 'ORD' . $this->tableNumber . $orderNumber;
+        //cek apakah di nomer meja tersebut sudah ada yang order sebelumnya atau belum
+        $token = session('_token');
+        
+        $cekToken = Cart::where('token', $token)->get()->count();
 
+        if ($cekToken == 0) {
+            $cekCountOrder = Cart::where('table_number', $this->tableNumber)
+            ->groupBy('token')
+            ->select('token')
+            ->get()->count();
+            $this->orderId = 'ORD' . $this->tableNumber . ($cekCountOrder + 1);
+            session(['order_id' => $this->orderId]);
+        }
+        
         // Simpan ke keranjang (kalau sudah ada, update quantitynya)
         $cartItem = Cart::where('posts_id', $this->postId)
-                        ->where('table_number', $this->tableNumber)
+                        ->where('order_id', $this->orderId)
                         ->first();
 
         if ($cartItem) {
@@ -100,7 +104,8 @@ class Counter extends Component
             $totalMenu = $this->count * $product->price; 
             //kalo ga ada, tambahin jadi item/menu baru
              Cart::create([
-                 'order_id' => $orderId,
+                 'token' => $token,
+                 'order_id' => $this->orderId,
                  'posts_id' => $product->id,
                  'quantity' => $this->count,
                  'total_menu' => $totalMenu,
@@ -112,16 +117,8 @@ class Counter extends Component
 
         // Ambil quantity terbaru dari database setelah update
         $this->count = Cart::where('posts_id', $this->postId) 
-                            ->where('table_number', $this->tableNumber)
+                            ->where('order_id', $this->orderId)
                             ->value('quantity');
-
-        // Pastikan catatan tersimpan dengan cek database
-        $savedNote = Cart::where('posts_id', $this->postId)
-                        ->where('table_number', $this->tableNumber)
-                        ->value('note');
-
-        \Log::info('Note yang disimpan:', ['note' => $savedNote]);
-
 
         $this->dispatch('cartUpdated');
         // // Beri notifikasi sukses
