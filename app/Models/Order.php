@@ -14,6 +14,7 @@ class Order extends Model
         'kode_transaction',
         'total_price',
         'payment_method',
+        'table_number',
         'status'];
 
 

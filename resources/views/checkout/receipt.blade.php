@@ -11,7 +11,7 @@
                 <h6>#Pesanan</h6>
                 <div>
                     <strong>{{ $order->kode_transaction }}</strong></h6>
-                    <h6 class="text-end"><small>{{ date('d-m-Y H:i:s', strtotime($transaction->created_at)) }}</small></h6>
+                    <h6 class="text-end"><small>{{ date('d-m-Y H:i:s', strtotime($order->created_at)) }}</small></h6>
                 </div>
             </div>
             <hr class="border-warning">

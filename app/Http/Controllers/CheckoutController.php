@@ -13,46 +13,48 @@ class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-         // Ambil nomor meja dari request atau session
-         $tableNumber = $request->input('table_number') ?? session('tableNumber');    // Ambil nomor meja dari request atau session
+        // Ambil nomor meja dari request atau session
+        $tableNumber = $request->input('table_number') ?? session('tableNumber');    // Ambil nomor meja dari request atau session
 
-         // Simpan nomor meja ke session jika belum ada
-         session(['tableNumber' => $tableNumber]); 
-         
-         // Simpan nomor meja ke session jika belum ada
-          if (!$tableNumber) {
-             \Log::warning('Nomor meja tidak ditemukan dalam request maupun session.');
-             return back()->with('error', 'Nomor meja tidak ditemukan.');
-         }
+        //kalo ga ada no meja, tampil pesan error
+        if (!$tableNumber) {
+            \Log::warning('Nomor meja tidak ditemukan dalam request maupun session.');
+            return back()->with('error', 'Nomor meja tidak ditemukan.');
+        }
+        
+        // Simpan nomor meja ke session jika belum ada
+        session(['tableNumber' => $tableNumber]);;       
 
-        // Ambil nomor meja dari session (dari halaman cart)
-        $tableNumber = session('tableNumber');
+        // Ambil order_id dari session (wajib konsisten di semua controller)
+        $orderId = session('order_id');
 
-        // Ambil data cart dari database berdasarkan nomor meja
-        // $cart = \App\Models\Cart::where('table_number', $tableNumber)->with('post')->get();
-        $orderId = session("order_id_{$tableNumber}") ?? null;
-        if (!$orderId) {
+         // Jika order_id tidak ditemukan, redirect
+         if (!$orderId) {
             return back()->with('error', 'Order tidak ditemukan.');
         }
 
+        // Ambil data cart berdasarkan order_id, termasuk relasi post
         $cart = Cart::where('order_id', $orderId)->with('post')->get();
 
+        // Hitung total harga dari cart
+        $subtotal = $cart->sum(fn($item) => $item->total_menu);
 
         // Hitung total harga berdasarkan database, bukan session
-        $subtotal = $cart->sum(fn($cartItem) => $cartItem->total_menu);
+        // $subtotal = $cart->sum(fn($cartItem) => $cartItem->total_menu);
 
         return view('checkout.index', [
             "title" => "Checkout",
             "active" => "checkout",
             "cart" => $cart,
             "total" => $subtotal,
-            "tableNumber" => $tableNumber, // Kirim ke view agar tetap ada
+            'tableNumber' => $tableNumber, // Kirim ke view agar tetap ada
         ]);        
     }
 
     public function storeCustomerData(Request $request)
     {
         $tableNumber = Session::get('tableNumber', 'Tidak Diketahui'); // Ambil nomor meja dari session
+        $orderId = session('order_id');
 
         // Validasi input pelanggan
         $validated = $request->validate([
@@ -61,23 +63,26 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:cash,digital', // Pastikan hanya cash atau digital
         ]);
 
-         // Ambil data cart dari sesi
-        $cart = collect(Session::get('cart', []));
-        $subtotal = $cart->sum(fn($cartItem) => $cartItem['total_menu']); // Gunakan array notation
+        //  // Ambil data cart dari sesi
+        // $cart = collect(Session::get('cart', []));
+        // $subtotal = $cart->sum(fn($cartItem) => $cartItem['total_menu']); // Gunakan array notation
 
-        // Simpan data pelanggan ke database (tabel transactions)
-        $orderId = session("order_id_{$tableNumber}");
+         // Ambil data cart dari database berdasarkan order_id
+         $cartItems = Cart::where('order_id', $orderId)->get();
+         $subtotal = $cartItems->sum(fn($item) => $item->total_menu);
+
+        // Simpan data pelanggan ke database (tabel orders)
         $order = Order::create([
             'customer_name' => $request->customer_name,
             'customer_whatsapp' => $request->customer_whatsapp,
-            'total' => $subtotal, // Set default price (nanti bisa diupdate)
+            'total_price' => $subtotal, // Set default price (nanti bisa diupdate)
             'payment_method' => $request->payment_method, // Cash atau Digital
             'status' => $request->payment_method == 'cash' ? 'pending' : 'paid', // Status awal
             'table_number' => $tableNumber, // Simpan nomor meja dalam transaksi
             'order_id' => $orderId, // Pastikan order_id digunakan
         ]);
 
-        // **Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai**
+        // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
         $tanggal = date('d'); // Hari (misal: 13)
         $bulan = date('m'); // Bulan (misal: 03)
         $tahun = date('y'); // Tahun 2 digit (misal: 25)
@@ -91,7 +96,7 @@ class CheckoutController extends Controller
         ]);
 
         // Hapus cart dari sesi setelah checkout
-        session()->forget("order_id_{$tableNumber}");
+        session()->forget("order_id");
         // Session::forget('cart');
 
 
@@ -108,16 +113,19 @@ class CheckoutController extends Controller
 
     public function success($uuid)
     {
+         // Ambil detail order berdasarkan UUID
         $order = Order::where('uuid', $uuid)->firstOrFail(); // ✅ Benar
 
         return view('checkout.success', [
             'title' => 'Checkout Berhasil',
+            'active' => 'checkout',
             'order' => $order
         ]);
     }
 
     public function confirmPayment($id)
     {
+        // Temukan order berdasarkan ID
         $order = Order::find($id);
         if (!$order) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);

@@ -7,7 +7,7 @@ use App\Models\Order;
 
 class CheckoutStatus extends Component
 {
-public $order;
+    public $order;
     public $showReceipt = false; // ✅ Tambahkan variabel ini agar bisa diakses di Blade
 
     protected $listeners = ['paymentUpdated' => 'refreshStatus'];
@@ -32,11 +32,11 @@ public $order;
         $this->showReceipt = true; // Ketika tombol diklik, tampilkan struk
     }
 
-     public function render()
+    public function render()
     {
         return view('livewire.checkout-status', [
             'order' => $this->order,
             'showReceipt' => $this->showReceipt, // ✅ Kirim ke Blade agar tidak undefined
-        ]);
+        ]);    
     }
 }

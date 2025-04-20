@@ -12,33 +12,37 @@ class CartController extends Controller
 {
     public function addToCart (Request $request)
     {  
-        dd(session()->all());
+        // dd(session()->all());
 
+        //ambil data dari request
         $postId = $request->input('post_id'); 
         $quantity = $request->input('quantity', 1); 
         $note = $request->input('note', ''); 
 
+        //ambil data menu berdasarkan ID
         $post = Post::find($postId);
         if (!$post) {
             return back()->with('error', 'Menu tidak ditemukan');
         }
 
-          // Ambil order_id dari session (wajib konsisten di semua controller)
+        // Ambil order_id dari session (wajib konsisten di semua controller)
         $orderId = session('order_id');
         $token = session('_token');
-        dd($token);
+        // dd($token);
 
        // Kalau belum ada order_id di session, buat order baru
         if (!$orderId) {
             // Cek apakah ada order pending untuk meja ini
-            $order = Order::where('table_number', $taPcoubleNumber)
+            $order = Order::where('table_number', $tableNumber)
                         ->where('status', 'pending')
                         ->latest()
                         ->first();
 
             if ($order) {
+                //pake order_id lama kalo masih pending
                 $orderId = $order->kode_transaction ?? $order->order_id;
             } else {
+                //kalo ga ya bikin order_id baru = + 1
                 $nextNumber = Order::where('table_number', $tableNumber)->count() + 1;
                 $orderId = 'ORD' . $tableNumber . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 
@@ -49,21 +53,24 @@ class CartController extends Controller
                     'status' => 'pending',
                 ]);
              }
-             session(['order_id' => $orderId]); // Simpan ke session!
+             // Simpan ke session!
+             session(['order_id' => $orderId]); 
        }
 
-        // Tambah atau update menu ke cart
+        //cek -> Tambah atau update menu ke cart
         $cart = Cart::where('order_id', $orderId)
-                    ->where('posts_id', $postid)
+                    ->where('posts_id', $postId)
                     ->first();
 
         if ($cart) {
+            //kalo ada , update jumlah & total
             $cart->update([
                 'quantity' => $cart->quantity + $quantity,
                 'total_menu' => $cart->total_menu + ($post->price * $quantity),
                 'note' => $note,
             ]);
         } else {
+            //kalo ga ada, bikin baru
             Cart::create([
                 'token' => $token,
                 'order_id' => $orderId,
@@ -109,7 +116,8 @@ class CartController extends Controller
         session(['cart_total' => $subtotal]);
     
         \Log::info("Menampilkan cart untuk meja {$table} dengan order_id: {$orderId}");
-    
+        
+        //tampilan cart
         return view('cart', [
             'title' => 'Cart',
             'cart' => $cartItems,

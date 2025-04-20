@@ -7,6 +7,7 @@ use App\Http\Livewire\Counter;
 use App\Http\Livewire\CounterCart; 
 use App\Http\Livewire\CategoryFilter;
 use App\Http\Livewire\OrderTable;
+use App\Http\Livewire\CheckoutStatus;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('category-filter', CategoryFilter::class);
         Livewire::component('posts', Posts::class);
         Livewire::component('order-table', OrderTable::class);
+        Livewire::component('checkout-status', CheckoutStatus::class);
     }
 }

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique(); // UUID untuk transaksi (pengganti ID numerik di URL)
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade'); // Relasi ke tabel users (nullable untuk tamu)
-            $table->string('table_number')->nullable(); // Nomor meja dari QR Code
+            $table->string('table_number')->default(0); // Nomor meja dari QR Code
             $table->string('customer_name'); // Nama pelanggan
             $table->string('customer_whatsapp'); // Nomor WhatsApp pelanggan
             $table->string('kode_transaction')->nullable()->unique(); // COBA DULU NULL ID transaksi unik dari sistem / Midtrans/TRX-..
