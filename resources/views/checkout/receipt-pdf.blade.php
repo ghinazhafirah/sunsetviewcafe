@@ -34,7 +34,7 @@
         }
 
         td {
-            padding: 5px;
+            /* padding: 5px; */
         }
 
         .border {
@@ -51,7 +51,7 @@
         hr {
             border: 0;
             border-top: 1px solid black;
-            margin: 10px 0;
+            /* margin: 10px 0; */
         }
     </style>
 </head>
@@ -98,20 +98,22 @@
                     <th class="border">Harga</th>
                 </tr>
             </thead>
-            {{-- <tbody>
-                @foreach ($transaction->items as $item)
-                <tr class="border">
-                    <td class="border">{{ $item->name }}</td>
-                    <td class="border">{{ $item->quantity }}x</td>
-                    <td class="border">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                </tr>
+            <tbody>
+                @foreach ($cartItems as $item)
+                    <tr>
+                        <td>
+                            <strong>{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</strong>
+                        </td>
+                        <td class="text-center">{{ $item->quantity }}X</td>
+                        <td class="text-end">Rp {{ number_format($item->total_menu, 0, ',', '.') }}</td>
+                    </tr>
                 @endforeach
-            </tbody> --}}
+            </tbody>
         </table>
         <hr>
 
-        <p class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</p>
-        <p class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</p>
+        {{-- <p class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</p>
+        <p class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</p> --}}
         <h4 class="text-start"><strong>Total Bayar:</strong> <span class="text-end">Rp
                 {{ number_format($order->total_price, 0, ',', '.') }}</span></h4>
 

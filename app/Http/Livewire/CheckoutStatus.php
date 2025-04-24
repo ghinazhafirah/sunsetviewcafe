@@ -15,6 +15,7 @@ class CheckoutStatus extends Component
     public function mount($orderId)
     {
         $this->order = Order::find($orderId);
+        // $this->order = Order::with('items.post')->find($orderId);
     }
 
     public function refreshStatus($id)

@@ -1,5 +1,6 @@
 @extends('layouts.home')
 
+
 @section('container')
     <div class="container mt-5 text-center">
         <div class="card shadow-lg p-4 text-start">
@@ -27,7 +28,7 @@
                 <tr>
                     <td>No. WhatsApp</td>
                     <td style="text-align: center;">:</td>
-                    <td><strong>{{ $order->customer_whatsapp }}<strong></td>
+                    <td><strong>{{ $order->customer_whatsapp }}</strong></td>
                 </tr>
                 <tr>
                     <td>Nomor Meja</td>
@@ -45,24 +46,26 @@
                         <th>Harga</th>
                     </tr>
                 </thead>
-                {{-- <tbody>
-                @foreach ($transaction->items as $item)
-                    <tr>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->quantity }}x</td>
-                        <td>Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-            </tbody> --}}
+                <tbody>
+                    @foreach ($cartItems as $item)
+                        <tr>
+                            <td>
+                                <strong>{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</strong>
+                            </td>
+                            <td class="text-center">{{ $item->quantity }}X</td>
+                            <td class="text-end">Rp {{ number_format($item->total_menu, 0, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
 
             <div class="mb-1">
-                <p class="d-flex justify-content-between">Subtotal
+                {{-- <p class="d-flex justify-content-between">Subtotal
                     <span>Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
                 </p>
                 <p class="d-flex justify-content-between">Pajak (PB1)
                     <span>Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
-                </p>
+                </p> --}}
                 <p class="d-flex justify-content-between">Total Bayar
                     <span><strong>Rp {{ number_format($order->total_price, 0, ',', '.') }}</strong></span>
                 </p>

@@ -23,7 +23,7 @@
                 ✅ Pembayaran telah dikonfirmasi! Klik dibawah ini untuk melihat Struk
             </p>
             <div class="mt-4">
-                <a href="{{ route('receipt.show', $order->uuid) }}" class="btn btn-success">STRUK ANDA</a>
+                <a href="{{ route('receipt.show', ['uuid' => $order->uuid]) }}" class="btn btn-success">📩 STRUK ANDA</a>
             </div>
 
             {{-- <div class="mt-4">

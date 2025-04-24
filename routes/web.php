@@ -120,5 +120,7 @@ Route::post('/checkout/store', [CheckoutController::class, 'storeCustomerData'])
 Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 //struk
+// Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
 Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
+
 Route::get('/receipt/download/{uuid}', [ReceiptController::class, 'downloadReceipt'])->name('download.receipt');

@@ -11,27 +11,25 @@ class PostController extends Controller
 {
     public function index($table = null)
     {
-        
         // dd('sebelum', session()->all());
-
         // session()->flush();
-
         // dd($table, session()->all());
 
         $Request = request();
         \Log::info('Nomor meja yang diterima:', ['tableNumber' => $table]);
         
+        //ambil nomor meja maks dari database
         $maxTableQr = Qr::where('key', 'max_table')->first();
         $maxTable = $maxTableQr ? (int) $maxTableQr->value : 0;
 
 
         // Jika $table ada di URL
-        if ($table) {
+        if ($table) { //kalo $table dikirim lewat url, pastikan tidak lebih dari max
             if (!is_numeric($table) || $table < 1 || $table > $maxTable) {
                 abort(404, 'Nomor meja tidak valid');
             }
-            session(['tableNumber' => $table]);
-        } else {
+            session(['tableNumber' => $table]); //kalo $table ga ada di url, cek session
+        } else { //kalo keduanya ga ada -> redirect ke hal. scan qr
             $table = session('tableNumber');
             if (!$table || !is_numeric($table) || $table < 1 || $table > $maxTable) {
                 return redirect()->route('qr.form')->with('error', 'Nomor meja tidak valid atau belum diatur.');
@@ -70,14 +68,12 @@ class PostController extends Controller
 
         \Log::info('🔍 Slug yang dicari:', ['slug' => $slug]);
 
-        $post = Post::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first(); //cari menu berdasarkan slug
 
         if (!$post) {
             Log::warning('🚫 Post tidak ditemukan:', ['slug' => $slug]);
             return abort(404, 'Post tidak ditemukan');
-        }    
-
-        
+        }            
         // dd(session()->all());
 
         return view('post', [

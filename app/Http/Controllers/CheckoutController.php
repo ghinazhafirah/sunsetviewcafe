@@ -35,12 +35,9 @@ class CheckoutController extends Controller
 
         // Ambil data cart berdasarkan order_id, termasuk relasi post
         $cart = Cart::where('order_id', $orderId)->with('post')->get();
-
+      
         // Hitung total harga dari cart
         $subtotal = $cart->sum(fn($item) => $item->total_menu);
-
-        // Hitung total harga berdasarkan database, bukan session
-        // $subtotal = $cart->sum(fn($cartItem) => $cartItem->total_menu);
 
         return view('checkout.index', [
             "title" => "Checkout",
@@ -53,6 +50,7 @@ class CheckoutController extends Controller
 
     public function storeCustomerData(Request $request)
     {
+
         $tableNumber = Session::get('tableNumber', 'Tidak Diketahui'); // Ambil nomor meja dari session
         $orderId = session('order_id');
 
@@ -63,24 +61,25 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:cash,digital', // Pastikan hanya cash atau digital
         ]);
 
-        //  // Ambil data cart dari sesi
-        // $cart = collect(Session::get('cart', []));
-        // $subtotal = $cart->sum(fn($cartItem) => $cartItem['total_menu']); // Gunakan array notation
-
          // Ambil data cart dari database berdasarkan order_id
          $cartItems = Cart::where('order_id', $orderId)->get();
          $subtotal = $cartItems->sum(fn($item) => $item->total_menu);
 
+        //  dd($orderid);
+
         // Simpan data pelanggan ke database (tabel orders)
-        $order = Order::create([
-            'customer_name' => $request->customer_name,
-            'customer_whatsapp' => $request->customer_whatsapp,
-            'total_price' => $subtotal, // Set default price (nanti bisa diupdate)
-            'payment_method' => $request->payment_method, // Cash atau Digital
-            'status' => $request->payment_method == 'cash' ? 'pending' : 'paid', // Status awal
-            'table_number' => $tableNumber, // Simpan nomor meja dalam transaksi
-            'order_id' => $orderId, // Pastikan order_id digunakan
-        ]);
+        $order = Order::updateOrCreate(
+            ['order_id' => $orderId], // kondisi pencarian
+        
+            [ // data yang akan diisi/update
+                'customer_name' => $request->customer_name,
+                'customer_whatsapp' => $request->customer_whatsapp,
+                'total_price' => $subtotal,
+                'payment_method' => $request->payment_method,
+                'status' => $request->payment_method == 'cash' ? 'pending' : 'paid',
+                'table_number' => $tableNumber,
+            ]
+        );
 
         // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
         $tanggal = date('d'); // Hari (misal: 13)
@@ -99,13 +98,6 @@ class CheckoutController extends Controller
         session()->forget("order_id");
         // Session::forget('cart');
 
-
-        //Jika Jika metode pembayaran digital, arahkan ke Midtrans
-        // if ($request->payment_method == 'digital') {
-        //     // Arahkan ke Midtrans
-        //     return redirect()->route('midtrans.payment', ['id' => $transaction->id]);
-        // }
-
         // Jika cash, arahkan ke halaman sukses
         return redirect()->route('checkout.success', ['uuid' => $order->uuid]);
         return redirect()->route('cart', ['table' => $tableNumber])->with('success', 'Pesanan berhasil diproses!');
@@ -119,7 +111,7 @@ class CheckoutController extends Controller
         return view('checkout.success', [
             'title' => 'Checkout Berhasil',
             'active' => 'checkout',
-            'order' => $order
+            'order' => $order,
         ]);
     }
 

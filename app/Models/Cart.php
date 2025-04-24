@@ -25,12 +25,12 @@ class Cart extends Model
     // Relasi ke Post (menu)
     public function post()
     {
-        return $this->belongsTo(Post::class, 'posts_id');
+        return $this->belongsTo(Post::class, 'posts_id'); // atau 'post_id' tergantung kolomnya
     }
     
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'kode_transaction');
+        return $this->belongsTo(Order::class, 'order_id', 'order_id');
     }
 
 }
