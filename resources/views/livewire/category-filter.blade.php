@@ -40,14 +40,12 @@
             <div class="card-body">
                 <div class="row align-items-center border-bottom border-warning pb-1">
                     <div class="col-4">
-                        @if ($posts[0]->image)
-                            <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
-                                class="img">
-                        @else
-                            {{-- tambahan ketika menu gada gambarnya --}}
-                            <img src="{{ asset('img/notavailable.png') }}" alt="Image Not Available"
-                                class="img">
-                        @endif
+                        @if($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}"  class="card-img-top w-70 mx-auto" alt="{{ $post->category->name }}" class="img-fluid menu-image">
+                    @else
+                    {{-- tambahan ketika menu gada gambarnya --}}
+                        <img src="{{ asset('img/notavailable.png') }}"  class="card-img-top w-70 mx-auto" alt="Image Not Available" class="img-fluid menu-image">
+                    @endif
                     </div>
                     <div class="col-8">
                         <div class="card-body p-0">

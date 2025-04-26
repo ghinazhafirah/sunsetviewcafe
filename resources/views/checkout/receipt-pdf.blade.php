@@ -3,17 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt Pembayaran</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         .text-center {
@@ -33,25 +35,42 @@
             border-collapse: collapse;
         }
 
-        td {
-            /* padding: 5px; */
+        td,
+        th {
+            padding: 5px;
+            font-size: 11px;
         }
 
         .border {
             border: 1px solid black;
         }
 
-        .badge {
-            padding: 5px;
-            background-color: green;
-            color: white;
-            border-radius: 5px;
-        }
 
-        hr {
-            border: 0;
-            border-top: 1px solid black;
-            /* margin: 10px 0; */
+        @media print {
+            @page {
+                size: 80mm auto;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 80mm;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                width: 100%;
+                margin: 0;
+                padding: 10px;
+            }
+
+            h4,
+            h5,
+            p {
+                margin: 4px 0;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -62,14 +81,16 @@
         <hr>
 
         {{-- Kode Transaksi & Waktu --}}
-        <div class="text-start"> #Pesanan | <strong> {{ $order->kode_transaction }}</strong>
+        <div class="text-start">
+            #Pesanan <strong>{{ $order->kode_transaction }}</strong>
             <span class="text-end" style="float: right;">
                 <small>{{ date('d-m-Y H:i:s', strtotime($order->created_at)) }}</small>
             </span>
         </div>
+        <br>
         <hr>
 
-        <h5 class="text-start">Informasi Pemesanan</h5>
+        <p class="text-start"><strong>Informasi Pemesanan</strong></p>
         <table>
             <tr>
                 <td>Nama</td>
@@ -89,10 +110,10 @@
         </table>
         <hr>
 
-        <h5 class="text-start">Detail Pesanan</h5>
+        <p class="text-start"><strong>Detail Pesanan</strong></p>
         <table class="border">
             <thead>
-                <tr class="border">
+                <tr>
                     <th class="border">Nama Item</th>
                     <th class="border">Jumlah</th>
                     <th class="border">Harga</th>
@@ -101,21 +122,19 @@
             <tbody>
                 @foreach ($cartItems as $item)
                     <tr>
-                        <td>
-                            <strong>{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</strong>
-                        </td>
-                        <td class="text-center">{{ $item->quantity }}X</td>
-                        <td class="text-end">Rp {{ number_format($item->total_menu, 0, ',', '.') }}</td>
+                        <td class="border">{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</td>
+                        <td class="border text-center">{{ $item->quantity }}x</td>
+                        <td class="border text-end">Rp {{ number_format($item->total_menu, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
         <hr>
 
-        {{-- <p class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</p>
-        <p class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</p> --}}
-        <h4 class="text-start"><strong>Total Bayar:</strong> <span class="text-end">Rp
-                {{ number_format($order->total_price, 0, ',', '.') }}</span></h4>
+        <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
+        <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5>
+        <h5 class="text-start"><strong>Total Bayar:</strong> <span class="text-end">Rp
+                {{ number_format($order->total_price, 0, ',', '.') }}</span></h5>
 
         <hr>
         <h5 class="text-start">Metode Pembayaran</h5>

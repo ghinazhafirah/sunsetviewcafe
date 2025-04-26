@@ -24,6 +24,16 @@ Route::get('/', function () {       //halaman utama ketika url diakses
     ]) ;   
 });
 
+// Route::get('/', function () {       //halaman utama ketika url diakses
+//     return view('posts', [          //ubah bagian view
+//          "title" => "dashboard",
+//          "image" => "logocafe.png",
+//          "name" => "Sunset View Cafe",
+//          "email" => "sunsetviewcandisari@gmail.com"
+
+//     ]) ;   
+// }); 
+
 Route::get('/home', function (){
     return view('home', [
         "title" => "home",
@@ -39,6 +49,10 @@ Route::get('/cart', function () {
         "title" => "checkout",
     ]) ;   
 });
+
+Route::get('/menu', [PostController::class, 'index']);
+Route::get('posts/{post:slug}', [PostController::class, 'show']); //ditangkap ke PostController, maka slug yang diquery untuk dapet post yg uniqnya
+
 
 Route::get('/categories', function() {
     return view('categories',[
@@ -120,7 +134,5 @@ Route::post('/checkout/store', [CheckoutController::class, 'storeCustomerData'])
 Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 //struk
-// Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
 Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
-
 Route::get('/receipt/download/{uuid}', [ReceiptController::class, 'downloadReceipt'])->name('download.receipt');

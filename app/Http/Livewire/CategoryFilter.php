@@ -15,8 +15,9 @@ class CategoryFilter extends Component
     public function mount($tableNumber = null)
     {
         $this->selectedCategory = null; //default, tidak ada kategori yang dipilih
-        $this->posts = Post::all(); //semua menu tampil saat pertama kali load
-    
+        // $this->posts = Post::all(); //semua menu tampil saat pertama kali load
+        $this->posts = Post::where('status', 'available')->get();
+
         // Ambil nomor meja dari parameter atau session
         if ($tableNumber) {
             $this->tableNumber = $tableNumber;
@@ -30,14 +31,27 @@ class CategoryFilter extends Component
 
     public function filterByCategory($categoryId)
     {
-        $this->selectedCategory = $categoryId; //simpen category yang dipilih
-        $this->posts = $categoryId ? Post::where('category_id', $categoryId)->get() : Post::all(); //ambil menu sesuai category, kalo ga milih category, semua menu tampil
+        // $this->selectedCategory = $categoryId; //simpen category yang dipilih
+        // $this->posts = $categoryId ? Post::where('category_id', $categoryId)->get() : Post::all(); //ambil menu sesuai category, kalo ga milih category, semua menu tampil
+      
+        $this->posts = $categoryId
+        ? Post::where('category_id', $categoryId)->where('status', 'available')->get()
+        : Post::where('status', 'available')->get();
     }
 
     public function render()
     {
+        $query = Post::with('category')
+        ->where('status', 'available') // ⬅️ Ini penting!
+        ->latest();
+
+        if ($this->selectedCategory) {
+            $query->where('category_id', $this->selectedCategory);
+        }
+
         return view('livewire.category-filter', [
             'categories' => Category::all(), //ngirim category ke view 
+            'posts' => $query->get(), 
             'tableNumber' => $this->tableNumber // Kirim ke view
         ]);
     }

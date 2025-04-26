@@ -19,12 +19,10 @@
                         <div class="carousel-inner">
                             @foreach ($posts as $key => $post)
                                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                    @if ($post->image && file_exists(public_path('storage/' . $post->image)))
-                                        <img src="{{ asset('storage/' . $post->image) }}" class="d-block w-70 mx-auto"
-                                            alt="{{ $post->category->name }}">
+                                    @if ($post->image)
+                                        <img src="{{ asset('storage/' . $post->image) }}" class="d-block w-70 mx-auto" alt="{{ $post->category->name }}">
                                     @else
-                                        <img src="{{ asset('img/notavailable.png') }}" class="d-block w-70 mx-auto"
-                                            alt="Image Not Available">
+                                        <img src="{{ asset('img/notavailable.png') }}" class="d-block w-70 mx-auto" alt="Image Not Available">
                                     @endif
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5 class="text-dark">{{ $post->title }}</h5>

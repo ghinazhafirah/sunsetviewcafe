@@ -38,15 +38,10 @@ class PostController extends Controller
             
         $posts = Post::with('category')->get(); // Ambil semua menu dengan kategorinya
 
-            $images = [  // Contoh array gambar (bisa diambil dari database jika ada)
-            'image1.jpg',
-            'image2.jpg',
-            'image3.jpg'
-        ];
             return view('posts', [
                 "title" => "Menu",
                 "posts" => Post::latest()->get(), // Pastikan kategori dimuat
-                "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
+                // "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
                 "active" => "posts",
                 "tableNumber" => $table
           ]);
