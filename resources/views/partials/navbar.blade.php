@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-warning ">
+{{-- <nav class="navbar navbar-expand-lg navbar-light bg-warning ">
     <div class="container-fluid">
         <a class="navbar-brand" href="/home">Sunset View Cafe</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -15,7 +15,7 @@
                 </li>
             </ul>
 
-            {{-- login --}}
+            {{-- login 
             <ul class="navbar-nav ms-auto">
 
                 @auth
@@ -51,4 +51,4 @@
 
         </div>
     </div>
-</nav>
+</nav> --}}

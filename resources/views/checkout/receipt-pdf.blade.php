@@ -130,17 +130,14 @@
             </tbody>
         </table>
         <hr>
-
         <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
         <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5>
         <h5 class="text-start"><strong>Total Bayar:</strong> <span class="text-end">Rp
                 {{ number_format($order->total_price, 0, ',', '.') }}</span></h5>
-
         <hr>
         <h5 class="text-start">Metode Pembayaran</h5>
         <p><strong>{{ strtoupper($order->payment_method) }}</strong> - <span
                 class="badge">{{ strtoupper($order->status) }}</span></p>
-
         <hr>
         <p class="text-center"><strong>Terima kasih atas pembayaranmu!</strong></p>
     </div>

@@ -23,7 +23,6 @@
                             <div class="col-md-5 col-lg-4 order-md-last">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-warning">Pesanan</span>
-                                    {{-- <span class="badge bg-primary bg-warning rounded-square">13</span> --}}
                                     @if (session()->has('tableNumber'))
                                         <div class="badge bg-primary bg-warning rounded-square">
                                             <h6>{{ session('tableNumber') ?? 'Tidak ada' }}</h6>
@@ -38,10 +37,6 @@
                                             <div>
                                                 <h6 class="my-0">{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</h6>
                                                 <small class="text-body-secondary">{{ $item['quantity'] }}X</small>
-                                                {{-- @if (!empty($item->note))
-                                                    <textarea class="form-control border-warning mt-2" readonly
-                                                        style="height: auto; overflow-y: hidden; padding: 1; line-height: 1;">{{ trim($item->note) }}</textarea>
-                                                @endif --}}
                                             </div>
                                             <span class="text-body-secondary">Rp
                                                 {{ number_format($item['total_menu'], 0, ',', '.') }}</span>
@@ -102,10 +97,4 @@
             </div>
         </div>
     </div>
-
-    {{-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="checkout.js">
-</script> --}}
-    {{-- </body> --}}
 @endsection

@@ -23,7 +23,6 @@
                 <div class="mb-3">
                     <label for="slug" class="form-label">Slug</label>
                     {{-- ini untuk slugnya bisa di edit/read only --}}
-                    {{-- <input type="text" class="form-control" id="slug" name="slug" disabled readonly> --}}
                     <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug"
                         name="slug" required value="{{ old('slug') }}">
                     @error('slug')
@@ -153,7 +152,6 @@
 
         // CATATAN FUNGSI PREVIEW GAMBAR// PART 22 6.05
         function previewImage() {
-            // frame.src=URL.createObjectURL(event.target.file[0]);
             const image = document.querySelector('#image');
             const imgPreview = document.querySelector('.img-preview');
 
@@ -167,7 +165,6 @@
             }
             const blob = URL.createObjectURL(image.files[0]);
             imgPreview.src = blob;
-
         }
     </script>
 @endsection

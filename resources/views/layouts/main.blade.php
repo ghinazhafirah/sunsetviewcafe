@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- Favicon -->
-    {{-- <link href="img/favicon.ico" rel="icon"> --}}
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f37d.png">
     {{-- ganti sesuai kebutuhan --}}
 
@@ -46,7 +45,6 @@
 </head>
 
 <body>
-    {{-- <div class="container-xxl position-relative bg-white d-flex p-0"> --}}
     @include('partials.navbar')
     <div class="container">
         @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}

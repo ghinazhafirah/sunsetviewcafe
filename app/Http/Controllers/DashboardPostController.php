@@ -37,7 +37,6 @@ class DashboardPostController extends Controller
             'title' => 'Manejemen Menu',
             'image' => 'logocafe.png',
             'posts' => $query->get() //ambilkan data post yang user id = user yg login
-            // 'posts' => $query->paginate(15) // Pagination: 10 menu per halaman
         ]);
     }
 
@@ -124,7 +123,6 @@ class DashboardPostController extends Controller
 
         $validatedData['user_id'] = auth()->user()->id; //PART 19 (11.10)
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body));
-        // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 20);
 
         Post::where('id', $post->id)
             ->update($validatedData);

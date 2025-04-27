@@ -27,8 +27,6 @@
                         <h6>Meja: {{ session('tableNumber') ?? 'Tidak ada' }}</h6>
                     </div>
                 @endif
-                {{-- <a href="#" class="btn btn-light text-dark">Meja
-                </a> --}}
                 <a href="{{ route('cart.show', ['table' => session('tableNumber')]) }}" class="btn btn-light py-2">
                     <i class="fas fa-shopping-cart" style="font-size:16px"></i>
                 </a>
@@ -40,12 +38,14 @@
             <div class="card-body">
                 <div class="row align-items-center border-bottom border-warning pb-1">
                     <div class="col-4">
-                        @if($post->image)
-                        <img src="{{ asset('storage/' . $post->image) }}"  class="card-img-top w-70 mx-auto" alt="{{ $post->category->name }}" class="img-fluid menu-image">
-                    @else
-                    {{-- tambahan ketika menu gada gambarnya --}}
-                        <img src="{{ asset('img/notavailable.png') }}"  class="card-img-top w-70 mx-auto" alt="Image Not Available" class="img-fluid menu-image">
-                    @endif
+                        @if ($post->image)
+                            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top w-70 mx-auto"
+                                alt="{{ $post->category->name }}" class="img-fluid menu-image">
+                        @else
+                            {{-- tambahan ketika menu gada gambarnya --}}
+                            <img src="{{ asset('img/notavailable.png') }}" class="card-img-top w-70 mx-auto"
+                                alt="Image Not Available" class="img-fluid menu-image">
+                        @endif
                     </div>
                     <div class="col-8">
                         <div class="card-body p-0">

@@ -90,12 +90,6 @@
                                         @endif
                                     </td> <!-- Status Pembayaran -->
                                     <td>
-                                        {{-- @if ($transaction->status == 'pending')
-                                                <form action="{{ route('dashboard.confirmPayment', $transaction->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-success">Konfirmasi Cash</button>
-                                                </form> --}}
-
                                         @if ($transaction->payment_method == 'cash' && $transaction->status == 'pending')
                                             <form action="{{ route('dashboard.confirmPayment', $transaction->id) }}"
                                                 method="POST">
@@ -115,11 +109,6 @@
                                                 onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i
                                                     class="bi bi-x-square"></i></button>
                                         </form>
-                                        {{-- <form action="/dashboard/{{ $transaction->id }}" method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn badge bg-danger" onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i class="bi bi-x-square"></i></button>
-                                            </form>  --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -133,6 +122,4 @@
     <div class="mt-3">
         {{ $orders->links() }}
     </div>
-</div>
-</div>
 </div>

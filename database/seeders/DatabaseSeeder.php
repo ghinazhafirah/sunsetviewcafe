@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345')
         ]);
 
-       // User::factory(3)->create();
-
         Category::create([
             'name' => 'Makanan',
             'slug' => 'makanan'
@@ -38,10 +36,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Minuman',
             'slug' => 'minuman'
         ]);
-
                 
-        // Post::factory(20)->create();
-        Post::create([
+       Post::create([
             'title' => 'Nasi Bakar Ayam Jamur',
             'slug' => 'nasi-bakar-ayam-jamur',
             'price' => '17000',

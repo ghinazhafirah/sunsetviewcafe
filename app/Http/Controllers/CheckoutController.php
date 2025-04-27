@@ -65,8 +65,6 @@ class CheckoutController extends Controller
          $cartItems = Cart::where('order_id', $orderId)->get();
          $subtotal = $cartItems->sum(fn($item) => $item->total_menu);
 
-        //  dd($orderid);
-
         // Simpan data pelanggan ke database (tabel orders)
         $order = Order::updateOrCreate(
             ['order_id' => $orderId], // kondisi pencarian
@@ -96,7 +94,6 @@ class CheckoutController extends Controller
 
         // Hapus cart dari sesi setelah checkout
         session()->forget("order_id");
-        // Session::forget('cart');
 
         // Jika cash, arahkan ke halaman sukses
         return redirect()->route('checkout.success', ['uuid' => $order->uuid]);

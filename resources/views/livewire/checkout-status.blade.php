@@ -25,31 +25,7 @@
             <div class="mt-4">
                 <a href="{{ route('receipt.show', ['uuid' => $order->uuid]) }}" class="btn btn-success">📩 STRUK ANDA</a>
             </div>
-
-            {{-- <div class="mt-4">
-                <button wire:click="showReceipt" class="btn btn-success">📩 STRUK ANDA</button>
-            </div> --}}
         @endif
-
-
-        {{-- @else
-        <!-- Tampilan Struk -->
-
-        <!-- Tampilan Struk -->
-        {{-- <div wire:key="receipt-{{ $order->id }}" class="mt-4 p-4 border rounded shadow bg-white" style="max-width: 400px; margin: auto;">
-            <h4 class="text-center">🧾 Struk Pembayaran</h4> --}}
-        {{-- <hr>
-            <p><strong>Nama:</strong> {{ $order->customer_name }}</p>
-            <p><strong>No. WhatsApp:</strong> {{ $order->customer_whatsapp }}</p>
-            <p><strong>Kode Transaksi:</strong> {{ $order->kode_order }}</p>
-            <p><strong>Total Bayar:</strong> Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
-            <p><strong>Metode Pembayaran:</strong> {{ strtoupper($order->payment_method) }}</p>
-            <p><strong>Status:</strong> 
-                <span class="badge bg-success">{{ strtoupper($order->status) }}</span>
-            </p>
-            <hr> --}}
-        {{-- <button onclick="printReceipt()" class="btn btn-primary">🖨️ Cetak Struk</button>
-        </div> --}}
     @endif
 </div>
 

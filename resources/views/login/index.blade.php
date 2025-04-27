@@ -29,10 +29,6 @@
 
                 <form action="/login" method="post">
                     @csrf
-                    {{-- <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Username</label>
-              </div> --}}
                     <div class="form-floating">
                         <input type="text" name="name"
                             class="form-control rounded-top @error('name') is-invalid @enderror" id="name"

@@ -20,13 +20,6 @@
              {{-- <div class="nav-item dropdown"> --}}
              <a href="/qr" class="nav-item nav-link {{ Request::is('qr*') ? 'active' : '' }}"><i
                      class="bi bi-journals"></i> QR Code</a>
-
-             {{-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-journals"></i> Manajemen Menu</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="/formmenu" class="dropdown-item nav-link {{ ($title === "formmenu") ? 'active' : '' }}">Form Menu</a>
-                    <a href="/listmenu" class="dropdown-item nav-link {{ ($title === "listmenu") ? 'active' : '' }}">List Menu</a>
-                    <a href="element.html" class="dropdown-item">Other Elements</a> --}}
-
          </div>
      </nav>
  </div>

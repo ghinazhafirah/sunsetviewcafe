@@ -9,15 +9,13 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Post extends Model
 {
     use Sluggable;
-    //
-    // protected $fillable = ['title', 'excerpt', 'body']; //penting, properti yang boleh diisi
+  
     protected $guarded = ['id']; //properti yang gaboleh diisi
     protected $with = ['category'];
 
     public function category() //nama metod itu sama dengan nama modelnya
     {
         return $this->belongsTo(Category::class); //model post terhadap model kategory, agar 1 postingan punya 1 kategori
-        // return $this->belongsTo(Category::class, 'category_id'); //model post terhadap model kategory, agar 1 postingan punya 1 kategori
     }
 
     public function user()

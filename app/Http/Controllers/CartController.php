@@ -12,8 +12,6 @@ class CartController extends Controller
 {
     public function addToCart (Request $request)
     {  
-        // dd(session()->all());
-
         //ambil data dari request
         $postId = $request->input('post_id'); 
         $quantity = $request->input('quantity', 1); 
@@ -28,7 +26,6 @@ class CartController extends Controller
         // Ambil order_id dari session (wajib konsisten di semua controller)
         $orderId = session('order_id');
         $token = session('_token');
-        // dd($token);
 
        // Kalau belum ada order_id di session, buat order baru
         if (!$orderId) {
@@ -85,16 +82,12 @@ class CartController extends Controller
     return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
 }
 
-
     public function showCart($table)
     {
-        // dd(session()->all());
-
         session(['tableNumber' => $table]);
     
         // Ambil order_id dari session
         $orderId = session('order_id');
-
 
         // Jika tidak ada order_id di session, tampilkan cart kosong
         if (!$orderId) {

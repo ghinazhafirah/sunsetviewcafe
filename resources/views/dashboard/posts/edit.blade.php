@@ -115,8 +115,6 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Foto Menu</label>
 
-                    {{-- <input type="hidden" name="olgImage" value="{{ $post->image }}">  --}}
-
                     @if ($post->image)
                         <img src="{{ asset('storage/' . $post->image) }}"
                             class="img-preview img-fluid mb-3 col-sm-5 d-block">
@@ -167,7 +165,6 @@
 
         // CATATAN FUNGSI PREVIEW GAMBAR// PART 22 6.05
         function previewImage() {
-            // frame.src=URL.createObjectURL(event.target.file[0]);
             const image = document.querySelector('#image');
             const imgPreview = document.querySelector('.img-preview');
 
@@ -181,7 +178,6 @@
             }
             const blob = URL.createObjectURL(image.files[0]);
             imgPreview.src = blob;
-
         }
     </script>
 @endsection

@@ -15,13 +15,10 @@ class CheckoutStatus extends Component
     public function mount($orderId)
     {
         $this->order = Order::find($orderId);
-        // $this->order = Order::with('items.post')->find($orderId);
     }
 
     public function refreshStatus($id)
     {
-        // dd("Event Diterima dengan ID:", $id); // Debugging
-
         if ($this->order->id == $id) {
             $this->order = Order::find($id);
         }

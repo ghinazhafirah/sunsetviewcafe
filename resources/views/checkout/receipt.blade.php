@@ -83,15 +83,14 @@
             <hr>
 
             <div class="d-flex gap-2 align-items-center justify-content-center">
-                <button onclick="window.print()" class="btn btn-primary">
-                    <i class="bi bi-printer"></i> Cetak Struk
-                </button>
-                <a href="{{ route('download.receipt', $order->uuid) }}" class="btn btn-success">
-                    <i class="bi bi-download"></i> Download PDF
+                {{-- Tombol Survei --}}
+                <a href="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe9blhP-_CEpY1gERjdqgAyaEBewHb9Hw5ZrzegrPZI3PbY_A/formResponse"
+                    target="_blank" class="btn btn-primary text-white">
+                    <i class="bi bi-clipboard-check"></i> Survei
                 </a>
-                {{-- <a href="{{ url('/') }}" class="btn btn-warning">
-                <i class="bi bi-journal"></i> Menu
-            </a> --}}
+                <a href="{{ route('download.receipt', $order->uuid) }}" class="btn btn-success">
+                    <i class="bi bi-download"></i> Download Struk
+                </a>
             </div>
         </div>
     </div>

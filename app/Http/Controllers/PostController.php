@@ -11,10 +11,6 @@ class PostController extends Controller
 {
     public function index($table = null)
     {
-        // dd('sebelum', session()->all());
-        // session()->flush();
-        // dd($table, session()->all());
-
         $Request = request();
         \Log::info('Nomor meja yang diterima:', ['tableNumber' => $table]);
         
@@ -41,7 +37,6 @@ class PostController extends Controller
             return view('posts', [
                 "title" => "Menu",
                 "posts" => Post::latest()->get(), // Pastikan kategori dimuat
-                // "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
                 "active" => "posts",
                 "tableNumber" => $table
           ]);
@@ -49,8 +44,6 @@ class PostController extends Controller
 
     public function show($slug,  Request $request)  
     {
-        
-        // dd(session()->all());
         // Ambil nomor meja dari session jika tidak ada di URL
         $tableNumber = session('tableNumber');
 
@@ -69,7 +62,6 @@ class PostController extends Controller
             Log::warning('🚫 Post tidak ditemukan:', ['slug' => $slug]);
             return abort(404, 'Post tidak ditemukan');
         }            
-        // dd(session()->all());
 
         return view('post', [
             "title" => "Menu",
@@ -81,14 +73,14 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-    $validatedData = $request->validate([
-        'title' => 'required|max:255',
-        'slug' => 'required|unique:posts',
-        'image' => 'image|file|max:2048', // Pastikan hanya file gambar
-        'body' => 'required'
-    ]);
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'slug' => 'required|unique:posts',
+            'image' => 'image|file|max:2048', // Pastikan hanya file gambar
+            'body' => 'required'
+        ]);
 
-    Post::create($validatedData);
-    return redirect()->route('posts.index')->with('success', 'Post berhasil ditambahkan!');
+        Post::create($validatedData);
+        return redirect()->route('posts.index')->with('success', 'Post berhasil ditambahkan!');
     }
 }

@@ -3,12 +3,7 @@
 @section('container')
     <!-- apapun yang ada didalam section akan menggantikan yield -->
 
-
-    {{-- <div class="container mx-auto">  --}}
-
     <!-- Tabel Pendataan Menu Start -->
-    {{-- <div class="container-fluid">       --}}
-    {{-- <div class="bg-light text-center rounded "> --}}
     <div class="bg-light rounded mt-4 p-3">
 
         {{-- Notifikasi --}}
@@ -57,7 +52,6 @@
             <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                     <tr class="text-dark text-center">
-                        {{-- <th scope="col"><input class="form-check-input" type="checkbox"></th> --}}
                         <th scope="col">No.</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Harga</th>
@@ -70,7 +64,6 @@
                 <tbody>
                     @foreach ($posts as $post)
                         <tr class="text-center">
-                            {{-- <td><input class="form-check-input" type="checkbox"></td> --}}
                             <td>{{ $loop->iteration }}</td>
                             <td class="text-start">{{ $post->title }}</td>
                             <td>Rp {{ number_format($post->price, 0, ',', '.') }}</td>
@@ -109,9 +102,4 @@
         </div>
     </div>
     <!-- Tabel Pendataan Menu End -->
-
-    <!-- Pagination -->
-    {{-- <div class="mt-3 d-flex justify-content-center">
-        {{ $posts->links() }}
-    </div> --}}
 @endsection

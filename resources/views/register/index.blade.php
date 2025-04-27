@@ -16,10 +16,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    {{-- <div class="form-floating">
-                 <input type="text" name="username" class="form-control" id="username" placeholder="Username">
-                 <label for="username">Username</label>
-             </div> --}}
                     <div class="form-floating">
                         <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror"
                             id="email" placeholder="name@example.com" required value="{{ old('email') }}">

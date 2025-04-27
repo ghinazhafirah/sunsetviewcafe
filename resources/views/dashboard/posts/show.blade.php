@@ -8,9 +8,6 @@
     <div class="container">
         <div class="my-5">
             <h2 class="mb-3">{{ $post['title'] }}</h2>
-            {{-- <p>By <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> Kategori <a href="/categories/{{ $post->category->slug }}"class="text-decoration-none">{{ $post->category->name }}</a></p>
-         --}}
-            {{-- <p><a class="text-decoration-none">{{ $post->name }}</a></p> --}}
             <a href="/dashboard/posts" class="btn btn-success border-0"><i class="bi bi-arrow-left"></i> Back to all Data
                 Menu</a>
             <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-success bg-warning border-0"><i
@@ -40,6 +37,5 @@
         <p class="mb-2">
             {!! $post->body !!}
         </p>
-    </div>
     </div>
 @endsection

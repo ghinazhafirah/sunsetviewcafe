@@ -1,7 +1,6 @@
 @extends('layouts.home')
 
 @section('container')
-    {{-- <h1 class="container-fluid"></h1> --}}
     {{-- menghitung jumlah post --}}
     @if ($posts->count())
         <div class="row justify-content-center">
@@ -20,9 +19,11 @@
                             @foreach ($posts as $key => $post)
                                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                     @if ($post->image)
-                                        <img src="{{ asset('storage/' . $post->image) }}" class="d-block w-70 mx-auto" alt="{{ $post->category->name }}">
+                                        <img src="{{ asset('storage/' . $post->image) }}" class="d-block mx-auto"
+                                            style="max-width: 200px; max-height: 200px;" alt="{{ $post->category->name }}">
                                     @else
-                                        <img src="{{ asset('img/notavailable.png') }}" class="d-block w-70 mx-auto" alt="Image Not Available">
+                                        <img src="{{ asset('img/notavailable.png') }}" class="d-block mx-auto"
+                                            style="max-width: 200px; max-height: 200px;" alt="Image Not Available">
                                     @endif
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5 class="text-dark">{{ $post->title }}</h5>
