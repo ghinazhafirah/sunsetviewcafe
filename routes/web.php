@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route; //koneksi otomatis ke model
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('/', function () {       //halaman utama ketika url diakses
-    return view('dashboard.index', [          //ubah bagian view
-         "title" => "dashboard",
-         "name" => "Sunset View Cafe",
-         "image" => "logocafe.png"
+    return view('login.index', [          //ubah bagian view
+         "title" => "login",
+        //  "name" => "Sunset View Cafe",
+        //  "image" => "logocafe.png"
     ]) ;   
 });
 
@@ -34,15 +34,15 @@ Route::get('/', function () {       //halaman utama ketika url diakses
 //     ]) ;   
 // }); 
 
-Route::get('/home', function (){
-    return view('home', [
-        "title" => "home",
-        "name" => "Sunset View Cafe",
-        "email" => "sunsetviewcandisari@gmail.com",
-        "image" => "logocafe.png",
-        'active' => 'home',
-    ]);
-});
+// Route::get('/home', function (){
+//     return view('home', [
+//         "title" => "home",
+//         "name" => "Sunset View Cafe",
+//         "email" => "sunsetviewcandisari@gmail.com",
+//         "image" => "logocafe.png",
+//         'active' => 'home',
+//     ]);
+// });
 
 Route::get('/cart', function () {
     return view('cart', [
@@ -72,11 +72,11 @@ Route::get('/categories/{category:slug}', function(Category $category){
     ]);
 });
 
-Route::get('/qr', function () {
-    return view('qr.index', [
-        "image" => "logocafe.png",
-    ]);
-});
+// Route::get('/qr', function () {
+//     return view('qr.index', [
+//         "image" => "logocafe.png",
+//     ]);
+// });
 
 
 //login
@@ -95,7 +95,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::post('/dashboard/confirm-payment/{id}', [DashboardController::class, 'confirmPayment'])->name('dashboard.confirmPayment');
     Route::delete('/dashboard/{id}', [DashboardController::class, 'destroy'])->name('dashboard.destroy');
+ 
+    // Export Excel
+ Route::get('/export-orders', function () {
+    return Excel::download(new OrderExport, 'data-transaksi.xlsx');
+})->name('dashboard.export.orders');
 });
+
+
 
 //menu
 Route::get('/menu/{table?}', [PostController::class, 'index'])->name('menu');
@@ -115,12 +122,12 @@ Route::match(['get', 'post'], '/cart/add', [CartController::class, 'addToCart'])
 Livewire::listen('addToCart', [CartController::class, 'addToCart']);  
 
 //QR
-Route::get('/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
-Route::post('/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
-Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect');
-Route::get('/cek-max-table', function () {
-    return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
-});
+// Route::get('/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
+// Route::post('/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
+// Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect');
+// Route::get('/cek-max-table', function () {
+//     return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
+// });
 
 
 //session
@@ -136,3 +143,25 @@ Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->
 //struk
 Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
 Route::get('/receipt/download/{uuid}', [ReceiptController::class, 'downloadReceipt'])->name('download.receipt');
+
+
+
+
+//QR Dashboard (Untuk Admin)
+Route::middleware('auth')->get('/dashboard/qr', function () {
+    return view('dashboard.qr.index', [
+        'title' => 'QR Code',
+        "image" => "logocafe.png",
+    ]);
+});
+
+//QR untuk Admin Generate QR
+Route::middleware('auth')->get('/dashboard/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
+Route::middleware('auth')->post('/dashboard/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
+Route::get('/cek-max-table', function () {
+        return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
+    });
+
+//QR untuk Pelanggan/
+Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect'); // Akses menu berdasarkan meja
+

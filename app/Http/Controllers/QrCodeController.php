@@ -28,7 +28,7 @@ class QrCodeController extends Controller
             }
         }
 
-        return view('qr-code', [
+        return view('dashboard.qr.index', [
             "title" => "Generate QR Code Meja",
             "qrCodes" => $qrCodes,
             "jumlahMeja" => $jumlahMeja,
@@ -59,7 +59,7 @@ class QrCodeController extends Controller
             $qrCodes[$i] = QrCode::size(200)->generate($url);
         }
 
-        return view('qr-code', [
+        return view('dashboard.qr.index', [
             "title" => "QR Code Meja",
             "qrCodes" => $qrCodes,
             "jumlahMeja" => $jumlahMeja,
@@ -132,7 +132,7 @@ class QrCodeController extends Controller
         return view('posts', [
             "title" => "Menu",
             "posts" => $posts,
-            "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
+            // "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
             "active" => "posts",
             "tableNumber" => $tableNumber,
             "order_id" => session('order_id')

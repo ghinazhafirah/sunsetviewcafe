@@ -1,6 +1,3 @@
-{{-- <pre>{{ var_dump($post) }}</pre> --}}
-
-
 @extends('layouts.home')
 
 @section('container')

@@ -2,28 +2,37 @@
     <div wire:poll.1s> <!-- Update otomatis setiap 5 detik -->
 
         <!-- Perhitungan Total Pemasukan -->
-        @php
+        {{-- @php
             $totalPemasukan = $orders->sum('total_price');
-        @endphp
+        @endphp --}}
 
         <!-- Penjualan & Pendapatan Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row justify-content-center g-4">
                 <div class="col-lg-4 mt-8">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-line fa-3x text-primary"></i>
+                        <i class="fa fa-money-bill-wave fa-3x text-success"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Pembayaran Terakhir</p>
-                            <h6 class="mb-0">Rp. 38.000,00</h6>
+                            <p class="mb-2">Total Pembayaran Cash</p>
+                            <h6 class="mb-0">Rp. {{ number_format($totalCash, 0, ',', '.') }}</h6>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 mt-8">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                        <i class="fa fa-credit-card fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Total Saldo Terakhir</p>
-                            <h6 class="mb-0">Rp. 38.000,00</h6>
+                            <p class="mb-2">Total Pembayaran Midtrans</p>
+                            <h6 class="mb-0">Rp. {{ number_format($totalMidtrans, 0, ',', '.') }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mt-8">
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa fa-chart-line fa-3x text-warning"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Total Pemasukan</p>
+                            <h6 class="mb-0">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</h6>
                         </div>
                     </div>
                 </div>
@@ -44,7 +53,10 @@
 
         <div class="container bg-light rounded mt-4 p-2">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-3">DATA TRANSAKSI</h5>
+                <h4 class="mb-3">DATA TRANSAKSI</h4>
+                <a href="{{ route('dashboard.export.orders') }}" class="btn btn-success">
+                    Export Excel
+                </a>
             </div>
 
             <div class="table-responsive w-100">
@@ -90,6 +102,15 @@
                                         @endif
                                     </td> <!-- Status Pembayaran -->
                                     <td>
+                                        {{-- @if ($transaction->payment_method == 'cash' && $transaction->status == 'pending')
+                                            <form action="{{ route('dashboard.confirmPayment', $transaction->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success">Konfirmasi Cash</button>
+                                            </form>
+                                        @else
+                                            <button class="btn btn-sm btn-secondary" disabled>Sudah Dibayar</button>
+                                        @endif --}}
                                         @if ($transaction->payment_method == 'cash' && $transaction->status == 'pending')
                                             <form action="{{ route('dashboard.confirmPayment', $transaction->id) }}"
                                                 method="POST">
@@ -101,6 +122,14 @@
                                         @endif
                                     </td> <!-- Action -->
                                     <td>
+                                        {{-- <form action="/dashboard/{{ $transaction->id }}" method="post"
+                                            class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="btn badge bg-danger"
+                                                onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i
+                                                    class="bi bi-x-square"></i></button>
+                                        </form> --}}
                                         <form action="/dashboard/{{ $transaction->id }}" method="post"
                                             class="d-inline">
                                             @method('delete')

@@ -18,8 +18,10 @@
                  class="nav-item nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}"><i
                      class="bi bi-journals"></i> Manajemen Menu</a>
              {{-- <div class="nav-item dropdown"> --}}
-             <a href="/qr" class="nav-item nav-link {{ Request::is('qr*') ? 'active' : '' }}"><i
-                     class="bi bi-journals"></i> QR Code</a>
+             <a href="/dashboard/qr"
+                 class="nav-item nav-link {{ Request::is(['dashboard/qr*', 'dashboard/generate-qr']) ? 'active' : '' }}">
+                 <i class="bi bi-qr-code"></i> QR Code</a>
+
          </div>
      </nav>
  </div>
@@ -40,6 +42,7 @@
  <script>
      document.getElementById('sidebarToggle').addEventListener('click', function() {
          var sidebar = document.getElementById('sidebar');
+         sidebar.style.width = sidebar.style.width === '0px' ? '18.4%' : '0px';
      });
  </script>
  <!-- Sidebar End -->

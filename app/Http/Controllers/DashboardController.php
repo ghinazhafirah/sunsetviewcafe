@@ -11,23 +11,43 @@ class DashboardController extends Controller
     public function index()
     {
         $orders = Order::latest()->get();
+
+        // Hitung total CASH dan MIDTRANS yang sudah "paid" menggunakan QUERY LANGSUNG
+        $totalCash = Order::where('payment_method', 'cash')->where('status', 'paid')->sum('total_price');
        
+        $totalMidtrans = Order::where('payment_method', 'midtrans')->where('status', 'paid')->sum('total_price');
+        $totalPemasukan = $totalCash + $totalMidtrans;
+        
         return view('dashboard.index', [
             "title" => "Dashboard",
             "image" => "logocafe.png",
-            "orders" => $orders
-        ]);
-        
+            "orders" => $orders,
+            "totalCash" => $totalCash,
+            "totalMidtrans" => $totalMidtrans,
+            "totalPemasukan" => $totalPemasukan,
+      ]);        
     }
+
+    // public function confirmPayment($id)
+    // {
+    //     $order = Order::findOrFail($id);
+    //     if ($order->payment_method == 'cash' && $order->status == 'pending') {
+    //         $order->update(['status' => 'paid']);
+    //         return redirect()->back()->with('success', 'Pembayaran berhasil dikonfirmasi!');
+    //     }
+    //     return redirect()->back()->with('error', 'Transaksi tidak valid!');
+    // }
 
     public function confirmPayment($id)
     {
         $order = Order::findOrFail($id);
-        if ($order->payment_method == 'cash' && $order->status == 'pending') {
-            $order->update(['status' => 'paid']);
-            return redirect()->back()->with('success', 'Pembayaran berhasil dikonfirmasi!');
+
+        if (($order->payment_method == 'cash' || $order->payment_method == null) && $order->status == 'pending') {
+            $order->update(['status' => 'paid', 'payment_method' => 'cash']);
+            return redirect()->back()->with('success', 'Pembayaran cash berhasil dikonfirmasi!');
         }
-        return redirect()->back()->with('error', 'Transaksi tidak valid!');
+
+        return redirect()->back()->with('error', 'Transaksi tidak valid atau sudah dibayar!');
     }
 
 
