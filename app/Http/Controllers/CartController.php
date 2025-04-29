@@ -25,6 +25,7 @@ class CartController extends Controller
 
         // Ambil order_id dari session (wajib konsisten di semua controller)
         $orderId = session('order_id');
+        // dd($orderId);
         $token = session('_token');
 
        // Kalau belum ada order_id di session, buat order baru
@@ -84,6 +85,7 @@ class CartController extends Controller
 
     public function showCart($table)
     {
+        // dd(session()->all());
         session(['tableNumber' => $table]);
     
         // Ambil order_id dari session

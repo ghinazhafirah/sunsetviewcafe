@@ -19,6 +19,7 @@ class Counter extends Component
    
     public function mount($postId, $tableNumber = null, $note = '')
     {
+        
         if (!$postId) {
             throw new \Exception("Post ID tidak ditemukan di Counter");
         }
@@ -59,6 +60,7 @@ class Counter extends Component
 
     public function addToCart()
     {    
+        // dd(session()->all());
 
         // Debugging untuk cek isi catatan
         \Log::info('Note yang diterima:', ['note' => $this->note]);

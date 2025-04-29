@@ -13,6 +13,7 @@ class ReceiptController extends Controller
 {
     public function show($uuid)
     {
+        // dd(session()->all());
        // Ambil data transaksi beserta relasi items dan post (menu)
         $order = Order::where('uuid', $uuid)->firstOrFail();
 
@@ -52,4 +53,9 @@ class ReceiptController extends Controller
 
         return $pdf->download('Struk_Transaksi_' . $order->kode_transaction . '.pdf');
     }
+
+    // public function reorder()
+    // {
+        
+    // }
 }
