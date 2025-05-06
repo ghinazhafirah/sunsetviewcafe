@@ -38,6 +38,7 @@ class LoginController extends Controller
     {
         Auth::logout();
         request()->session()->invalidate();
+        // request()->session()->flush();  // Menghapus semua data sesi
         request()->session()->regenerateToken();
 
         return redirect('/login');

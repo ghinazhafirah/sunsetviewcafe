@@ -62,6 +62,8 @@ class Counter extends Component
     {    
         // dd(session()->all());
 
+        \Log::info('Order id in counter - addtocart:', ['orderId' => $this->orderId]);
+
         // Debugging untuk cek isi catatan
         \Log::info('Note yang diterima:', ['note' => $this->note]);
 

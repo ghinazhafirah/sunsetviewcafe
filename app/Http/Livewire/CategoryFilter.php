@@ -30,7 +30,8 @@ class CategoryFilter extends Component
 
     public function filterByCategory($categoryId)
     {
-      
+        $this->selectedCategory = $categoryId;
+        
         $this->posts = $categoryId
         ? Post::where('category_id', $categoryId)->where('status', 'available')->get()
         : Post::where('status', 'available')->get();

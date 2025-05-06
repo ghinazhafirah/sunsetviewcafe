@@ -3,6 +3,8 @@
 use App\Models\Post;
 use App\Models\Category;
 use Livewire\Livewire;
+use App\Exports\OrderExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PostController;
@@ -33,16 +35,6 @@ Route::get('/', function () {       //halaman utama ketika url diakses
 
 //     ]) ;   
 // }); 
-
-// Route::get('/home', function (){
-//     return view('home', [
-//         "title" => "home",
-//         "name" => "Sunset View Cafe",
-//         "email" => "sunsetviewcandisari@gmail.com",
-//         "image" => "logocafe.png",
-//         'active' => 'home',
-//     ]);
-// });
 
 Route::get('/cart', function () {
     return view('cart', [

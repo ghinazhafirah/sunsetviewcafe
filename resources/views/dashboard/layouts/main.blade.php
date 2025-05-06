@@ -70,7 +70,15 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <!-- Page level plugins -->
+        {{-- <script src="{{ asset('js/chart-area-demo.js') }}"></script> --}}
 
+        <script src="{{ asset('js/chart.js') }}"></script>
+
+        {{-- <script src="vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/chart-area-demo.js"></script> --}}
         @livewireScripts
     </div>
 </body>

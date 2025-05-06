@@ -8,16 +8,93 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $orders = Order::latest()->get();
+
+    //     // Hitung total CASH dan MIDTRANS yang sudah "paid" menggunakan QUERY LANGSUNG
+    //     $totalCash = Order::where('payment_method', 'cash')->where('status', 'paid')->sum('total_price');
+       
+    //     $totalMidtrans = Order::where('payment_method', 'midtrans')->where('status', 'paid')->sum('total_price');
+    //     $totalPemasukan = $totalCash + $totalMidtrans;
+
+    //      // Ambil data per tanggal 1-31 untuk bulan dan tahun sekarang
+    //     $days = collect(range(1, 31));
+
+    //     $cashData = $days->map(function ($day) {
+    //         return Order::where('payment_method', 'cash')
+    //             ->where('status', 'paid')
+    //             ->whereDay('created_at', $day)
+    //             ->whereMonth('created_at', now()->month)
+    //             ->whereYear('created_at', now()->year)
+    //             ->sum('total_price');
+    //     });
+
+    //     $midtransData = $days->map(function ($day) {
+    //         return Order::where('payment_method', 'midtrans')
+    //             ->where('status', 'paid')
+    //             ->whereDay('created_at', $day)
+    //             ->whereMonth('created_at', now()->month)
+    //             ->whereYear('created_at', now()->year)
+    //             ->sum('total_price');
+    //     });
+        
+    //     return view('dashboard.index', [
+    //         "title" => "Dashboard",
+    //         "image" => "logocafe.png",
+    //         "orders" => $orders,
+    //         "totalCash" => $totalCash,
+    //         "totalMidtrans" => $totalMidtrans,
+    //         "totalPemasukan" => $totalPemasukan,
+    //         "cashData" => $cashData,
+    //         "midtransData" => $midtransData,
+    //   ]);        
+    // }
+
+    public function index(Request $request)
     {
         $orders = Order::latest()->get();
 
-        // Hitung total CASH dan MIDTRANS yang sudah "paid" menggunakan QUERY LANGSUNG
-        $totalCash = Order::where('payment_method', 'cash')->where('status', 'paid')->sum('total_price');
-       
-        $totalMidtrans = Order::where('payment_method', 'midtrans')->where('status', 'paid')->sum('total_price');
+        // Ambil bulan dan tahun dari query string, atau gunakan bulan & tahun sekarang sebagai default
+        $selectedMonth = $request->query('month', now()->format('m'));
+        $selectedYear = $request->query('year', now()->year);
+
+        // Total Cash & Midtrans sesuai bulan-tahun
+        $totalCash = Order::where('payment_method', 'cash')
+            ->where('status', 'paid')
+            ->whereMonth('created_at', $selectedMonth)
+            ->whereYear('created_at', $selectedYear)
+            ->sum('total_price');
+
+        $totalMidtrans = Order::where('payment_method', 'midtrans')
+            ->where('status', 'paid')
+            ->whereMonth('created_at', $selectedMonth)
+            ->whereYear('created_at', $selectedYear)
+            ->sum('total_price');
+
         $totalPemasukan = $totalCash + $totalMidtrans;
-        
+
+        // Ambil data harian (1-31)
+        $days = collect(range(1, 31));
+
+        $cashData = $days->map(function ($day) use ($selectedMonth, $selectedYear) {
+            return Order::where('payment_method', 'cash')
+                ->where('status', 'paid')
+                ->whereDay('created_at', $day)
+                ->whereMonth('created_at', $selectedMonth)
+                ->whereYear('created_at', $selectedYear)
+                ->sum('total_price');
+        });
+
+        $midtransData = $days->map(function ($day) use ($selectedMonth, $selectedYear) {
+            return Order::where('payment_method', 'midtrans')
+                ->where('status', 'paid')
+                ->whereDay('created_at', $day)
+                ->whereMonth('created_at', $selectedMonth)
+                ->whereYear('created_at', $selectedYear)
+                ->sum('total_price');
+        });
+
         return view('dashboard.index', [
             "title" => "Dashboard",
             "image" => "logocafe.png",
@@ -25,8 +102,13 @@ class DashboardController extends Controller
             "totalCash" => $totalCash,
             "totalMidtrans" => $totalMidtrans,
             "totalPemasukan" => $totalPemasukan,
-      ]);        
+            "cashData" => $cashData,
+            "midtransData" => $midtransData,
+            "selectedMonth" => $selectedMonth,
+            "selectedYear" => $selectedYear,
+        ]);
     }
+
 
     // public function confirmPayment($id)
     // {

@@ -7,12 +7,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                {{-- <li class="nav-item">
-                    <a class="nav-link {{ isset($active) && $active === 'home' ? 'active' : '' }}" href="/home">Home</a>
-
-                </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ isset($active) && $active === 'posts' ? 'active' : '' }}" href="/menu">Menu</a>
+                    <a class="nav-link {{ isset($active) && $active === 'posts' ? 'active' : '' }}"
+                        href="/menu">Menu</a>
                 </li>
             </ul>
         </div>

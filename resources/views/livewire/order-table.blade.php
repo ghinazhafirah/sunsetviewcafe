@@ -7,7 +7,7 @@
         @endphp --}}
 
         <!-- Penjualan & Pendapatan Start -->
-        <div class="container-fluid pt-4 px-4">
+        {{-- <div class="container-fluid pt-4 px-4">
             <div class="row justify-content-center g-4">
                 <div class="col-lg-4 mt-8">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Penjualan & Pendapatan End -->
 
         <!-- Tabel Penjualan Start -->
