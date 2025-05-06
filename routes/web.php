@@ -80,11 +80,32 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
+//QR Dashboard (Untuk Admin)
+Route::middleware('auth')->get('/dashboard/qr', function () {
+    return view('dashboard.qr.index', [
+        'title' => 'QR Code',
+        "image" => "logocafe.png",
+    ]);
+});
+
+//QR untuk Admin Generate QR
+Route::middleware('auth')->get('/dashboard/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
+Route::middleware('auth')->post('/dashboard/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
+Route::get('/cek-max-table', function () {
+        return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
+    });
+
+//QR untuk Pelanggan/
+Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect'); // Akses menu berdasarkan meja
+
+
+
 //dashboard
 Route::get('dashboard/posts/checkSlug',[DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/{uuid}', [DashboardController::class, 'show'])->name('dashboard.show');
     Route::post('/dashboard/confirm-payment/{id}', [DashboardController::class, 'confirmPayment'])->name('dashboard.confirmPayment');
     Route::delete('/dashboard/{id}', [DashboardController::class, 'destroy'])->name('dashboard.destroy');
  
@@ -135,25 +156,4 @@ Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->
 //struk
 Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');
 Route::get('/receipt/download/{uuid}', [ReceiptController::class, 'downloadReceipt'])->name('download.receipt');
-
-
-
-
-//QR Dashboard (Untuk Admin)
-Route::middleware('auth')->get('/dashboard/qr', function () {
-    return view('dashboard.qr.index', [
-        'title' => 'QR Code',
-        "image" => "logocafe.png",
-    ]);
-});
-
-//QR untuk Admin Generate QR
-Route::middleware('auth')->get('/dashboard/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
-Route::middleware('auth')->post('/dashboard/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
-Route::get('/cek-max-table', function () {
-        return 'Max table: ' . (session('maxTable') ?? 'Belum di-set');
-    });
-
-//QR untuk Pelanggan/
-Route::get('/meja/{table}', [QrCodeController::class, 'redirectToMenu'])->name('menu.redirect'); // Akses menu berdasarkan meja
 

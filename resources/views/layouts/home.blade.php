@@ -18,7 +18,7 @@
 
 <body>
 
-    @include('partials.navbarh')
+    @include('partials.navbar')
 
     <div class="container">
         @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}

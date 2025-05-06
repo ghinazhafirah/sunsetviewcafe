@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -152,9 +154,20 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($uuid)
     {
-        //
+        // Ambil order beserta carts terkait dan relasi post
+        $order = Order::with('carts.post')->where('uuid', $uuid)->firstOrFail();
+        
+        // Cek apakah relasi carts sudah ter-load
+       //  dd($order->carts);  // Periksa apakah cartItems sudah berisi data
+    
+        return view('dashboard.show', [
+            'image' => 'logocafe.png',
+            'title' => 'Konfirmasi Pembayaran',
+            'order' => $order,
+            'cartItems' => $order->carts,  // Kirim data cartItems ke view
+        ]);
     }
 
     /**
