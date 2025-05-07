@@ -1,6 +1,6 @@
 <!-- Sidebar Desktop -->
 <div id="sidebar" class="sidebar pe-4 pb-3 bg-warning d-none d-lg-block position-fixed top-0 start-0 h-100"
-    style="width: 250px; z-index: 1040;">
+    style="background-color: orange; width: 250px; z-index: 1040;">
     <nav class="navbar navbar-light">
         <div class="navbar-brand mx-3 mb-3">
             <img src="{{ asset('img/' . $image) }}" alt="" width="200">
