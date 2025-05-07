@@ -14,7 +14,7 @@
 
         .container {
             width: 100%;
-            padding: 10px;
+            padding: 3px;
             box-sizing: border-box;
         }
 
@@ -37,7 +37,7 @@
 
         td,
         th {
-            padding: 5px;
+            padding: 2px;
             font-size: 11px;
         }
 
@@ -54,7 +54,7 @@
 
             html,
             body {
-                width: 80mm;
+                width: 50mm;
                 margin: 0;
                 padding: 0;
             }
@@ -63,6 +63,11 @@
                 width: 100%;
                 margin: 0;
                 padding: 10px;
+            }
+
+            span {
+                margin: 0 0;
+                padding: 0 0;
             }
 
             h4,
@@ -81,13 +86,17 @@
         <hr>
 
         {{-- Kode Transaksi & Waktu --}}
-        <div class="text-start">
-            #Pesanan <strong>{{ $order->kode_transaction }}</strong>
-            <span class="text-end" style="float: right;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong>#Pesanan</strong>
+                <span style="float: right">
+                    <strong>{{ $order->kode_transaction }}</strong>
+                </span>
+            </div>
+            <div>
                 <small>{{ date('d-m-Y H:i:s', strtotime($order->created_at)) }}</small>
-            </span>
+            </div>
         </div>
-        <br>
         <hr>
 
         <p class="text-start"><strong>Informasi Pemesanan</strong></p>
@@ -130,8 +139,8 @@
             </tbody>
         </table>
         <hr>
-        <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
-        <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5>
+        {{-- <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
+        <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5> --}}
         <h5 class="text-start"><strong>Total Bayar:</strong> <span class="text-end">Rp
                 {{ number_format($order->total_price, 0, ',', '.') }}</span></h5>
         <hr>

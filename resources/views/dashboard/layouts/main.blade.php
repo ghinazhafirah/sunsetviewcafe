@@ -55,6 +55,23 @@
                 @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}
             </div>
         </div>
+        <script>
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('overlay');
+
+            if (sidebarToggle && mobileSidebar && overlay) {
+                sidebarToggle.addEventListener('click', () => {
+                    mobileSidebar.style.transform = 'translateX(0)';
+                    overlay.classList.remove('d-none');
+                });
+
+                overlay.addEventListener('click', () => {
+                    mobileSidebar.style.transform = 'translateX(-100%)';
+                    overlay.classList.add('d-none');
+                });
+            }
+        </script>
 
 
 
@@ -74,11 +91,6 @@
         {{-- <script src="{{ asset('js/chart-area-demo.js') }}"></script> --}}
 
         <script src="{{ asset('js/chart.js') }}"></script>
-
-        {{-- <script src="vendor/chart.js/Chart.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="js/demo/chart-area-demo.js"></script> --}}
         @livewireScripts
     </div>
 </body>
