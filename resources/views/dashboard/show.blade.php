@@ -11,6 +11,7 @@
             <p><strong>Nama:</strong> {{ $order->customer_name }}</p>
             <p><strong>No. WA:</strong> {{ $order->customer_whatsapp }}</p>
             <p><strong>Total:</strong> Rp. {{ number_format($order->total_price, 0, ',', '.') }}</p>
+            <p><strong>Meja:</strong> {{ $order->table_number }}</p>
             <p><strong>Status:</strong>
                 @if ($order->status == 'pending')
                     <span class="badge bg-warning">Pending</span>
