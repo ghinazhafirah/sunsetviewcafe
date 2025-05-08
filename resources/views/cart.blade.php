@@ -3,7 +3,7 @@
 
 @section('container')
     <h1 class="container-fluid mt-2 p-0"></h1>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-2">
         <div class="card col-12 col-md-10 col-lg-8 p-0" style="max-width: 700px; width: 100%;">
             <div class="cart-table-area section-padding-50">
                 <div class="container">
