@@ -101,5 +101,9 @@
             </table>
         </div>
     </div>
+    <!-- Pagination -->
+    <div class="pagination mt-3 d-flex justify-content-center">
+        {{ $posts->links('vendor.pagination.index') }}
+    </div>
     <!-- Tabel Pendataan Menu End -->
 @endsection

@@ -127,6 +127,29 @@
     outline: none;
 }
 
+/* #mobileSidebar .nav-link.active {
+    background-color: #fff;
+    color: black;
+    font-weight: bold;
+    border-radius: 0 20px 20px 0;
+} */
+
+.mobile-sidebar-style .navbar .navbar-nav .nav-link {
+    padding: 7px 20px;
+    color: var(--dark);
+    font-weight: 500;
+    border-left: 3px solid var(--light);
+    border-radius: 0 30px 30px 0;
+    outline: none;
+}
+
+.mobile-sidebar-style .navbar .navbar-nav .nav-link:hover,
+.mobile-sidebar-style .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    background: #ffffff;
+    border-color: var(--primary);
+}
+
 .sidebar .navbar .navbar-nav .nav-link:hover,
 .sidebar .navbar .navbar-nav .nav-link.active {
     color: var(--primary);

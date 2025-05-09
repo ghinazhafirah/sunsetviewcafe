@@ -19,14 +19,17 @@
 </div>
 
 <!-- Sidebar Mobile (Hidden by default) -->
-<div id="mobileSidebar" class="bg-warning position-fixed top-0 start-0 h-100 d-lg-none"
-    style="width: 250px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1040;">
+<div id="mobileSidebar" class="mobile-sidebar-style bg-warning position-fixed top-0 start-0 h-100 d-lg-none"
+    style="width: 200px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 1040;">
     <nav class="navbar navbar-light">
         <div class="navbar-brand mx-3 mb-3">
             <img src="{{ asset('img/' . $image) }}" alt="" width="150">
             <h4 class="text-black">Sunset View Cafe</h4>
         </div>
         <div class="navbar-nav w-100">
+            {{-- Tempelkan sementara di sidebar --}}
+            {{-- <p>{{ Request::path('dashboard') }}</p> --}}
+
             <a href="/dashboard" class="nav-item nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
                 <i class="bi bi-shop-window"></i> Dashboard</a>
             <a href="/dashboard/posts" class="nav-item nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">

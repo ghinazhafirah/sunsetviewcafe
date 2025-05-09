@@ -2,7 +2,7 @@
 
 @section('container')
     {{-- <body class="bg-body-tertiary"> --}}
-    <div class="row justify-content-center mt-2">
+    <div class="row justify-content-center m-2">
         <div class="card col-12 col-md-10 col-lg-8 p-0" style="max-width: 700px; width: 100%;">
             <div class="cart-table-area section-padding-50">
                 <div class="container">

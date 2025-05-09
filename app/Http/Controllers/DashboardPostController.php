@@ -36,7 +36,8 @@ class DashboardPostController extends Controller
         return view('dashboard.posts.index', [
             'title' => 'Manejemen Menu',
             'image' => 'logocafe.png',
-            'posts' => $query->get() //ambilkan data post yang user id = user yg login
+            'posts' => $query->get(), //ambilkan data post yang user id = user yg login
+            'posts' => $query->paginate(15)
         ]);
     }
 

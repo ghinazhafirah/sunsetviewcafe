@@ -125,8 +125,8 @@
             </div>
         </div>
         <!-- Pagination -->
-        <div class="mt-3">
-            {{ $orders->links() }}
+        <div class="pagination mt-3 d-flex justify-content-center">
+            {{ $orders->links('vendor.pagination.index') }}
         </div>
     </div>
 </div>
