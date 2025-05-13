@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Cart;
+use Midtrans\Config;
+use Midtrans\Snap;
 use Livewire\Livewire;
 
 class CheckoutController extends Controller
@@ -78,6 +80,40 @@ class CheckoutController extends Controller
                 'table_number' => $tableNumber,
             ]
         );
+
+        if ($request->payment_method === 'digital') {
+            // Konfigurasi Midtrans
+            Config::$serverKey = config('midtrans.server_key'); // Ganti dengan server key asli kamu
+            Config::$isProduction = false;
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            // Buat Snap token
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order->order_id,
+                    'gross_amount' => $order->total_price,
+                ],
+                'customer_details' => [
+                    'customer_name' => $request->customer_name,
+                    'customer_whatsapp' => $request->customer_whatsapp,
+                ],
+                'callbacks' => [
+                    'finish' => route('checkout.success', ['uuid' => $order->uuid]),
+                ]
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+// dd($snapToken);
+            // Kirim view baru untuk menampilkan Snap
+            return view('checkout.midtrans', [
+                 "title" => "Checkout",
+              "active" => "checkout",
+                'snapToken' => $snapToken,
+                'order' => $order,
+            ]);
+        }
+
 
         // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
         $tanggal = date('d'); // Hari (misal: 13)

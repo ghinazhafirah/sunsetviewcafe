@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('kode_transaction')->nullable()->unique(); // COBA DULU NULL ID transaksi unik dari sistem / Midtrans/TRX-..
             $table->decimal('total_price', 10, 2); // Total harga
             $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending'); // Tambah status 'cancelled'
-            $table->string('payment_method')->default('cash'); // Default cash
-            // $table->string('payment_method')->nullable(); // Metode pembayaran (ex: 'gopay', 'bank_transfer')
+            // $table->string('payment_method')->default('cash'); // Default cash
+            $table->string('payment_method'); // Default cash
             $table->json('payment_response')->nullable(); // Data respons dari Midtrans
             $table->timestamp('paid_at')->nullable(); // Waktu pembayaran sukses
     

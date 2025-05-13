@@ -7,8 +7,11 @@
             <h3 class="text-black">Sunset View Cafe</h3>
         </div>
         <div class="navbar-nav w-100">
-            <a href="/dashboard" class="nav-item nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
-                <i class="bi bi-shop-window"></i> Dashboard</a>
+            {{-- <a href="/dashboard" class="nav-item nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
+                <i class="bi bi-shop-window"></i> Dashboard</a> --}}
+            <a href="/dashboard"
+                class="nav-item nav-link {{ Request::is('dashboard') || (Request::is('dashboard/*') && !Request::is('dashboard/posts*') && !Request::is('dashboard/qr*') && !Request::is('dashboard/generate-qr*')) ? 'active' : '' }}"><i
+                    class="bi bi-shop-window"></i> Dashboard</a>
             <a href="/dashboard/posts" class="nav-item nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">
                 <i class="bi bi-journals"></i> Manajemen Menu</a>
             <a href="/dashboard/qr"
@@ -30,8 +33,9 @@
             {{-- Tempelkan sementara di sidebar --}}
             {{-- <p>{{ Request::path('dashboard') }}</p> --}}
 
-            <a href="/dashboard" class="nav-item nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
-                <i class="bi bi-shop-window"></i> Dashboard</a>
+            <a href="/dashboard"
+                class="nav-item nav-link {{ Request::is('dashboard') || (Request::is('dashboard/*') && !Request::is('dashboard/posts*') && !Request::is('dashboard/qr*') && !Request::is('dashboard/generate-qr*')) ? 'active' : '' }}"><i
+                    class="bi bi-shop-window"></i> Dashboard</a>    
             <a href="/dashboard/posts" class="nav-item nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">
                 <i class="bi bi-journals"></i> Manajemen Menu</a>
             <a href="/dashboard/qr"

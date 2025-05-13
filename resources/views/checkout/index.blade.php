@@ -84,10 +84,15 @@
                                                     <input type="hidden" name="payment_method" value="cash">
                                                     <button class="btn btn-secondary btn-lg flex-fill"
                                                         type="submit">Cash</button>
-                                                    <button class="btn btn-warning btn-lg flex-fill" value="digital"
-                                                        type="submit">Digital</button>
+                                                    {{-- <button class="btn btn-warning btn-lg flex-fill" value="digital"
+                                                        type="submit">Digital</button> --}}
+                                                    <button class="btn btn-warning btn-lg flex-fill" type="submit"
+                                                        name="payment_method" value="digital">
+                                                        Digital
+                                                    </button>
                                                 </div>
                                             </div>
+                                        </div>
                                     </form>
                                 </form>
                             </div>
