@@ -76,7 +76,8 @@ class CheckoutController extends Controller
                 'customer_whatsapp' => $request->customer_whatsapp,
                 'total_price' => $subtotal,
                 'payment_method' => $request->payment_method,
-                'status' => $request->payment_method == 'cash' ? 'pending' : 'paid',
+                'status' => 'pending', // selalu pending, tunggu notifikasi dari Midtrans
+                // 'status' => $request->payment_method == 'cash' ? 'pending' : 'paid',
                 'table_number' => $tableNumber,
             ]
         );
@@ -107,8 +108,8 @@ class CheckoutController extends Controller
 // dd($snapToken);
             // Kirim view baru untuk menampilkan Snap
             return view('checkout.midtrans', [
-                 "title" => "Checkout",
-              "active" => "checkout",
+                "title" => "Checkout",
+                "active" => "checkout",
                 'snapToken' => $snapToken,
                 'order' => $order,
             ]);

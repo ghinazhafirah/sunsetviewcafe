@@ -33,7 +33,7 @@
                                             <th class="text-end">Harga</th>
                                         </tr>
                                     </thead>
-                                    <tbody wire:ignore.self>
+                                    {{-- <tbody wire:ignore.self>
                                         @foreach ($cart as $item)
                                             <tr wire:key="cart-item-{{ $item->id }}">
                                                 <td>
@@ -50,25 +50,34 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                    </tbody> --}}
+                                    {{-- <tbody>
+                                        @foreach ($cart as $item)
+                                            @livewire('counter-cart', ['cartId' => $item->id, 'quantity' => $item->quantity, 'totalMenu' => $item->total_menu], key('cart-item-' . $item->id))
+                                        @endforeach
+                                    </tbody> --}}
+                                    <tbody>
+                                        @foreach ($cart as $item)
+                                            <tr>
+                                                @livewire(
+                                                    'counter-cart',
+                                                    [
+                                                        'cartId' => $item->id,
+                                                        'quantity' => $item->quantity,
+                                                        'totalMenu' => $item->total_menu,
+                                                    ],
+                                                    key('cart-item-' . $item->id)
+                                                )
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        {{-- Gantikan summary manual dengan komponen Livewire --}}
                         <div class="col-12 col-lg-11 pb-3">
-                            <div class="cart-summary">
-                                <h5>Cart Total</h5>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-md-6 col-4">
-                                        <span>Total:</span>
-                                    </div>
-                                    <div class="col-md-6 col-8 text-end">
-                                        <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
-                                    </div>
-                                    <div class="cart-btn mt-3">
-                                        <a href="{{ route('checkout.index', ['table' => $tableNumber]) }}" class="btn amado-btn w-100">Next</a>
-                                    </div>
-                                </div>
-                            </div>
+                            @livewire('cart-summary', ['tableNumber' => $tableNumber])
                         </div>
                     </div>
                 </div>

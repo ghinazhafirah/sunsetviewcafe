@@ -4,35 +4,6 @@
     <!-- apapun yang ada didalam section akan menggantikan yield -->
     <div class="container-fluid pt-4 px-4">
         <div class="row justify-content-center g-4">
-            {{-- <div class="col-lg-4 mt-8">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-money-bill-wave fa-3x text-success"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Total Pembayaran Cash</p>
-                        <h6 class="mb-0">Rp. {{ number_format($totalCash, 0, ',', '.') }}</h6>
-                    </div>
-                </div>
-            </div> --}}
-            {{-- <div class="col-lg-4 mt-8">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-credit-card fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Total Pembayaran Midtrans</p>
-                        <h6 class="mb-0">Rp. {{ number_format($totalMidtrans, 0, ',', '.') }}</h6>
-                    </div>
-                </div>
-            </div> --}}
-            {{-- <div class="col-lg-4 mt-8">
-                <button
-                    class="bg-light hover-warning rounded d-flex align-items-center justify-content-between p-4 border-0 w-100 shadow-sm"
-                    data-bs-toggle="modal" data-bs-target="#grafikPemasukanModal">
-                    <i class="fa fa-chart-line fa-3x text-primary"></i>
-                    <div class="ms-3 text-start text-dark">
-                        <p class="mb-2">Lihat Grafik Pemasukan</p>
-                    </div>
-                </button>
-            </div> --}}
-
             <div class="col-lg-4 mt-8">
                 <button
                     class="rounded d-flex align-items-center justify-content-between p-4 border-0 w-100 shadow-sm text-dark"

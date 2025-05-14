@@ -13,22 +13,46 @@ class CounterCart extends Component
     public $totalHarga; //simpen total harga berdasarkan quantity menu/item yg dipilih
     public $notes; //simpen note
 
-    public function mount($cartId, $quantity, $totalMenu) //supaya bisa dipake di blade
-    {
-        $this->cartId = $cartId;
-        $this->count = $quantity;
-        $this->totalHarga = $totalMenu;
+    public $showSummary = false; // default false
+    public $tableNumber;
+    public $totalAll = 0;
+
+    // public function mount($cartId, $quantity, $totalMenu) //supaya bisa dipake di blade
+    // {
+    //     $this->cartId = $cartId;
+    //     $this->count = $quantity;
+    //     $this->totalHarga = $totalMenu;
             
-        //ambil menu/item di cart berdasarkan id
-        $cartItem = Cart::find($cartId); //mencari menu dalam cart berdasarkan cart id
+    //     //ambil menu/item di cart berdasarkan id
+    //     $cartItem = Cart::find($cartId); //mencari menu dalam cart berdasarkan cart id
+    //     if ($cartItem) {
+    //         $this->totalHarga = $cartItem->quantity * $cartItem->post->price;
+    //         $this->note = $cartItem->note; // Tampilkan catatan tanpa bisa diubah
+    //     }
+    //     \Log::info("Mounting CounterCart", [
+    //         'cart_id' => $this->cartId,
+    //         'note' => $this->note, // Cek apakah note masuk
+    //     ]);
+    // }
+    public function mount($cartId, $quantity, $totalMenu, $showSummary = false, $tableNumber = null)
+    {
+        $this->cartId      = $cartId;
+        $this->count       = $quantity;
+        $this->totalHarga  = $totalMenu;
+        $this->showSummary = $showSummary;
+        $this->tableNumber = $tableNumber;
+
+        // Ambil note dan hitung ulang totalHarga
+        $cartItem = Cart::find($cartId);
         if ($cartItem) {
+            $this->note       = $cartItem->note;
             $this->totalHarga = $cartItem->quantity * $cartItem->post->price;
-            $this->note = $cartItem->note; // Tampilkan catatan tanpa bisa diubah
         }
-        \Log::info("Mounting CounterCart", [
-            'cart_id' => $this->cartId,
-            'note' => $this->note, // Cek apakah note masuk
-        ]);
+
+        // Jika ini komponen terakhir, hitung total keseluruhan
+        if ($this->showSummary) {
+            $this->totalAll = Cart::sum('total_menu');
+        }
     }
 
     public function increaseCount()
@@ -85,6 +109,19 @@ class CounterCart extends Component
 
     public function render()
     {
-        return view('livewire.counter-cart');
+        // $cartItems = [];
+        // $totalAll = 0;
+
+        // if ($this->showSummary) {
+        //     $cartItems = Cart::all();
+        //     $totalAll = $cartItems->sum('total_menu');
+        // }
+
+        return view('livewire.counter-cart', [
+            'totalAll' => $this->totalAll,
+            'showSummary' => $this->showSummary,
+            'tableNumber' => $this->tableNumber
+        ]);
+        // return view('livewire.counter-cart');
     }
 }
