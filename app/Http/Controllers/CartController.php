@@ -80,46 +80,15 @@ class CartController extends Controller
             ]);
         }
 
-    return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
-}
+        return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
+    }
 
-    public function showCart($table)
+     public function showCart($table)
     {
-        // dd(session()->all());
-        session(['tableNumber' => $table]);
-    
-        // Ambil order_id dari session
-        $orderId = session('order_id');
-
-        // Jika tidak ada order_id di session, tampilkan cart kosong
-        if (!$orderId) {
-            return view('cart', [
-                'title' => 'Cart',
-                'cart' => [],
-                'total' => 0,
-                'active' => 'cart',
-                'tableNumber' => $table,
-                'orderId' => null,
-            ]);
-        }
-    
-        // Ambil hanya pesanan berdasarkan order_id yang sesuai
-        $cartItems = Cart::where('order_id', $orderId)->with('post')->get();
-        $subtotal = $cartItems->sum(fn($cart) => $cart->post->price * $cart->quantity);
-        
-        // Simpan total ke session
-        session(['cart_total' => $subtotal]);
-    
-        \Log::info("Menampilkan cart untuk meja {$table} dengan order_id: {$orderId}");
-        
-        //tampilan cart
         return view('cart', [
             'title' => 'Cart',
-            'cart' => $cartItems,
-            'total' => $subtotal,
-            'active' => 'cart',
             'tableNumber' => $table,
-            'orderId' => $orderId, 
         ]);
     }
+
 }

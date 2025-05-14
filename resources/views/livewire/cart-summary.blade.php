@@ -1,4 +1,4 @@
-<div class="cart-summary border-top pt-3">
+<div class="cart-summary pt-3">
     <h5>Cart Total</h5>
     <div class="row align-items-center">
         <div class="col-6"><span>Total:</span></div>
