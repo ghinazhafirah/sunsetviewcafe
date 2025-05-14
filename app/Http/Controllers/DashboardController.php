@@ -76,6 +76,11 @@ class DashboardController extends Controller
 
         $totalPemasukan = $totalCash + $totalMidtrans;
 
+        $totalHariIni = Order::where('status', 'paid')
+            ->whereDate('created_at', now())
+            ->sum('total_price');
+
+
         // Ambil data harian (1-31)
         $days = collect(range(1, 31));
 
@@ -104,6 +109,7 @@ class DashboardController extends Controller
             "totalCash" => $totalCash,
             "totalMidtrans" => $totalMidtrans,
             "totalPemasukan" => $totalPemasukan,
+            "totalHariIni" => $totalHariIni,
             "cashData" => $cashData,
             "midtransData" => $midtransData,
             "selectedMonth" => $selectedMonth,

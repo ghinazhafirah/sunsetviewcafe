@@ -96,7 +96,7 @@
                     <i class="fa fa-credit-card fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">Total Hari Ini</p>
-                        <h6 class="mb-0">Rp. {{ number_format($totalCash, 0, ',', '.') }}</h6>
+                        <h6 class="mb-0">Rp. {{ number_format($totalHariIni, 0, ',', '.') }}</h6>
                     </div>
                 </div>
             </div>
