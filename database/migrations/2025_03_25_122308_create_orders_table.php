@@ -21,8 +21,8 @@ return new class extends Migration
             $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending'); // Tambah status 'cancelled'
             // $table->string('payment_method')->default('cash'); // Default cash
             $table->string('payment_method'); // Default cash
-            $table->json('payment_response')->nullable(); // Data respons dari Midtrans
-            $table->timestamp('paid_at')->nullable(); // Waktu pembayaran sukses
+            // $table->json('payment_response')->nullable(); // Data respons dari Midtrans
+            // $table->timestamp('paid_at')->nullable(); // Waktu pembayaran sukses
     
             $table->timestamps();
         });

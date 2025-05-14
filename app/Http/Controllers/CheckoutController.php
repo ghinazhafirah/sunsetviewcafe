@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Cart;
+use App\Models\Payment;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Livewire\Livewire;
@@ -77,19 +78,95 @@ class CheckoutController extends Controller
                 'total_price' => $subtotal,
                 'payment_method' => $request->payment_method,
                 'status' => 'pending', // selalu pending, tunggu notifikasi dari Midtrans
-                // 'status' => $request->payment_method == 'cash' ? 'pending' : 'paid',
                 'table_number' => $tableNumber,
             ]
         );
 
+//         if ($request->payment_method === 'digital') {
+//             // Konfigurasi Midtrans
+//             Config::$serverKey = config('midtrans.server_key'); // Ganti dengan server key asli kamu
+//             Config::$isProduction = false;
+//             Config::$isSanitized = true;
+//             Config::$is3ds = true;
+
+//             // Buat Snap token
+//             $params = [
+//                 'transaction_details' => [
+//                     'order_id' => $order->order_id,
+//                     'gross_amount' => $order->total_price,
+//                 ],
+//                 'customer_details' => [
+//                     'customer_name' => $request->customer_name,
+//                     'customer_whatsapp' => $request->customer_whatsapp,
+//                 ],
+//                 'callbacks' => [
+//                     'finish' => route('checkout.success', ['uuid' => $order->uuid]),
+//                 ]
+//             ];
+
+//             $snapToken = Snap::getSnapToken($params);
+// // dd($snapToken);
+//             // Kirim view baru untuk menampilkan Snap
+//             return view('checkout.midtrans', [
+//                 "title" => "Checkout",
+//                 "active" => "checkout",
+//                 'snapToken' => $snapToken,
+//                 'order' => $order,
+//             ]);
+//         }
+
+
+//         // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
+//         $tanggal = date('d'); // Hari (misal: 13)
+//         $bulan = date('m'); // Bulan (misal: 03)
+//         $tahun = date('y'); // Tahun 2 digit (misal: 25)
+
+//         // Format kode transaksi
+//         $kodeTransaction = "SVC-{$tanggal}{$bulan}{$tahun}-{$order->id}";
+
+//         // Simpan kembali kode transaksi ke database
+//         $order->update([
+//             'kode_transaction' => $kodeTransaction
+//         ]);
+
+//         // Hapus cart dari sesi setelah checkout
+//         session()->forget("order_id");
+
+//         // Jika cash, arahkan ke halaman sukses
+//         return redirect()->route('checkout.success', ['uuid' => $order->uuid]);
+//         return redirect()->route('cart', ['table' => $tableNumber])->with('success', 'Pesanan berhasil diproses!');
+//     }   
+    // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
+        $tanggal = date('d'); // Hari (misal: 13)
+        $bulan = date('m'); // Bulan (misal: 03)
+        $tahun = date('y'); // Tahun 2 digit (misal: 25)
+
+        // Format kode transaksi
+        $kodeTransaction = "SVC-{$tanggal}{$bulan}{$tahun}-{$order->id}";
+
+        // Simpan kembali kode transaksi ke database
+        $order->update([
+            'kode_transaction' => $kodeTransaction
+        ]);
+
+        // Simpan data pembayaran ke tabel payments (baik cash maupun digital)
+        Payment::updateOrCreate(
+            ['order_id' => $order->id],
+            [
+                'payment_method' => $request->payment_method,
+                'status' => 'pending', // Status awal untuk cash maupun digital
+            ]
+        );
+
+        // Jika pembayaran digital (Midtrans)
         if ($request->payment_method === 'digital') {
             // Konfigurasi Midtrans
-            Config::$serverKey = config('midtrans.server_key'); // Ganti dengan server key asli kamu
+            Config::$serverKey = config('midtrans.server_key');
             Config::$isProduction = false;
             Config::$isSanitized = true;
             Config::$is3ds = true;
 
-            // Buat Snap token
+            // Buat Snap token untuk transaksi digital
             $params = [
                 'transaction_details' => [
                     'order_id' => $order->order_id,
@@ -105,7 +182,17 @@ class CheckoutController extends Controller
             ];
 
             $snapToken = Snap::getSnapToken($params);
-// dd($snapToken);
+
+            // Simpan snap_token ke tabel payments untuk transaksi digital
+            Payment::updateOrCreate(
+                ['order_id' => $order->id],
+                [
+                    'snap_token' => $snapToken,
+                    'status' => 'pending', // Status masih pending untuk menunggu pembayaran
+                    // 'uuid' => Str::uuid()->toString(), //ADUH GATAU INI APAAN
+                ]
+            );
+
             // Kirim view baru untuk menampilkan Snap
             return view('checkout.midtrans', [
                 "title" => "Checkout",
@@ -115,27 +202,9 @@ class CheckoutController extends Controller
             ]);
         }
 
-
-        // Setelah transaksi dibuat, baru update dengan kode transaksi yang sesuai
-        $tanggal = date('d'); // Hari (misal: 13)
-        $bulan = date('m'); // Bulan (misal: 03)
-        $tahun = date('y'); // Tahun 2 digit (misal: 25)
-
-        // Format kode transaksi
-        $kodeTransaction = "SVC-{$tanggal}{$bulan}{$tahun}-{$order->id}";
-
-        // Simpan kembali kode transaksi ke database
-        $order->update([
-            'kode_transaction' => $kodeTransaction
-        ]);
-
-        // Hapus cart dari sesi setelah checkout
-        session()->forget("order_id");
-
-        // Jika cash, arahkan ke halaman sukses
+        // Jika metode pembayaran cash, langsung lanjut ke halaman sukses
         return redirect()->route('checkout.success', ['uuid' => $order->uuid]);
-        return redirect()->route('cart', ['table' => $tableNumber])->with('success', 'Pesanan berhasil diproses!');
-    }   
+    }
 
     public function success($uuid)
     {
@@ -149,6 +218,7 @@ class CheckoutController extends Controller
         ]);
     }
 
+    //CASH
     public function confirmPayment($id)
     {
         // Temukan order berdasarkan ID
@@ -159,6 +229,18 @@ class CheckoutController extends Controller
 
         $order->status = 'paid';
         $order->save();
+
+    //     Livewire::emit('paymentUpdated', $order->id); // Update status pesanan di halaman pelanggan
+
+    //     return response()->json(['success' => 'Pembayaran dikonfirmasi']);
+    // }
+     // ✅ Update status payment jadi 'paid' (khusus metode cash)
+        $payment = Payment::where('order_id', $order->order_id)->first();
+        if ($payment && $payment->payment_method === 'cash') {
+            $payment->status = 'paid';
+            $payment->paid_at = now();
+            $payment->save();
+        }
 
         Livewire::emit('paymentUpdated', $order->id); // Update status pesanan di halaman pelanggan
 

@@ -1,1 +1,1 @@
-a:4:{s:9:"_previous";a:1:{s:3:"url";s:66:"http://127.0.0.1:8000/receipt/2483a1a9-4802-4e0c-943e-48db0ef48d3e";}s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:6:"_token";s:40:"OXIrIlUwZMvq2qP4PTFGiQif0HZkW7k3Z8MCxx6t";s:11:"tableNumber";s:2:"24";}
+a:5:{s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:6:"_token";s:40:"GGT8eSQwHdcIsKpwLnPmTNQJ66qrZZibMfpq6tSi";s:11:"tableNumber";s:1:"4";s:9:"_previous";a:1:{s:3:"url";s:30:"http://127.0.0.1:8000/checkout";}s:8:"order_id";s:5:"ORD41";}
