@@ -10,6 +10,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CheckOutController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RegisterController;
@@ -21,20 +22,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 Route::get('/', function () {       //halaman utama ketika url diakses
     return view('login.index', [          //ubah bagian view
          "title" => "login",
-        //  "name" => "Sunset View Cafe",
-        //  "image" => "logocafe.png"
     ]) ;   
 });
-
-// Route::get('/', function () {       //halaman utama ketika url diakses
-//     return view('posts', [          //ubah bagian view
-//          "title" => "dashboard",
-//          "image" => "logocafe.png",
-//          "name" => "Sunset View Cafe",
-//          "email" => "sunsetviewcandisari@gmail.com"
-
-//     ]) ;   
-// }); 
 
 Route::get('/cart', function () {
     return view('cart', [
@@ -64,13 +53,6 @@ Route::get('/categories/{category:slug}', function(Category $category){
     ]);
 });
 
-// Route::get('/qr', function () {
-//     return view('qr.index', [
-//         "image" => "logocafe.png",
-//     ]);
-// });
-
-
 //login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -81,12 +63,12 @@ Route::get('/register', [RegisterController::class, 'index'])->middleware('guest
 Route::post('/register', [RegisterController::class, 'store']);
 
 //QR Dashboard (Untuk Admin)
-Route::middleware('auth')->get('/dashboard/qr', function () {
-    return view('dashboard.qr.index', [
-        'title' => 'QR Code',
-        "image" => "logocafe.png",
-    ]);
-});
+// Route::middleware('auth')->get('/dashboard/qr', function () {
+//     return view('dashboard.qr.index', [
+//         'title' => 'QR Code',
+//         "image" => "logocafe.png",
+//     ]);
+// });
 
 //QR untuk Admin Generate QR
 Route::middleware('auth')->get('/dashboard/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
@@ -110,9 +92,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/{id}', [DashboardController::class, 'destroy'])->name('dashboard.destroy');
  
     // Export Excel
- Route::get('/export-orders', function () {
-    return Excel::download(new OrderExport, 'data-transaksi.xlsx');
-})->name('dashboard.export.orders');
+    Route::get('/export-orders', function () {
+        return Excel::download(new OrderExport, 'data-transaksi.xlsx');
+    })->name('dashboard.export.orders');
 });
 
 
@@ -139,10 +121,23 @@ Route::get('/test-session', [QrCodeController::class, 'testSession']);
 Route::get('/cek-session', function () {
     return session('tableNumber') ?? 'Session kosong';});
 
-//BELUM JADI YAAA//punya brina
+//CHECKOUT//
 Route::get('/checkout/{table?}', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/store', [CheckoutController::class, 'storeCustomerData'])->name('checkout.storeCustomerData');
 Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Route untuk konfirmasi pembayaran oleh admin/kasir
+Route::post('/checkout/confirm/{id}', [CheckoutController::class, 'confirmPayment'])->name('checkout.confirm');
+
+// Route untuk AJAX Snap Token Midtrans
+Route::get('/checkout/midtrans', [CheckoutController::class, 'checkout'])->name('checkout.midtrans');
+
+Route::post('/checkout/token', [CheckoutController::class, 'getSnapToken'])->name('checkout.token');
+
+//PAYMENT
+Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+// Route::post('/payments/callback', [PaymentController::class, 'callback']); // Midtrans callback
+Route::get('/payments/{order_id}', [PaymentController::class, 'show'])->name('payments.show');
 
 //struk
 Route::get('/receipt/{uuid}', [ReceiptController::class, 'show'])->name('receipt.show');

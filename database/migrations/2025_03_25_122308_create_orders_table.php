@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('customer_name'); // Nama pelanggan
             $table->string('customer_whatsapp'); // Nomor WhatsApp pelanggan
             $table->string('kode_transaction')->nullable()->unique(); // COBA DULU NULL ID transaksi unik dari sistem / Midtrans/TRX-..
-            $table->decimal('total_price', 10, 2); // Total harga
+            // $table->decimal('total_price', 10, 2); // Total harga
+            $table->integer('total_price')->nullable();
             $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending'); // Tambah status 'cancelled'
             // $table->string('payment_method')->default('cash'); // Default cash
             $table->string('payment_method'); // Default cash
