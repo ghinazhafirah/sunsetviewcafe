@@ -10,7 +10,7 @@ class CounterCart extends Component
     public $count = 1; //simpen quantity menu/item di cart
     public $cartId; //simpen ID item di cart
     public $totalHarga; //simpen total harga berdasarkan quantity menu/item yg dipilih
-    public $notes; //simpen note
+    public $note; //simpen note
     public $title;
 
     public $showSummary = false; // default false
@@ -22,7 +22,7 @@ class CounterCart extends Component
         'refreshSelf' => '$refresh',
     ];
 
-    public function mount($cartId, $quantity, $totalMenu, $showSummary = false, $tableNumber = null)
+    public function mount($cartId, $quantity, $totalMenu, $note, $showSummary = false, $tableNumber = null)
     {
         $this->cartId      = $cartId;
         $this->count       = $quantity;
