@@ -42,7 +42,7 @@ class OrderTable extends Component
                 });
             })
             ->latest()
-            ->paginate(5);
+            ->paginate(15);
 
          return view('livewire.order-table', compact('orders'));
     }

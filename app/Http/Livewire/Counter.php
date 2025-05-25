@@ -87,7 +87,7 @@ class Counter extends Component
             ->groupBy('token')
             ->select('token')
             ->get()->count();
-            $this->orderId = 'ORD' . $this->tableNumber . ($cekCountOrder + 1);
+            $this->orderId = 'ORD' . $this->tableNumber . ($cekCountOrder + 1) . time();
             session(['order_id' => $this->orderId]);
         }
         

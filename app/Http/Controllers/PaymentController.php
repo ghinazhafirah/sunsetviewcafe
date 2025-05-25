@@ -73,26 +73,35 @@ class PaymentController extends Controller
 
         // Ambil notifikasi dari Midtrans
         $notif = new Notification();
+        \Log::info('Midtrans notification', [
+            'order_id' => $notif->order_id,
+            'transaction_status' => $notif->transaction_status,
+            'payment_type' => $notif->payment_type
+        ]);
+        
         $transaction = $notif->transaction_status;
         $type = $notif->payment_type;
         $fraud = $notif->fraud_status;
 
         // Ambil order_id asli (tanpa -timestamp)
         $orderId = explode('-', $notif->order_id)[0];
+       \Log::info("Processing order: {$orderId}");
 
         // Cari order
         $order = Order::where('order_id', $orderId)->first();
         if (!$order) {
-            Log::error("Order not found for callback: {$orderId}");
+            \Log::error("Order not found for callback: {$orderId}");
             return response()->json(['message' => 'Order not found'], 404);
         }
 
         // Cari pembayaran berdasarkan order_id string
-        $payment = Payment::where('order_id', $order->order_id)->first();
+        $payment = Payment::where('order_id', $order->id)->first();
         if (!$payment) {
-            Log::error("Payment not found for order: {$orderId}");
+            \Log::error("Payment not found for order: {$orderId}");
             return response()->json(['message' => 'Payment not found'], 404);
         }
+
+        \Log::info("Found order and payment", ['order_id' => $order->id, 'payment_id' => $payment->id]);
 
         // Update status berdasarkan status Midtrans
         switch ($transaction) {
@@ -101,6 +110,7 @@ class PaymentController extends Controller
                 $payment->status = 'paid';
                 $payment->paid_at = now();
                 $order->status = 'paid';
+                \Log::info("Payment marked as paid", ['order_id' => $orderId, 'status' => 'paid']);
                 break;
 
             case 'cancel':
@@ -108,15 +118,17 @@ class PaymentController extends Controller
             case 'expire':
                 $payment->status = 'failed';
                 $order->status = 'failed';
+                \Log::info("Payment marked as failed", ['order_id' => $orderId, 'status' => 'failed', 'reason' => $transaction]);
                 break;
 
             case 'pending':
                 $payment->status = 'pending';
                 $order->status = 'pending';
+                \Log::info("Payment remains pending", ['order_id' => $orderId]);
                 break;
 
             default:
-                Log::warning("Unhandled transaction status: {$transaction}");
+                \Log::warning("Unhandled transaction status: {$transaction}", ['order_id' => $orderId]);
                 break;
         }
 
@@ -125,6 +137,7 @@ class PaymentController extends Controller
         $payment->save();
         $order->save();
 
+        \Log::info("Payment callback processed successfully", ['order_id' => $orderId, 'status' => $payment->status]);
         return response()->json(['message' => 'Payment status updated']);
     }
 

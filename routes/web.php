@@ -136,7 +136,7 @@ Route::post('/checkout/token', [CheckoutController::class, 'getSnapToken'])->nam
 
 //PAYMENT
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
-// Route::post('/payments/callback', [PaymentController::class, 'callback']); // Midtrans callback
+Route::post('/payments/callback', [PaymentController::class, 'callback']); // Midtrans callback
 Route::get('/payments/{order_id}', [PaymentController::class, 'show'])->name('payments.show');
 
 //struk
