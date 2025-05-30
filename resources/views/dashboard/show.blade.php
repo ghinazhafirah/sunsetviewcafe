@@ -44,10 +44,14 @@
                         <tr>
                             <td>
                                 {{-- Debugging relasi --}}
-                                @if ($item->post)
+                                {{-- @if ($item->post)
                                     {{ $item->post->title }}
                                 @else
                                     <span class="text-danger">Menu tidak ditemukan (ID: {{ $item->posts_id }})</span>
+                                @endif --}}
+                                <strong>{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</strong>
+                                @if (!empty($item->note))
+                                    <textarea class="form-control border-warning mt-2" readonly style="height: auto; overflow-y: hidden; line-height: 1;">{{ trim($item->note) }}</textarea>
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->quantity }}X</td>
