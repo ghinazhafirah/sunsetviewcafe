@@ -37,6 +37,10 @@
                                             <div>
                                                 <h6 class="my-0">{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</h6>
                                                 <small class="text-body-secondary">{{ $item['quantity'] }}X</small>
+                                                @if (!empty($item->note))
+                                                    <textarea class="form-control border-warning mt-2" readonly
+                                                        style="height: auto; overflow-y: hidden; padding: 1; line-height: 1;">{{ trim($item->note) }}</textarea>
+                                                @endif
                                             </div>
                                             <span class="text-body-secondary">Rp
                                                 {{ number_format($item['total_menu'], 0, ',', '.') }}</span>

@@ -141,7 +141,7 @@
                         </div>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-warning">Update Menu</button>
+                <button type="submit" class="btn btn-warning mb-2">Update Menu</button>
             </form>
         </div>
     </div>

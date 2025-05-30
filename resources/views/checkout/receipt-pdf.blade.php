@@ -139,6 +139,16 @@
             </tbody>
         </table>
         <hr>
+
+         @if (strtolower($order->payment_method) !== 'cash')
+            <h5 class="text-start"><strong>Subtotal:</strong>
+                <span style="float: right">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+            </h5>
+            <h5 class="text-start"><strong>Pajak (PB1):</strong>
+                <span style="float: right">Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
+            </h5>
+        @endif
+        
         {{-- <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
         <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5> --}}
         <h5 class="text-start"><strong>Total Bayar:</strong>

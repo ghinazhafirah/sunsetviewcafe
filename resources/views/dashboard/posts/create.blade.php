@@ -3,6 +3,9 @@
 
 @section('container')
     <div class="container my-5">
+        <a href="/dashboard/posts" class="btn btn-warning">
+            <i class="fa fa-angle-left"></i></a>
+        <br> </br>
         {{-- <div class="bg-light rounded p-4 w-100 my-5"> --}}
         <h2 class="mb-3 mt-2">NEW MENU</h2>
 
@@ -135,7 +138,7 @@
             </form>
         </div>
     </div>
-    
+
     <script>
         //JS Lanjutan Fetch API 
         const title = document.querySelector('#title');

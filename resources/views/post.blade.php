@@ -7,7 +7,7 @@
         <div class="row justify-content-center flex-grow-1">
             {{-- tombol absolut, ga keluar container --}}
             <div class="col-md-6 p-2 d-flex flex-column position-relative">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card d-flex flex-column align-items-center">
                         @if ($post->image)
                             <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top w-70 mx-auto"
