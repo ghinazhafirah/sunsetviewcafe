@@ -24,7 +24,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-12 col-lg-11 p-2 ">
-                            @livewire('cart-delete', ['tableNumber' => $tableNumber])
+                            @livewire('cart-list', ['tableNumber' => $tableNumber])
                         </div>
 
                         {{-- Gantikan summary manual dengan komponen Livewire --}}
@@ -36,3 +36,60 @@
             </div>
         </div>
     @endsection
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('confirmDelete', function(payload) {
+                const cartId = payload.cartId;
+
+                Swal.fire({
+                    title: 'Hapus Item?',
+                    text: "Apakah Anda yakin ingin menghapusnya?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch('removeFromCart', {
+                            cartId: cartId
+                        });
+                    }
+                });
+            });
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('confirmDelete', (payload) => {
+                const cartId = payload.cartId;
+
+                Swal.fire({
+                    title: 'Hapus Item?',
+                    text: "Apakah Anda yakin ingin menghapus item ini dari keranjang?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33', // Merah untuk "Hapus"
+                    cancelButtonColor: '#3085d6', // Biru untuk "Batal"
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // **PERBAIKAN UTAMA DI SINI:**
+                        // Gunakan Livewire.dispatch() untuk memicu event ke komponen CartList
+                        Livewire.dispatch('deleteConfirmed', {
+                            cartId: cartId
+                        }); // Kirim event baru
+                        Swal.fire(
+                            'Dihapus!',
+                            'Item berhasil dihapus.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });
+    </script>

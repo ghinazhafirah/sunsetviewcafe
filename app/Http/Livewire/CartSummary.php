@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Facades\Session; // Tambahkan ini
 
 class CartSummary extends Component
 {
@@ -29,6 +30,7 @@ class CartSummary extends Component
 
     public function updateTotal()
     {
+         $this->orderId = Session::get('order_id'); // Pastikan selalu ambil yang terbaru dari session
         if ($this->orderId) {
             $this->total = Cart::where('order_id', $this->orderId)->sum('total_menu');
         } else {

@@ -17,6 +17,8 @@ class CategoryFilter extends Component
         $this->selectedCategory = null; //default, tidak ada kategori yang dipilih
         $this->posts = Post::where('status', 'available')->get();
 
+        $this->selectedCategory = session('selectedCategory');
+
         // Ambil nomor meja dari parameter atau session
         if ($tableNumber) {
             $this->tableNumber = $tableNumber;
@@ -31,6 +33,7 @@ class CategoryFilter extends Component
     public function filterByCategory($categoryId)
     {
         $this->selectedCategory = $categoryId;
+        session()->put('selectedCategory', $categoryId); // simpan ke session
         
         $this->posts = $categoryId
         ? Post::where('category_id', $categoryId)->where('status', 'available')->get()

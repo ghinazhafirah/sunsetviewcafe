@@ -17,6 +17,8 @@ class CartController extends Controller
         $quantity = $request->input('quantity', 1); 
         $note = $request->input('note', ''); 
 
+        $tableNumber = $request->input('table_number'); // Ambil table_number dari request, ini KRUSIAL
+
         //ambil data menu berdasarkan ID
         $post = Post::find($postId);
         if (!$post) {
