@@ -9,8 +9,14 @@
                 <div class="container">
                     <div class="row py-3 px-2 mx-0">
                         <div class="col-md-4 col-3 p-0">
-                            <a href="{{ route('menu', ['table' => session('tableNumber')]) }}" class="btn btn-warning"><i
-                                    class="fa fa-angle-left"></i></a>
+                            {{-- <a href="{{ route('menu', ['table' => session('tableNumber')]) }}" class="btn btn-warning"><i
+                                    class="fa fa-angle-left"></i></a> --}}
+                            <a href="{{ route('menu', [
+                                'table' => $tableNumber,
+                                'selectedCategory' => $selectedCategory , // Meneruskan category terakhir yang dipilih
+                                'search' => $search,
+                            ]) }}"
+                                class="btn btn-warning"><i class="fa fa-angle-left"></i></a>
                         </div>
                         <div class="col-md-4 col-8 p-0 d-flex align-items-center justify-content-center">
                             <div class="cart-title">

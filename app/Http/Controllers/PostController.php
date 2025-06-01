@@ -47,6 +47,10 @@ class PostController extends Controller
         // Ambil nomor meja dari session jika tidak ada di URL
         $tableNumber = session('tableNumber');
 
+        // Ambil selectedCategory dan search dari query string
+        $selectedCategory = $request->query('selectedCategory');
+        $search = $request->query('search');
+
         \Log::info('Table Number received in PostController:', ['tableNumber' => $tableNumber]);
 
         if (!is_numeric($tableNumber)) {
@@ -67,7 +71,9 @@ class PostController extends Controller
             "title" => "Menu",
             "post" => $post, //ga perlu di query
             "active" => "post",
-            "tableNumber" => $tableNumber
+            "tableNumber" => $tableNumber,
+            "selectedCategory" => $selectedCategory, // **TERUSKAN INI KE VIEW**
+            "search" => $search // **TERUSKAN INI KE VIEW**
         ]);
     }
 

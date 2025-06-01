@@ -18,7 +18,8 @@
                                 alt="Image Not Available" class="img-fluid menu-image">
                         @endif
                     </div>
-                    <a href="{{ route('menu', ['table' => $tableNumber]) }}"
+                    <a href="{{ route('menu', ['table' => $tableNumber, 'selectedCategory' => $selectedCategory, // Meneruskan category terakhir yang dipilih
+                        'search' => $search]) }}"
                         class="btn btn-warning position-absolute end-0 m-2"><i class="fa fa-close"></i></a>
                     <div class="card-body d-flex flex-column flex-grow-1">
                         <h5 class="card-title">{{ $post['title'] }}</h5>

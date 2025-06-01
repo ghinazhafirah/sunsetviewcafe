@@ -61,6 +61,7 @@ class CheckoutController extends Controller
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_whatsapp' => 'required|digits_between:10,15', //hanya inputan angka
+            'customer_email' => 'required|email:rfc,dns|regex:/@gmail\.com$/i', // Validasi email dengan @gmail.com
             'payment_method' => 'required|in:cash,digital', // Pastikan hanya cash atau digital
         ]);
 
@@ -75,6 +76,7 @@ class CheckoutController extends Controller
             [ // data yang akan diisi/update
                 'customer_name' => $request->customer_name,
                 'customer_whatsapp' => $request->customer_whatsapp,
+                'customer_email' => $request->customer_email, // Tambahkan customer_email
                 'total_price' => $subtotal,
                 'payment_method' => $request->payment_method,
                 'status' => 'pending', // selalu pending, tunggu notifikasi dari Midtrans
@@ -175,6 +177,7 @@ class CheckoutController extends Controller
                 'customer_details' => [
                     'customer_name' => $request->customer_name,
                     'customer_whatsapp' => $request->customer_whatsapp,
+                    'email' => $request->customer_email, // Tambahkan email ke Midtrans params
                 ],
                 'callbacks' => [
                     'finish' => route('checkout.success', ['uuid' => $order->uuid]),

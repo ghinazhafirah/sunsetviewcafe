@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\Post;
@@ -18,6 +19,10 @@ class CartController extends Controller
         $note = $request->input('note', ''); 
 
         $tableNumber = $request->input('table_number'); // Ambil table_number dari request, ini KRUSIAL
+
+         // Ambil selectedCategory dan search dari query string yang dikirim dari halaman posts.show
+        $selectedCategory = $request->query('selectedCategory');
+        $search = $request->query('search');
 
         //ambil data menu berdasarkan ID
         $post = Post::find($postId);
@@ -82,14 +87,38 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
+        // return redirect()->route('menu', ['table' => $tableNumber])->with('success', 'Menu berhasil ditambahkan ke cart!');
+         return redirect()->route('menu', [
+            'table' => $tableNumber,
+            'selectedCategory' => $selectedCategory, // Teruskan nilai ini
+            'search' => $search // Teruskan nilai ini
+        ])->with('success', 'Menu berhasil ditambahkan ke cart!');
     }
 
-     public function showCart($table)
+    //  public function showCart($table)
+    // {
+    //     return view('cart', [
+    //         'title' => 'Cart',
+    //         'tableNumber' => $table,
+    //     ]);
+    // }
+
+     public function showCart($table, Request $request) // Tambahkan Request $request
     {
+        // Ambil selectedCategory dan search dari query string
+        $tableNumber = $table;
+        $selectedCategory = $request->query('selectedCategory');
+        $search = $request->query('search');
+
+        Log::info('showCart called. table:', ['table' => $table]);
+        Log::info('showCart called. selectedCategory:', ['selectedCategory' => $selectedCategory]);
+        Log::info('showCart called. search:', ['search' => $search]);
+
         return view('cart', [
             'title' => 'Cart',
             'tableNumber' => $table,
+            'selectedCategory' => $selectedCategory, // Teruskan ke view
+            'search' => $search, // Teruskan ke view
         ]);
     }
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('table_number')->default(0); // Nomor meja dari QR Code
             $table->string('customer_name'); // Nama pelanggan
             $table->string('customer_whatsapp'); // Nomor WhatsApp pelanggan
+            $table->string('customer_email'); // Email pelanggan
             $table->string('kode_transaction')->nullable()->unique(); // COBA DULU NULL ID transaksi unik dari sistem / Midtrans/TRX-..
             // $table->decimal('total_price', 10, 2); // Total harga
             $table->integer('total_price')->nullable();

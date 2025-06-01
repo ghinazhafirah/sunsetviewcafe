@@ -10,12 +10,22 @@ class CartIconBadge extends Component
 {
     public $itemCount = 0;
     public $tableNumber;
+    public $selectedCategory; // Tambahkan properti ini
+    public $search;           // Tambahkan properti ini
 
     protected $listeners = ['cartUpdated' => 'getItemCount'];
 
-    public function mount($tableNumber = null)
+    // public function mount($tableNumber = null)
+    // {
+    //     $this->tableNumber = $tableNumber;
+    //     $this->getItemCount();
+    // }
+
+     public function mount($tableNumber = null, $selectedCategory = null, $search = null)
     {
         $this->tableNumber = $tableNumber;
+        $this->selectedCategory = $selectedCategory; // Inisialisasi dari parameter mount
+        $this->search = $search;                   // Inisialisasi dari parameter mount
         $this->getItemCount();
     }
 
