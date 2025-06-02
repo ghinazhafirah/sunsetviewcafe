@@ -29,7 +29,6 @@ class PaymentController extends Controller
         Config::$is3ds = true;
 
         // Buat Snap Token dengan order_id + timestamp agar unik untuk Midtrans
-        // $midtransOrderId = $order->order_id . '-' . time(); 
         $midtransOrderId = $order->order_id . '-'; 
 
 

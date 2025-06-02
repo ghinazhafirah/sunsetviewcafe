@@ -13,7 +13,7 @@
 
     <!-- Favicon -->
     {{-- <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f37d.png"> --}}
-      <link rel="icon" href="{{ asset('img/logocafe crop.png') }}" sizes="32x32">
+    <link rel="icon" href="{{ asset('img/logocafe crop.png') }}" sizes="32x32">
     {{-- ganti sesuai kebutuhan --}}
 
     <!-- Google Web Fonts -->
@@ -56,42 +56,41 @@
                 @yield('container') {{-- Konten dari section 'container' akan masuk di sini --}}
             </div>
         </div>
-        <script>
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const mobileSidebar = document.getElementById('mobileSidebar');
-            const overlay = document.getElementById('overlay');
-
-            if (sidebarToggle && mobileSidebar && overlay) {
-                sidebarToggle.addEventListener('click', () => {
-                    mobileSidebar.style.transform = 'translateX(0)';
-                    overlay.classList.remove('d-none');
-                });
-
-                overlay.addEventListener('click', () => {
-                    mobileSidebar.style.transform = 'translateX(-100%)';
-                    overlay.classList.add('d-none');
-                });
-            }
-        </script>
-
-
-
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.40/moment-timezone.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script src="{{ asset('js/chart.js') }}"></script>
     </div>
+      @livewireScripts
+    <script>
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('overlay');
 
-    @livewireScripts
+        if (sidebarToggle && mobileSidebar && overlay) {
+            sidebarToggle.addEventListener('click', () => {
+                mobileSidebar.style.transform = 'translateX(0)';
+                overlay.classList.remove('d-none');
+            });
+
+            overlay.addEventListener('click', () => {
+                mobileSidebar.style.transform = 'translateX(-100%)';
+                overlay.classList.add('d-none');
+            });
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.40/moment-timezone.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="{{ asset('js/chart.js') }}"></script>
+
+
+  
 </body>
 
 </html>

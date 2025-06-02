@@ -84,6 +84,13 @@
     </div>
     <!-- Gunakan komponen Livewire untuk menampilkan data transaksi -->
     @livewire('order-table')
+    <!-- Pagination -->
+    {{-- <div class="pagination mt-3 d-flex justify-content-center">
+        {{ $orders->links('vendor.pagination.index') }}
+    </div> --}}
+    <div class="pagination mt-3 d-flex justify-content-center">
+        {{ $orders->links('vendor.pagination.index') }}
+    </div>
 @endsection
 
 <script>

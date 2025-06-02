@@ -95,14 +95,6 @@ class CartController extends Controller
         ])->with('success', 'Menu berhasil ditambahkan ke cart!');
     }
 
-    //  public function showCart($table)
-    // {
-    //     return view('cart', [
-    //         'title' => 'Cart',
-    //         'tableNumber' => $table,
-    //     ]);
-    // }
-
      public function showCart($table, Request $request) // Tambahkan Request $request
     {
         // Ambil selectedCategory dan search dari query string
