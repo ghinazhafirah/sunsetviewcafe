@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- Favicon -->
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f37d.png">
+    {{-- <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f37d.png"> --}}
+      <link rel="icon" href="{{ asset('img/logocafe crop.png') }}" sizes="32x32">
     {{-- ganti sesuai kebutuhan --}}
 
     <!-- Google Web Fonts -->
@@ -38,10 +39,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
-    @livewireStyles
+
 
     <title>Sunset View Cafe | {{ $title }}</title>
-
+    @livewireStyles
 </head>
 
 <body>
@@ -87,12 +88,10 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <!-- Page level plugins -->
-        {{-- <script src="{{ asset('js/chart-area-demo.js') }}"></script> --}}
-
         <script src="{{ asset('js/chart.js') }}"></script>
-        @livewireScripts
     </div>
+
+    @livewireScripts
 </body>
 
 </html>
