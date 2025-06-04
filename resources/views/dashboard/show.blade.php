@@ -1,5 +1,10 @@
 @extends('dashboard.layouts.main')
 
+<style>
+    tr {
+        padding-bottom: 2px;
+    }
+</style>
 @section('container')
     <div class="container mt-3">
         <a href="{{ route('dashboard.index') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i></a>
@@ -8,7 +13,7 @@
         <h4 class="mb-3">Konfirmasi Pembayaran</h4>
 
         <div class="card lg p-4">
-            <table style="width: 100%; border-collapse: collapse;">
+            <table style="width: 100%; border-collapse: collapse; text-color:black;">
                 <tr>
                     <td style="width: 165px;">Nama</td>
                     <td style="width: 10px; text-align: center;">:</td>
@@ -18,6 +23,11 @@
                     <td>No. WhatsApp</td>
                     <td style="text-align: center;">:</td>
                     <td><strong>{{ $order->customer_whatsapp }}</strong></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td style="text-align: center;">:</td>
+                    <td><strong>{{ $order->customer_email }}</strong></td>
                 </tr>
                 <tr>
                     <td>Nomor Meja</td>
@@ -48,21 +58,6 @@
                     <td><strong> {{ ucfirst($order->payment_method) }}</strong></td>
                 </tr>
             </table>
-
-            {{-- <p><strong>Nama:</strong> {{ $order->customer_name }}</p>
-            <p><strong>No. WA:</strong> {{ $order->customer_whatsapp }}</p>
-            <p><strong>Total:</strong> Rp. {{ number_format($order->total_price, 0, ',', '.') }}</p>
-            <p><strong>Meja:</strong> {{ $order->table_number }}</p>
-            <p><strong>Status:</strong>
-                @if ($order->status == 'pending')
-                    <span class="badge bg-warning">Pending</span>
-                @elseif ($order->status == 'paid')
-                    <span class="badge bg-success">Paid</span>
-                @else
-                    <span class="badge bg-danger">Failed</span>
-                @endif
-            </p>
-            <p><strong>Metode Pembayaran:</strong> {{ ucfirst($order->payment_method) }}</p> --}}
 
             <h5 class="mt-4">Rincian Pesanan</h5>
             <table class="table table-bordered">
