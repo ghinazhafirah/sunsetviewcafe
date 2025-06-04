@@ -7,7 +7,7 @@
 
         <h4 class="mb-3">Konfirmasi Pembayaran</h4>
 
-        <div class="card shadow-lg p-4">
+        <div class="card lg p-4">
             <p><strong>Nama:</strong> {{ $order->customer_name }}</p>
             <p><strong>No. WA:</strong> {{ $order->customer_whatsapp }}</p>
             <p><strong>Total:</strong> Rp. {{ number_format($order->total_price, 0, ',', '.') }}</p>
@@ -35,6 +35,10 @@
                 <tbody>
                     {{-- @foreach ($cartItems as $cartItem)                    <tr>
                         <td>{{ $cartItem->post->title ?? 'Menu Tidak Ditemukan' }}</td>
+                            @if (!empty($item->note))
+                            <textarea class="form-control border-warning mt-2" readonly
+                                style="height: auto; overflow-y: hidden; padding: 1; line-height: 1;">{{ trim($item->note) }}</textarea>
+                            @endif      
                         <td class="text-center">{{ $cartItem->quantity }}X</td>
                         <td class="text-end">Rp {{ number_format($cartItem->total_menu, 0, ',', '.') }}</td>
                     </tr>
@@ -43,12 +47,6 @@
                     @foreach ($cartItems as $item)
                         <tr>
                             <td>
-                                {{-- Debugging relasi --}}
-                                {{-- @if ($item->post)
-                                    {{ $item->post->title }}
-                                @else
-                                    <span class="text-danger">Menu tidak ditemukan (ID: {{ $item->posts_id }})</span>
-                                @endif --}}
                                 <strong>{{ $item->post->title ?? 'Menu Tidak Ditemukan' }}</strong>
                                 @if (!empty($item->note))
                                     <textarea class="form-control border-warning mt-2" readonly style="height: auto; overflow-y: hidden; line-height: 1;">{{ trim($item->note) }}</textarea>

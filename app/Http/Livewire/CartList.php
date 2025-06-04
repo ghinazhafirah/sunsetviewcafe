@@ -12,7 +12,6 @@ class CartList extends Component
     public $cartItems = [];
     public $totalAll = 0;
 
-    // protected $listeners = ['itemDeleted' => 'loadCart'];
     protected $listeners = ['cartUpdated' => 'loadCart', 'itemDeleted' => 'loadCart',  'deleteConfirmed' => 'deleteItem']; 
 
 
@@ -24,10 +23,6 @@ class CartList extends Component
 
     public function loadCart()
     {
-        // $this->cart = Cart::with('post')
-        //     ->where('table_number', $this->tableNumber)
-        //     ->get();
-
         $orderId = Session::get('order_id');
 
         if ($orderId) {
@@ -69,17 +64,11 @@ class CartList extends Component
                 $this->dispatch('confirmDelete', cartId: $cartId);
                 // return; // Jangan lanjutkan update jika akan dihapus
             }
-            // $this->loadCart(); // Reload data setelah perubahan
-            // $this->dispatch('cartUpdated'); // Beri tahu komponen lain
         }
     }
 
     public function deleteItem($cartId)
-    {
-        // Cart::where('id', $id)->delete();
-        // $this->loadCart();
-        // $this->dispatch('refreshCart')->to('cart-summary');
-        
+    {        
          $cartItem = Cart::find($cartId);
         if ($cartItem) {
             $cartItem->delete();
@@ -91,7 +80,6 @@ class CartList extends Component
 
     public function render()
     {
-        // return view('livewire.cart-delete', ['cart' => $this->cart]);
         return view('livewire.cart-list', [ // Ubah nama view sesuai nama kelas
             'cartItems' => $this->cartItems,
             'totalAll' => $this->totalAll,

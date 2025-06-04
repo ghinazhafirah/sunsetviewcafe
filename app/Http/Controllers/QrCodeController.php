@@ -132,7 +132,6 @@ class QrCodeController extends Controller
         return view('posts', [
             "title" => "Menu",
             "posts" => $posts,
-            // "images" => ['image1.jpg', 'image2.jpg', 'image3.jpg'],
             "active" => "posts",
             "tableNumber" => $tableNumber,
             "order_id" => session('order_id')

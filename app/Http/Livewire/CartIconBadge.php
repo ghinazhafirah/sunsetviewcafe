@@ -15,12 +15,6 @@ class CartIconBadge extends Component
 
     protected $listeners = ['cartUpdated' => 'getItemCount'];
 
-    // public function mount($tableNumber = null)
-    // {
-    //     $this->tableNumber = $tableNumber;
-    //     $this->getItemCount();
-    // }
-
      public function mount($tableNumber = null, $selectedCategory = null, $search = null)
     {
         $this->tableNumber = $tableNumber;
@@ -30,9 +24,7 @@ class CartIconBadge extends Component
     }
 
     public function getItemCount()
-    {
-        // $this->itemCount = Cart::where('table_number', $this->tableNumber)->sum('quantity');
-        
+    {        
          // Ambil order_id yang aktif dari session
         $orderId = Session::get('order_id');
 

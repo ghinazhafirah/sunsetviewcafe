@@ -35,11 +35,6 @@ class Order extends Model
         // orders.order_id → carts.order_id
     }
     
-    // public function post()
-    // {
-    //     return $this->belongsTo(Post::class, 'posts_id'); // atau 'post_id' tergantung kolomnya
-    // }
-
     // Gunakan UUID sebagai kunci utama saat melakukan query
     public function getRouteKeyName()
     {

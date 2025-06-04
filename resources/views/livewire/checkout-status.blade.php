@@ -1,4 +1,4 @@
-<div wire:poll.1s>
+<div wire:poll.10ms>
     @if (!$showReceipt)
         <div class="card mt-4 shadow-lg">
             <div class="card-header text-center bg-warning">

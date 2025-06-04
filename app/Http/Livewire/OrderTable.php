@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Livewire;
-
+use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Order;
 
 class OrderTable extends Component
 {
+    use WithPagination;
 
     public $search = ''; // Properti untuk pencarian
     public $totalCash;
@@ -40,7 +41,7 @@ class OrderTable extends Component
                 });
             })
             ->latest()
-            ->paginate(15);
+            ->paginate(6);
 
          return view('livewire.order-table', compact('orders'));
     }

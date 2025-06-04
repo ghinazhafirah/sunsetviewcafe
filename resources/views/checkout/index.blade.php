@@ -126,14 +126,11 @@
                                         Digital
                                     </button>
                                 </div>
+                            </form>
                         </div>
-                        </form>
-                        </form>
                     </div>
                 </div>
-                </main>
             </div>
         </div>
-    </div>
     </div>
 @endsection

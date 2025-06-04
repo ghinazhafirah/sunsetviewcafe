@@ -42,9 +42,62 @@
         }
 
         .border {
-            border: 1px solid black;
+            border: 1px solid #ddd;
         }
 
+        hr {
+            border: none;
+            border-top: 1px dashed #ccc;
+            /* Garis putus-putus untuk tampilan struk */
+            margin: 10px 0;
+            /* Jarak untuk garis horizontal */
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            /* Sejajarkan item secara vertikal di tengah */
+            margin-bottom: 10px;
+            gap: 10px;
+            /* Jarak antara logo dan teks */
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .header-info img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            border-radius: 4px;
+            /* Tidak perlu margin: auto; di sini karena sudah diatur oleh align-items pada parent */
+        }
+
+        .header-text {
+            flex: 1;
+            font-size: 9px;
+            line-height: 1.3;
+            text-align: left;
+            color: #444;
+        }
+
+        .header-text .cafe-name {
+            font-size: 11px;
+            font-weight: bold;
+            color: #222;
+        }
+
+
+        .small-text {
+            font-size: 9px;
+            /* Ukuran font lebih kecil untuk alamat dan kontak */
+            color: #555;
+        }
 
         @media print {
             @page {
@@ -70,6 +123,16 @@
                 padding: 0 0;
             }
 
+            table,
+            td,
+            th {
+                font-size: 10px;
+                /* Teks tabel lebih kecil untuk cetak */
+                padding: 1px 2px;
+            }
+
+
+
             h4,
             h5,
             p {
@@ -82,6 +145,21 @@
 
 <body>
     <div class="container">
+        <div style="width: 100%; text-align: center; margin-top: 6px; margin-bottom: 4px;">
+            <img src="{{ public_path('img/logocafe crop.png') }}" alt="Logo Cafe"
+                style="height: 38px; margin-bottom: 2px;">
+        </div>
+        <div class="header-info">
+            <div class="header-text" style="text-align: center;">
+                <span class="cafe-name">SUNSET VIEW CAFE</span><br>
+                Jl. Candi Sari No.17, Kec. Candisari, Kota Semarang<br>
+                Web: sunsetviewcafe.com | Tlp: 0821-3603-1881<br>
+                Kode Pos: 50257
+            </div>
+        </div>
+
+        <hr>
+
         <h4 class="text-center">Struk Pembayaran</h4>
         <hr>
 
@@ -139,7 +217,6 @@
             </tbody>
         </table>
         <hr>
-
         @if (strtolower($order->payment_method) !== 'cash')
             <h5 class="text-start"><strong>Subtotal:</strong>
                 <span style="float: right">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
@@ -149,14 +226,13 @@
             </h5>
         @endif
 
-        {{-- <h5 class="text-start"><strong>Subtotal:</strong> Rp {{ number_format($order->subtotal, 0, ',', '.') }}</h5>
-        <h5 class="text-start"><strong>Pajak (PB1):</strong> Rp {{ number_format($order->tax, 0, ',', '.') }}</h5> --}}
-        <h5 class="text-start"><strong>Total Bayar:</strong>
+        <p class="text-start"><strong>Total Bayar:</strong>
             <span style="float: right">Rp
                 {{ number_format($order->total_price, 0, ',', '.') }}</span>
-        </h5>
+        </p>
         <hr>
-        <h5 class="text-start">Metode Pembayaran</h5>
+
+        <p class="text-start">Metode Pembayaran</p>
         <p><strong>{{ strtoupper($order->payment_method) }}</strong> - <span
                 class="badge">{{ strtoupper($order->status) }}</span></p>
         <hr>

@@ -4,7 +4,7 @@
 
         {{-- Bagian Kiri/Tengah: Kategori atau Search Input --}}
         {{-- flex-grow-1 akan membuat div ini mengambil sisa ruang yang tersedia --}}
-        <div class="flex-grow-1 d-flex align-items-center overflow-hidden">
+        <div class="flex-grow-1 d-flex align-items-center overflow-hidden px-2"> {{-- Atau ps-2 jika hanya butuh padding kiri --}}
             @if ($showSearch)
                 {{-- Input Search: Muncul ketika $showSearch true --}}
                 <div class="input-group flex-grow-1 me-2">

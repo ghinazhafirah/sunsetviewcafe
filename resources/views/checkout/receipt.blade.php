@@ -79,8 +79,6 @@
                     <hr>
 
                     <div class="d-flex gap-2 align-items-center justify-content-center">
-                        <!-- <a href="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe9blhP-_CEpY1gERjdqgAyaEBewHb9Hw5ZrzegrPZI3PbY_A/formResponse" target="_blank" class="btn btn-primary text-white">
-                                    <i class="bi bi-clipboard-check"></i> Survei</a> -->
                         <a href="{{ route('download.receipt', $order->uuid) }}" class="btn btn-success">
                             <i class="bi bi-download"></i> Download PDF
                         </a>
