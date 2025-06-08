@@ -84,8 +84,8 @@ class Counter extends Component
 
         if ($cekToken == 0) {
             $cekCountOrder = Cart::where('table_number', $this->tableNumber)
-            ->groupBy('token')
-            ->select('token')
+            ->groupBy('order_id')
+            ->select('order_id')
             ->get()->count();
             $this->orderId = 'ORD' . $this->tableNumber . ($cekCountOrder + 1) . time();
             session(['order_id' => $this->orderId]);

@@ -48,7 +48,7 @@
                             @elseif ($order->status == 'paid')
                                 <span class="badge bg-success">Paid</span>
                             @else
-                                <span class="badge bg-danger">Failed</span>
+                                <span class="badge bg-danger">Cancelled</span>
                             @endif
                         </strong></td>
                 </tr>
@@ -69,17 +69,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($cartItems as $cartItem)                    <tr>
-                        <td>{{ $cartItem->post->title ?? 'Menu Tidak Ditemukan' }}</td>
-                            @if (!empty($item->note))
-                            <textarea class="form-control border-warning mt-2" readonly
-                                style="height: auto; overflow-y: hidden; padding: 1; line-height: 1;">{{ trim($item->note) }}</textarea>
-                            @endif      
-                        <td class="text-center">{{ $cartItem->quantity }}X</td>
-                        <td class="text-end">Rp {{ number_format($cartItem->total_menu, 0, ',', '.') }}</td>
-                    </tr>
-                @endforeach --}}
-
                     @foreach ($cartItems as $item)
                         <tr>
                             <td>

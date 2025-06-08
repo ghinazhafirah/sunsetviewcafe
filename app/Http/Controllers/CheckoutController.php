@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\Payment;
@@ -189,5 +190,47 @@ class CheckoutController extends Controller
         Livewire::emit('paymentUpdated', $order->id); // Update status pesanan di halaman pelanggan
 
         return response()->json(['success' => 'Pembayaran dikonfirmasi']);
+    }
+
+      public function changePayment(Request $request)
+    {
+
+        $tableNumber = Session::get('tableNumber', 'Tidak Diketahui'); // Ambil nomor meja dari session
+        $orderId = session('order_id');
+        $token = session('_token');
+
+        $order = Order::where('order_id', $orderId)->first();
+        $order->update(['status' => 'cancelled']);
+
+        //ambil data menu berdasarkan Order Id
+        $cart = Cart::where('order_id', $orderId)->get();
+
+
+        if ($cart->count() > 0) {
+            $cekCountOrder = Cart::where('table_number', $tableNumber)
+            ->groupBy('order_id')
+            ->select('order_id')
+            ->get()->count();
+
+            $orderId = 'ORD' . $tableNumber . ($cekCountOrder + 1) . time();
+
+            session(['order_id' => $orderId]);
+
+            foreach ($cart as $key => $c) {
+                 Cart::create([
+                    'token' => $token,
+                    'order_id' => $orderId,
+                    'posts_id' => $c->posts_id,
+                    'quantity' => $c->quantity,
+                    'total_menu' => $c->total_menu,
+                    'table_number' => $c->table_number,
+                    'note' => $c->note,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+
+        } 
+
+        return redirect()->route('menu', ['table' => $tableNumber]);
     }
 }

@@ -9,8 +9,6 @@
                 <div class="container">
                     <div class="row py-3 px-2 mx-0">
                         <div class="col-md-4 col-3 p-0">
-                            {{-- <a href="{{ route('menu', ['table' => session('tableNumber')]) }}" class="btn btn-warning"><i
-                                    class="fa fa-angle-left"></i></a> --}}
                             <a href="{{ route('menu', [
                                 'table' => $tableNumber,
                                 'selectedCategory' => $selectedCategory , // Meneruskan category terakhir yang dipilih
@@ -42,31 +40,6 @@
             </div>
         </div>
     @endsection
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Livewire.on('confirmDelete', function(payload) {
-                const cartId = payload.cartId;
-
-                Swal.fire({
-                    title: 'Hapus Item?',
-                    text: "Apakah Anda yakin ingin menghapusnya?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.dispatch('removeFromCart', {
-                            cartId: cartId
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         document.addEventListener('livewire:initialized', () => {

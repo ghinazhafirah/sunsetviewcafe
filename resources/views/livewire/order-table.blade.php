@@ -71,7 +71,7 @@
                                             @elseif ($transaction->status == 'paid')
                                                 <span class="badge bg-success">Paid</span>
                                             @else
-                                                <span class="badge bg-danger">Failed</span>
+                                                <span class="badge bg-danger">Cancelled</span>
                                             @endif
                                         </td> <!-- Status Pembayaran -->
 
@@ -88,19 +88,6 @@
                                                 </a>
                                             @endif
                                         </td>
-
-
-
-                                        {{-- <td>   
-                                            @if ($transaction->payment_method == 'cash' && $transaction->status == 'pending')
-                                                <form action="{{ route('dashboard.confirmPayment', $transaction->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-success">Konfirmasi Cash</button>
-                                                </form>
-                                            @else
-                                                <button class="btn btn-sm btn-secondary" disabled>Sudah Dibayar</button>
-                                            @endif
-                                        </td> <!-- Action --> --}}
                                         <td>
                                             <form action="/dashboard/{{ $transaction->id }}" method="post"
                                                 class="d-inline">
@@ -110,11 +97,6 @@
                                                     onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i
                                                         class="bi bi-x-square"></i></button>
                                             </form>
-                                            {{-- <form action="/dashboard/{{ $transaction->id }}" method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn badge bg-danger" onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i class="bi bi-x-square"></i></button>
-                                            </form>  --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -124,9 +106,5 @@
                 </div>
             </div>
         </div>
-        <!-- Pagination -->
-        {{-- <div class="pagination mt-3 d-flex justify-content-center">
-            {{ $orders->links('vendor.pagination.index') }}
-        </div> --}}
     </div>
 </div>

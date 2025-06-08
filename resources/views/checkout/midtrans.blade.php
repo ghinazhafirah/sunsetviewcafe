@@ -22,5 +22,11 @@
                 }
             });
         </script>
+        <form action="{{ route('checkout.changePayment') }}" method="POST">
+            @csrf <!-- CSRF token is crucial for POST requests in Laravel -->
+            <button type="submit" class="btn btn-primary">
+                Ubah Metode Pembayaran
+            </button>
+        </form>
     </div>
 @endsection

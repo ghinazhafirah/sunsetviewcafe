@@ -62,14 +62,6 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
-//QR Dashboard (Untuk Admin)
-// Route::middleware('auth')->get('/dashboard/qr', function () {
-//     return view('dashboard.qr.index', [
-//         'title' => 'QR Code',
-//         "image" => "logocafe.png",
-//     ]);
-// });
-
 //QR untuk Admin Generate QR
 Route::middleware('auth')->get('/dashboard/qr', [QrCodeController::class, 'showQrForm'])->name('qr.form');
 Route::middleware('auth')->post('/dashboard/generate-qr', [QrCodeController::class, 'generateQrCode'])->name('generate.qr');
@@ -125,6 +117,7 @@ Route::get('/cek-session', function () {
 Route::get('/checkout/{table?}', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/store', [CheckoutController::class, 'storeCustomerData'])->name('checkout.storeCustomerData');
 Route::get('/checkout/success/{uuid}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::post('/checkout/change-payment', [CheckoutController::class, 'changePayment'])->name('checkout.changePayment');
 
 // Route untuk konfirmasi pembayaran oleh admin/kasir
 Route::post('/checkout/confirm/{id}', [CheckoutController::class, 'confirmPayment'])->name('checkout.confirm');
