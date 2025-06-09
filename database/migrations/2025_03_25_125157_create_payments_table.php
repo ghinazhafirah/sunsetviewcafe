@@ -15,8 +15,6 @@ return new class extends Migration
             $table->string('snap_token')->nullable();    
             $table->enum('status', ['pending', 'paid', 'failed', 'cancelled'])->default('pending'); // Tambah status 'cancelled'
             $table->string('payment_method'); // Metode pembayaran (ex: 'gopay', 'bank_transfer')
-            $table->json('payment_response')->nullable(); // Data respons dari Midtrans
-            $table->timestamp('paid_at')->nullable(); // Waktu pembayaran sukses
             $table->timestamps();
         });
     }
