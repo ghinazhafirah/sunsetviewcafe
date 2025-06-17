@@ -2,16 +2,12 @@
 
 @section('container')
     {{-- container setinggi layar penuh --}}
-    {{-- <div class="container d-flex min-vh-100"> --}}
-    <div class="container my-4">
-
+    <div class="container d-flex min-vh-100">
         {{-- konten utama diatas, tombol dibawah --}}
-        {{-- <div class="row justify-content-center flex-grow-1"> --}}
-        <div class="row">
+        <div class="row justify-content-center flex-grow-1">
             {{-- kolom untuk card --}}
-            {{-- <div class="col-md-6 p-2 d-flex flex-column"> --}}
-            <div class="col-md-8 offset-md-2">
-                <div class="card shadow-sm">
+            <div class="col-md-6 p-2 d-flex flex-column">
+                <div class="card d-flex flex-column flex-grow-1">
                     {{-- <div class="card d-flex flex-column flex-grow-1"> --}}
 
                     {{-- Close button is placed early for better positioning context --}}
@@ -39,45 +35,52 @@
                     <div class="card-body d-flex flex-column flex-grow-1">
                         <h5 class="card-title">{{ $post['title'] }}</h5>
                         <p class="card-text border-bottom border-warning pb-2"> {!! $post->body !!}</p>
+                        {{-- 
+                        <div class="mt-auto"> --}}
+                        <div class="row pb-2">
+                            <div class="col-12">
 
-                        {{-- Pushes the counter to the bottom --}}
-                        {{-- <div class="mt-auto"> --}}
-                        <div class="row d-flex align-items-center">
-                            {{-- <div class="col-12"> --}}
-                            {{-- @livewire('counter', ['postId' => $post->id, 'tableNumber' => $tableNumber]) --}}
+                                {{-- Pushes the counter to the bottom --}}
+                                {{-- <div class="mt-auto"> --}}
+                                {{-- <div class="row d-flex align-items-center"> --}}
+                                {{-- <div class="col-12"> --}}
+                                {{-- @livewire('counter', ['postId' => $post->id, 'tableNumber' => $tableNumber]) --}}
 
-                            {{-- ? Note Input --}}
-                            <div class="mb-2">
-                                <label for="note" class="form-label">Catatan</label>
-                                <textarea id="note" class="form-control" rows="3" placeholder="(optional)"></textarea>
-                            </div>
+                                {{-- ? Note Input --}}
+                                <div class="mb-3">
+                                    <label for="note" class="form-label">Catatan</label>
+                                    <textarea id="note" class="form-control" rows="3" placeholder="(optional)"></textarea>
+                                </div>
+                                {{-- </div> --}}
 
-                            {{-- ? Custom Counter --}}
-                            <div class="col-md-4 col-4 d-flex">
-                                <span id="price">Rp. </span>
-                            </div>
-                            <div class="col-md-4 col-4 d-flex align-items-center ms-auto">
-                                <button id="decrement-button" class="btn btn-light border-0 px-2">-</button>
-                                {{-- <input type="number" id="quantity" value="1" min="1"
+                                <div
+                                    style="display: grid; grid-template-columns: auto auto auto; gap: 0.5rem; align-items: center;">
+                                    {{-- ? Custom Counter --}}
+                                    <div style="white-space: nowrap;">
+                                        <span id="price">Rp. </span>
+                                    </div>
+                                    <div class="d-flex align-items-center ms-auto">
+                                        <button id="decrement-button" class="btn btn-light border-0 px-2">-</button>
+                                        {{-- <input type="number" id="quantity" value="1" min="1"
                                         class="form-control mx-2" style="width: 80px;"> --}}
-                                <input id="quantity" value="1" min="1" class="form-control mx-2 fw-bold "
-                                    style="width: 45px;">
-                                <button id="increment-button" class="btn btn-light border-0 px-2">+</button>
-                            </div>
-                            <div class="col-auto px-2">
-                                <button id="add-button" class="btn btn-outline-warning text-dark ms-2"
-                                    style="justify-content-end ms-2">Add</button>
+                                        <input id="quantity" value="1" min="1"
+                                            class="form-control mx-1 fw-bold " style="width: 45px;">
+                                        <button id="increment-button" class="btn btn-light border-0 px-2">+</button>
+                                    </div>
+                                    <div>
+                                        <button id="add-button" class="btn btn-outline-warning text-dark ms-auto">Add</button>
 
-                                {{-- ? Add Button --}}
+                                        {{-- ? Add Button --}}
+                                    </div>
+                                    {{-- </div> --}}
+                                </div>
                             </div>
-                            {{-- </div> --}}
                         </div>
+                        {{-- </div> --}}
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
     </div>
 @endsection
 
