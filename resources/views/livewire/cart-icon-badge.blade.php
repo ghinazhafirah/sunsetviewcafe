@@ -20,7 +20,7 @@
 
 
 {{-- Push the JavaScript logic to the scripts stack --}}
-@push('scripts')
+{{-- @push('scripts')
     <script>
         document.addEventListener('livewire:init', () => {
             // DEBUG: Confirm that the main Livewire listener has been attached successfully.
@@ -156,4 +156,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}

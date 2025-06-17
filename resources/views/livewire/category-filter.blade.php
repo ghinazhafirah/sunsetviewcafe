@@ -71,13 +71,9 @@
                     'search' => $search ?? null, // <<< TERUSKAN INI
                 ]) --}}
                 <x-cart-icon-badge :tableNumber="$tableNumber" :selectedCategory="$selectedCategory" :search="$search" />
-
             </button>
-
         </div>
-
     </div>
-
 
     {{-- Bagian Menu --}}
     <div id="menu-section" class="px-3 py-2">
@@ -104,13 +100,18 @@
                                 <span class="fw-bold small">Rp {{ number_format($post->price, 0, ',', '.') }}</span>
                                 {{-- <a href="{{ route('posts.show', ['slug' => $post->slug, 'tableNumber' => $tableNumber]) }}"
                                     class="btn btn-outline-warning text-dark"> Add </a> --}}
-                                <a href="{{ route('posts.show', [
-                                    'slug' => $post->slug,
-                                    'tableNumber' => $tableNumber,
-                                    'selectedCategory' => $selectedCategory, // Tambahkan ini
-                                    'search' => $search, // Tambahkan ini
-                                ]) }}"
-                                    class="btn btn-outline-warning text-dark"> Add </a>
+                                <div class="d-flex align-items-center">
+                                    <span id="post-quantity-{{ $post->id }}"
+                                        class="badge bg-warning text-dark me-2" style="display: none;">0x</span>
+
+                                    <a href="{{ route('posts.show', [
+                                        'slug' => $post->slug,
+                                        'tableNumber' => $tableNumber,
+                                        'selectedCategory' => $selectedCategory, // Tambahkan ini
+                                        'search' => $search, // Tambahkan ini
+                                    ]) }}"
+                                        class="btn btn-outline-warning text-dark"> Add </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,81 +126,175 @@
 </div>
 
 @push('scripts')
-    <script>
+   {{-- INI BISA TP KUDU RELOAD --}}
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // We use DOMContentLoaded because we are no longer waiting for Livewire for this component.
-            // This is the standard event for running JS when the page is ready.
             console.log('[Cart Badge] DOM ready. Attaching event listeners.');
 
-            // This function is now the single source of truth for updating the badge.
-            function updateCartIconCount(source = 'unknown') {
-                console.log(`%c[Cart Badge] Updating count. Triggered by: ${source}`,
+            function updateCartBadges(source = 'unknown') {
+                console.log(`%c[Cart Badge] Memperbarui badge. Dipicu oleh: ${source}`,
                     'color: green; font-weight: bold;');
 
                 try {
-                    // --- Step 1: Get data and the badge element ---
                     const cartData = sessionStorage.getItem('cart');
-                    const badge = document.getElementById('cart-item-count-badge');
+                    const mainCartBadge = document.getElementById(
+                    'cart-item-count-badge'); // Mengganti nama untuk kejelasan
 
-                    // If the badge element doesn't exist on the page, we can't do anything.
-                    if (!badge) {
+                    if (!mainCartBadge) {
                         console.warn(
-                            '[Cart Badge] Could not find badge element with ID "cart-item-count-badge". Stopping update.'
+                            '[Cart Badge] Tidak dapat menemukan elemen badge utama dengan ID "cart-item-count-badge". Menghentikan pembaruan.'
                         );
                         return;
                     }
 
-                    // We need the table number to find the right cart data.
-                    // We'll get it directly from the Blade variable passed into this script.
                     const tableNumber = {{ $tableNumber ?? 'null' }};
                     if (tableNumber === null) {
-                        console.error('[Cart Badge] Table Number is not available to the script.');
+                        console.error('[Cart Badge] Nomor Meja tidak tersedia untuk skrip.');
                         return;
                     }
 
-                    // --- Step 2: Calculate the count ---
-                    let count = 0;
-                    if (cartData) {
-                        const cart = JSON.parse(cartData);
-                        // Check if an entry for the current table and its 'items' object exist.
-                        if (cart[tableNumber] && cart[tableNumber].items) {
-                            // Count the number of unique items in the cart.
-                            count = Object.keys(cart[tableNumber].items).length;
-                        }
-                    }
-                    console.log(`[Cart Badge] Calculated item count for table ${tableNumber}: ${count}`);
+                    const cart = cartData ? JSON.parse(cartData) : {};
+                    const currentTableCartItems = cart[tableNumber] && cart[tableNumber].items ? cart[tableNumber]
+                        .items : {};
 
-                    // --- Step 3: Update the DOM directly ---
-                    if (count > 0) {
-                        badge.style.display = 'inline-block'; // Make it visible
-                        badge.textContent = count > 99 ? '99+' : count;
-                        console.log(`[Cart Badge] Badge updated to be visible with text: "${badge.textContent}".`);
+                    // --- Logika untuk Cart Icon Badge Utama (total item unik di seluruh keranjang) ---
+                    let totalUniqueItemsInCart = Object.keys(currentTableCartItems).length;
+
+                    if (totalUniqueItemsInCart > 0) {
+                        mainCartBadge.style.display = 'inline-block';
+                        mainCartBadge.textContent = totalUniqueItemsInCart > 99 ? '99+' : totalUniqueItemsInCart;
+                        console.log(`[Cart Badge] Badge utama diperbarui: ${mainCartBadge.textContent}`);
                     } else {
-                        badge.style.display = 'none'; // Hide it if the count is 0
-                        console.log('[Cart Badge] Badge hidden because count is 0.');
+                        mainCartBadge.style.display = 'none';
+                        console.log('[Cart Badge] Badge utama disembunyikan karena kosong.');
                     }
+
+
+                    // --- Logika untuk Badge Kuantitas Individual per Item (hanya untuk item yang terlihat) ---
+                    const postQuantityBadges = document.querySelectorAll('[id^="post-quantity-"]');
+
+                    postQuantityBadges.forEach(badgeElement => {
+                        const postId = badgeElement.id.replace('post-quantity-', '');
+                        const itemInCart = currentTableCartItems[postId];
+
+                        if (itemInCart && itemInCart.quantity > 0) {
+                            badgeElement.textContent = itemInCart.quantity;
+                            badgeElement.style.display = 'inline-block';
+                        } else {
+                            badgeElement.textContent = '0';
+                            badgeElement.style.display = 'none';
+                        }
+                    });
 
                 } catch (error) {
-                    console.error('[Cart Badge] An unexpected error occurred:', error);
+                    console.error('[Cart Badge] Terjadi kesalahan tak terduga:', error);
                 }
-                console.log('%c[Cart Badge] Update cycle finished.', 'color: green;');
+                console.log('%c[Cart Badge] Siklus pembaruan selesai.', 'color: green;');
             }
 
-            // --- Call the update function at the right times ---
+            // Panggil sekali saat DOM halaman sepenuhnya dimuat.
+            updateCartBadges('DOMContentLoaded');
 
-            // 1. Call it once when the page's DOM is fully loaded.
-            updateCartIconCount('DOMContentLoaded');
-
-            // 2. Call it when the user navigates back to the page (e.g., with the browser's back button).
+            // Panggil saat pengguna menavigasi kembali ke halaman (e.g., dengan tombol kembali browser).
             window.addEventListener('pageshow', () => {
-                console.log('[Cart Badge] "pageshow" event detected.');
-                updateCartIconCount('pageshow');
+                updateCartBadges('pageshow');
             });
 
-            // 3. Listen for the custom event that you fire whenever the cart is changed elsewhere in your app.
+            // Dengarkan event kustom 'sessionCartUpdated' (dari halaman detail produk atau penambahan/pengurangan item)
             window.addEventListener('sessionCartUpdated', () => {
-                console.log('[Cart Badge] "sessionCartUpdated" event detected.');
-                updateCartIconCount('sessionCartUpdated');
+                updateCartBadges('sessionCartUpdated');
+            });
+
+            // Dengarkan event 'updateCartBadges' yang dipicu dari Livewire (saat kategori/pencarian berubah)
+            Livewire.on('updateCartBadges', () => {
+                updateCartBadges('Livewire Dispatch');
+            });
+        });
+    </script> --}}
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[Cart Badge] DOM ready. Attaching event listeners.');
+
+            function updateCartBadges(source = 'unknown') {
+                console.log(`%c[Cart Badge] Memperbarui badge. Dipicu oleh: ${source}`,
+                    'color: green; font-weight: bold;');
+
+                try {
+                    const cartData = sessionStorage.getItem('cart');
+                    const mainCartBadge = document.getElementById('cart-item-count-badge');
+
+                    if (!mainCartBadge) {
+                        console.warn(
+                            '[Cart Badge] Tidak dapat menemukan elemen badge utama dengan ID "cart-item-count-badge". Menghentikan pembaruan.'
+                        );
+                        return;
+                    }
+
+                    const tableNumber = {{ $tableNumber ?? 'null' }};
+                    if (tableNumber === null) {
+                        console.error('[Cart Badge] Nomor Meja tidak tersedia untuk skrip.');
+                        return;
+                    }
+
+                    const cart = cartData ? JSON.parse(cartData) : {};
+                    const currentTableCartItems = cart[tableNumber] && cart[tableNumber].items ? cart[tableNumber]
+                        .items : {};
+
+                    // --- Logika untuk Cart Icon Badge Utama (total item unik di seluruh keranjang) ---
+                    let totalUniqueItemsInCart = Object.keys(currentTableCartItems).length;
+
+                    if (totalUniqueItemsInCart > 0) {
+                        mainCartBadge.style.display = 'inline-block';
+                        mainCartBadge.textContent = totalUniqueItemsInCart > 99 ? '99+' : totalUniqueItemsInCart;
+                        console.log(`[Cart Badge] Badge utama diperbarui: ${mainCartBadge.textContent}`);
+                    } else {
+                        mainCartBadge.style.display = 'none';
+                        console.log('[Cart Badge] Badge utama disembunyikan karena kosong.');
+                    }
+
+
+                    // --- Logika untuk Badge Kuantitas Individual per Item (hanya untuk item yang terlihat) ---
+                    const postQuantityBadges = document.querySelectorAll('[id^="post-quantity-"]');
+
+                    // Penting: Pastikan kita mengiterasi semua badge yang ada di DOM saat ini.
+                    postQuantityBadges.forEach(badgeElement => {
+                        const postId = badgeElement.id.replace('post-quantity-', '');
+                        const itemInCart = currentTableCartItems[postId];
+
+                        if (itemInCart && itemInCart.quantity > 0) {
+                            badgeElement.textContent = `${itemInCart.quantity}x`; // Tambahkan 'x' agar jelas
+                            badgeElement.style.display = 'inline-block';
+                        } else {
+                            badgeElement.textContent = '0x'; // Setel kembali ke '0x' saat disembunyikan
+                            badgeElement.style.display = 'none';
+                        }
+                    });
+
+                } catch (error) {
+                    console.error('[Cart Badge] Terjadi kesalahan tak terduga:', error);
+                }
+                console.log('%c[Cart Badge] Siklus pembaruan selesai.', 'color: green;');
+            }
+
+            // Panggil sekali saat DOM halaman sepenuhnya dimuat.
+            updateCartBadges('DOMContentLoaded');
+
+            // Panggil saat pengguna menavigasi kembali ke halaman (e.g., dengan tombol kembali browser).
+            window.addEventListener('pageshow', () => {
+                updateCartBadges('pageshow');
+            });
+
+            // Dengarkan event kustom 'sessionCartUpdated' (dari halaman detail produk atau penambahan/pengurangan item)
+            // Ini dipicu saat keranjang di session storage berubah.
+            window.addEventListener('sessionCartUpdated', () => {
+                updateCartBadges('sessionCartUpdated');
+            });
+
+            // Dengarkan event 'menuUpdatedFromLivewire' yang dipicu dari Livewire
+            // Ini dipicu setiap kali komponen Livewire merender ulang (misalnya, ganti kategori/pencarian).
+            window.addEventListener('menuUpdatedFromLivewire', () => {
+                updateCartBadges('Livewire Dispatch');
             });
         });
     </script>
