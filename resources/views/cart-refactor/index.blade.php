@@ -2,49 +2,49 @@
 
 @section('container')
     <div class="container my-4">
-      
-            <div class="col-md-8 offset-md-2">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-warning d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Keranjang Anda (Meja <span id="table-number-display"></span>)</h4>
-                        <a href="{{ route('menu', ['table' => $tableNumber]) }}" class="btn btn-sm btn-light">
-                            <i class="fa fa-plus me-1"></i> Tambah Menu
-                        </a>
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Keranjang Anda (Meja <span id="table-number-display"></span>)</h6>
+                    <a href="{{ route('menu', ['table' => $tableNumber]) }}" class="btn btn-sm btn-light">
+                        <i class="fa fa-plus me-1"></i>Menu
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div id="cart-items-container"></div>
+                </div>
+                <div class="card-footer bg-white d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Total:</h5>
+                        <h5 id="total-price-display" class="fw-bold mb-0">Rp 0</h5>
                     </div>
-                    <div class="card-body">
-                        <div id="cart-items-container">
+
+                    <div>
+                        <div class="mb-2">
+                            <label for="customer-name" class="form-label">Nama Pelanggan</label>
+                            <input type="text" id="customer-name" class="form-control border border-warning"
+                                placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="customer-email" class="form-label">Email Pelanggan</label>
+                            <input type="email" id="customer-email" class="form-control border border-warning"
+                                placeholder="Masukkan email Anda" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="customer-phone" class="form-label">Telepon Pelanggan</label>
+                            <input type="tel" id="customer-phone" class="form-control border border-warning"
+                                placeholder="Masukkan nomor telepon Anda" required>
                         </div>
                     </div>
-                    <div class="card-footer bg-white d-flex flex-column gap-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Total:</h5>
-                            <h5 id="total-price-display" class="fw-bold mb-0">Rp 0</h5>
-                        </div>
 
-                        <div>
-                            <div class="mb-2">
-                                <label for="customer-name" class="form-label">Nama Pelanggan</label>
-                                <input type="text" id="customer-name" class="form-control"
-                                    placeholder="Masukkan nama Anda" required>
-                            </div>
-                            <div class="mb-2">
-                                <label for="customer-email" class="form-label">Email Pelanggan</label>
-                                <input type="email" id="customer-email" class="form-control"
-                                    placeholder="Masukkan email Anda" required>
-                            </div>
-                            <div class="mb-2">
-                                <label for="customer-phone" class="form-label">Telepon Pelanggan</label>
-                                <input type="tel" id="customer-phone" class="form-control"
-                                    placeholder="Masukkan nomor telepon Anda" required>
-                            </div>
-                        </div>
-
+                    <div>
+                        <div><label for="customer-phone" class="form-label">Pembayaran</label></div>
                         <div class="d-flex flex-row gap-2 mb-2">
-                            <button type="submit" id="cash-checkout-button" class="btn btn-primary w-100">
-                                <i class="fa fa-money-bill me-1"></i>Pembayaran Tunai
+                            <button type="submit" id="cash-checkout-button" class="btn btn-secondary w-100">
+                                <i class="fa fa-money-bill me-1"></i>Tunai
                             </button>
-                            <button type="submit" id="digital-checkout-button" class="btn btn-success w-100">
-                                <i class="fa fa-wallet me-1"></i>Pembayaran Digital
+                            <button type="submit" id="digital-checkout-button" class="btn btn-warning w-100">
+                                <i class="fa fa-wallet me-1"></i>Digital
                             </button>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                     totalPrice += item.price * item.quantity;
                     const itemElement = document.createElement('div');
                     itemElement.className =
-                        'd-flex justify-content-between align-items-center border p-3 rounded-3 mb-2';
+                        'd-flex justify-content-between align-items-center border border-warning p-3 rounded-3 mb-2';
                     itemElement.innerHTML = `
                         <div class="me-3" style="flex-grow: 1;">
                             <h6 class="mb-0">${item.title}</h6>

@@ -7,8 +7,7 @@
         <div class="row justify-content-center flex-grow-1">
             {{-- kolom untuk card --}}
             <div class="col-md-6 p-2 d-flex flex-column">
-                <div class="card d-flex flex-column flex-grow-1">
-                    {{-- <div class="card d-flex flex-column flex-grow-1"> --}}
+                <div class="card d-flex flex-column">
 
                     {{-- Close button is placed early for better positioning context --}}
                     <a href="{{ route('menu', [
@@ -39,13 +38,6 @@
                         <div class="mt-auto"> --}}
                         <div class="row pb-2">
                             <div class="col-12">
-
-                                {{-- Pushes the counter to the bottom --}}
-                                {{-- <div class="mt-auto"> --}}
-                                {{-- <div class="row d-flex align-items-center"> --}}
-                                {{-- <div class="col-12"> --}}
-                                {{-- @livewire('counter', ['postId' => $post->id, 'tableNumber' => $tableNumber]) --}}
-
                                 {{-- ? Note Input --}}
                                 <div class="mb-3">
                                     <label for="note" class="form-label">Catatan</label>
@@ -68,15 +60,11 @@
                                         <button id="increment-button" class="btn btn-light border-0 px-2">+</button>
                                     </div>
                                     <div>
-                                        <button id="add-button" class="btn btn-outline-warning text-dark ms-auto">Add</button>
-
-                                        {{-- ? Add Button --}}
+                                        <button id="add-button" class="btn btn-outline-warning text-dark">Add</button>
                                     </div>
-                                    {{-- </div> --}}
                                 </div>
                             </div>
                         </div>
-                        {{-- </div> --}}
                     </div>
                 </div>
             </div>
