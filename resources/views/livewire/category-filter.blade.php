@@ -62,16 +62,7 @@
             @endif
 
             {{-- Cart Icon Badge --}}
-            <button class="btn btn-light text-dark btn-sm d-flex align-items-center justify-content-center rounded-md"
-                style="width: 40px; height: 40px;">
-                {{-- @livewire('cart-icon-badge', ['tableNumber' => $tableNumber]) --}}
-                {{-- @livewire('cart-icon-badge', [
-                    'tableNumber' => $tableNumber,
-                    'selectedCategory' => $selectedCategory ?? null, // <<< TERUSKAN INI
-                    'search' => $search ?? null, // <<< TERUSKAN INI
-                ]) --}}
-                <x-cart-icon-badge :tableNumber="$tableNumber" :selectedCategory="$selectedCategory" :search="$search" />
-            </button>
+            <x-cart-icon-badge :tableNumber="$tableNumber" :selectedCategory="$selectedCategory" :search="$search" />
         </div>
     </div>
 
@@ -84,10 +75,11 @@
                     <div class="col-4 d-flex justify-content-center align-items-center p-2">
                         @if ($post->image)
                             <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid rounded"
-                                alt="{{ $post->category->name }}" style="max-height: 80px; object-fit: contain;">
+                                alt="{{ $post->category->name }}" style="max-height: 80px; object-fit: contain;"
+                                loading="lazy">
                         @else
-                            <img src="{{ asset('img/notavailable.png') }}" class="img-fluid rounded"
-                                alt="Image Not Available" style="max-height: 80px; object-fit: contain;">
+                            <img src="{{ asset('img/notavailable.webp') }}" class="img-fluid rounded"
+                                alt="Image Not Available" style="max-height: 80px; object-fit: contain;" loading="lazy">
                         @endif
                     </div>
                     <div class="col-8">
@@ -126,7 +118,7 @@
 </div>
 
 @push('scripts')
-   {{-- INI BISA TP KUDU RELOAD --}}
+    {{-- INI BISA TP KUDU RELOAD --}}
     {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('[Cart Badge] DOM ready. Attaching event listeners.');
@@ -212,7 +204,7 @@
         });
     </script> --}}
 
-      <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('[Cart Badge] DOM ready. Attaching event listeners.');
 
@@ -263,7 +255,8 @@
                         const itemInCart = currentTableCartItems[postId];
 
                         if (itemInCart && itemInCart.quantity > 0) {
-                            badgeElement.textContent = `${itemInCart.quantity}x`; // Tambahkan 'x' agar jelas
+                            badgeElement.textContent =
+                            `${itemInCart.quantity}x`; // Tambahkan 'x' agar jelas
                             badgeElement.style.display = 'inline-block';
                         } else {
                             badgeElement.textContent = '0x'; // Setel kembali ke '0x' saat disembunyikan

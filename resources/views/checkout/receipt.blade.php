@@ -7,14 +7,14 @@
             <div class="cart-table-area section-padding-50 shadow-lg p-4 text-start">
                 <div class="container">
                     {{-- Konten asli dari halaman struk pembayaran dimulai di sini --}}
-                        <h4 class="text-center">Struk Pembayaran</h4>
+                        <h4 class="text-center">Setruk Pembayaran</h4>
                         <hr>
 
                         {{-- Kode Transaksi & Waktu --}}
                         <div class="d-flex justify-content-between text-warning">
                             <h6>#Pesanan</h6>
                             <div>
-                                <strong>{{ $order->kode_transaction }}</strong></h6>
+                                <strong>{{ $order->order_id }}</strong></h6>
                                 <h6 class="text-end"><small>{{ date('d-m-Y H:i:s', strtotime($order->created_at)) }}</small></h6>
                             </div>
                         </div>
@@ -81,8 +81,9 @@
                             <!-- <a href="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe9blhP-_CEpY1gERjdqgAyaEBewHb9Hw5ZrzegrPZI3PbY_A/formResponse" target="_blank" class="btn btn-primary text-white">
                                 <i class="bi bi-clipboard-check"></i> Survei</a> -->
                             <a href="{{ route('download.receipt', $order->uuid) }}" class="btn btn-success">
-                                <i class="bi bi-download"></i> Download PDF
+                                <i class="bi bi-download"></i> Download Setruk
                             </a>
+                             <a  href="/menu" class="btn btn-primary">Menu</a>
                         </div>
                     </div>
                     {{-- Konten asli dari halaman struk pembayaran berakhir di sini --}}

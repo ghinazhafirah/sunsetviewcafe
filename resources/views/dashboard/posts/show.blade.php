@@ -10,7 +10,7 @@
         {{-- <p>By <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> Kategori <a href="/categories/{{ $post->category->slug }}"class="text-decoration-none">{{ $post->category->name }}</a></p>
          --}} 
         {{-- <p><a class="text-decoration-none">{{ $post->name }}</a></p> --}}
-        <a href="/dashboard/posts" class="btn btn-success border-0"><i class="bi bi-arrow-left"></i> Back to all Data Menu</a>
+        <a href="/dashboard/posts" class="btn btn-success border-0"><i class="fa fa-angle-left"></i> Back</a>
         <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-success bg-warning border-0"><i class="bi bi-pencil-square"></i> Edit</a>
         <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
             @method('delete')
@@ -20,13 +20,11 @@
     </div>
 
         {{-- PR FOTO --}}
-
-        <div style="max-height: 350px;" class="bg-light p-2 rounded d-inline-block"> 
+       <div style="max-height: 350px; overflow: hidden;" class="bg-light p-2 rounded d-inline-block">
             @if($post->image)
-                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}" class="img-fluid small-img">
+                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}" class="img-fluid" style="height: 250px; width: auto; object-fit: cover; display: block;">
             @else
-            {{-- tambahan ketika menu gada gambarnya --}}
-                 <img src="{{ asset('img/notavailable.png') }}" alt="Image Not Available" class="img-fluid small-img">
+                <img src="{{ asset('img/notavailable.webp') }}" alt="Image Not Available" class="img-fluid" style="height: 250px; width: auto; object-fit: cover; display: block;">
             @endif
         </div>
 

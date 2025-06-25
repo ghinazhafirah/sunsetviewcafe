@@ -87,7 +87,7 @@ class ApiPaymentController extends Controller
                 ],
                 'callbacks' => [
                     'finish' => route('checkout.success', ['order_id' => $orderId]),
-                ]
+                ],
             ];
 
             $snapToken = Snap::getSnapToken($transactionData);

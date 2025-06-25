@@ -1,9 +1,12 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="container my-4">
-        <div class="col-md-8 offset-md-2">
-            <div class="card shadow-sm">
+    <div class="container p-1">
+        {{-- Ubah div ini agar konsisten dengan halaman sukses --}}
+        <div class="row justify-content-center mt-4 mb-5"> {{-- Tambahkan kelas `row justify-content-center mt-4 mb-5` --}}
+            <div class="card col-12 col-md-10 col-lg-8 p-0 shadow-sm" style="max-width: 700px; width: 100%;">
+                {{-- Hapus col-md-8 offset-md-2 dan pindahkan shadow-sm ke sini --}}
+
                 <div class="card-header bg-warning d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">Keranjang Anda (Meja <span id="table-number-display"></span>)</h6>
                     <a href="{{ route('menu', ['table' => $tableNumber]) }}" class="btn btn-sm btn-light">

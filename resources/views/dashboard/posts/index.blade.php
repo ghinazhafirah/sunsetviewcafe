@@ -29,10 +29,10 @@
                     <form action="{{ route('posts.index') }}" method="GET" class="d-flex flex-column flex-md-row gap-2">
                         <select name="filter" class="form-select">
                             <option value="">Semua Menu</option>
-                            <option value="fav_available" {{ request('filter') == 'fav_available' ? 'selected' : '' }}>Available & Hanya Favorit</option>
-                            <option value="fav_not_available" {{ request('filter') == 'fav_not_available' ? 'selected' : '' }}>Not Available & Hanya Favorit</option>
-                            <option value="not_fav_available" {{ request('filter') == 'not_fav_available' ? 'selected' : '' }}>Available & Biasa</option>
-                            <option value="not_fav_not_available" {{ request('filter') == 'not_fav_not_available' ? 'selected' : '' }}>Not Available & Biasa</option>
+                            <!-- <option value="fav_available" {{ request('filter') == 'fav_available' ? 'selected' : '' }}>Available & Hanya Favorit</option>
+                            <option value="fav_not_available" {{ request('filter') == 'fav_not_available' ? 'selected' : '' }}>Not Available & Hanya Favorit</option> -->
+                            <option value="available" {{ request('filter') == 'available' ? 'selected' : '' }}>Available</option>
+                            <option value="not_available" {{ request('filter') == 'not_available' ? 'selected' : '' }}>Not Available</option>
                         </select>                        
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
@@ -50,7 +50,7 @@
                             <th scope="col">Harga</th>                            
                             <th scope="col">Kategori</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Rekomendasi</th>
+                            <!-- <th scope="col">Rekomendasi</th> -->
                             <th scope="col">Action</th> 
                         </tr>
                     </thead>
@@ -69,13 +69,13 @@
                                     <span class="badge bg-danger">Not Available</span>
                                 @endif
                             </td>
-                            <td>
+                            <!-- <td>
                                 @if($post->favorite)
                                     <span class="badge bg-success">Favorit</span>
                                 @else
                                     <span class="badge bg-secondary">Biasa</span>
                                 @endif
-                            </td>
+                            </td> -->
                             <td>
                                 <a href="/dashboard/posts/{{ $post->slug }}" class="btn badge bg-info"><i class="bi bi-eye"></i></a>
                                 <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn badge bg-warning"><i class="bi bi-pencil-square"></i></a>

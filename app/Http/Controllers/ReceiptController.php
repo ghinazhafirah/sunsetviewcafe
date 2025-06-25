@@ -45,6 +45,6 @@ class ReceiptController extends Controller
             'title' => 'Struk Pembayaran'
         ])->setPaper($customPaper, 'portrait');
 
-        return $pdf->download('Struk_Transaksi_' . $order->kode_transaction . '.pdf');
+        return $pdf->download('Setruk_Transaksi_' . $order->kode_transaction . '.pdf');
     }
 }

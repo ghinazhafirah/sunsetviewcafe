@@ -40,7 +40,7 @@
     @livewireStyles
 
     <title>Sunset View Cafe | {{ $title }}</title>
-
+    @stack('styles')
     {{-- Scripts Stack --}}
     @stack('scripts')
 </head>

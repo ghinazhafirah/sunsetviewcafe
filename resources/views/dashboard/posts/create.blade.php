@@ -81,11 +81,11 @@
                 </div>
             
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label class="form-label">Tandai sebagai Menu Favorit?</label>
-                    <div class="d-flex gap-3 align-items-center">
+                    <div class="d-flex gap-3 align-items-center"> -->
                         <!-- Tidak Favorit -->
-                        <div class="d-flex align-items-center gap-2">
+                        <!-- <div class="d-flex align-items-center gap-2">
                             <input type="radio" class="btn-check" name="favorite" id="favorite_no" value="0" 
                                 {{ old('favorite', $post->favorite ?? 0) == 0 ? 'checked' : '' }}>
                             <label class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" 
@@ -93,10 +93,10 @@
                                 <i class="bi bi-heart text-secondary"></i>
                             </label>
                             <span class="text-secondary">Tidak</span>
-                        </div>
+                        </div> -->
                 
                         <!-- Favorit -->
-                        <div class="d-flex align-items-center gap-2">
+                        <!-- <div class="d-flex align-items-center gap-2">
                             <input type="radio" class="btn-check" name="favorite" id="favorite_yes" value="1" 
                                 {{ old('favorite', $post->favorite ?? 0) == 1 ? 'checked' : '' }}>
                             <label class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center" 
@@ -106,7 +106,7 @@
                             <span class="text-danger">Ya</span>
                         </div>
                     </div>
-                </div>                
+                </div>                 -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Foto Menu</label>
                     <img class="img-preview img-fluid mb-3 col-sm-5">

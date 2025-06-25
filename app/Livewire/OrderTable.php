@@ -32,6 +32,18 @@ class OrderTable extends Component
     {
           // Filter data berdasarkan pencarian
             $orders = Order::query()
+            // Terapkan kondisi filter berdasarkan metode pembayaran dan status.
+            ->where(function ($query) {
+                // Kondisi untuk pembayaran 'cash': status 'pending' ATAU 'paid'.
+                $query->where('payment_method', 'cash')
+                      ->whereIn('status', ['pending', 'paid']);
+            })
+            // Kondisi untuk pembayaran 'midtrans' (digital): status HANYA 'paid'.
+            // Menggunakan orWhere untuk menggabungkan kondisi 'cash' dan 'midtrans'.
+            ->orWhere(function ($query) {
+                $query->where('payment_method', 'digital')
+                      ->where('status', 'paid');
+            })
             ->when($this->search, function ($query) {
                 return $query->where(function ($query) {
                     $query->where('customer_name', 'like', '%' . $this->search . '%')

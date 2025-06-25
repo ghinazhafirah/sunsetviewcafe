@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,17 +20,17 @@ class DashboardPostController extends Controller
         // Filter gabungan berdasarkan favorit & status
         if ($request->has('filter') && $request->filter !== '') {
             switch ($request->filter) {
-                case 'fav_available':
-                    $query->where('favorite', true)->where('status', 'available');
+                // case 'fav_available':
+                //     $query->where('favorite', true)->where('status', 'available');
+                //     break;
+                // case 'fav_not_available':
+                //     $query->where('favorite', true)->where('status', 'not_available');
+                //     break;
+                case 'available':
+                    $query->where('status', 'available');
                     break;
-                case 'fav_not_available':
-                    $query->where('favorite', true)->where('status', 'not_available');
-                    break;
-                case 'not_fav_available':
-                    $query->where('favorite', false)->where('status', 'available');
-                    break;
-                case 'not_fav_not_available':
-                    $query->where('favorite', false)->where('status', 'not_available');
+                case 'not_available':
+                    $query->where('status', 'not_available');
                     break;
             }
         }
@@ -58,11 +59,12 @@ class DashboardPostController extends Controller
             'title' => 'required|max:255|regex:/^[A-Za-z\s]+$/',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
-            'image' => 'image|file|max:1024', //size file foto berapa?
+            // 'image' => 'image|file|max:1024', //size file foto berapa?
+            'image' => 'image|file|max:1024|mimes:jpeg,png,jpg,gif,svg,webp,avif',
             'body' => 'required',
             'status' => 'required|in:available,not_available', // Validasi status
             'price' => 'required|numeric|min:0', // Validasi harga
-            'favorite' => 'nullable|boolean'
+            // 'favorite' => 'nullable|boolean'
         ]);
 
         if($request->file('image')){ //kalo kosong = null/false, gimanaaa?? gambarnya apa?
@@ -71,7 +73,7 @@ class DashboardPostController extends Controller
 
         $validatedData['user_id'] = auth()->user()->id; //PART 19 (11.10)
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body) );
-        $validatedData['favorite'] = $request->has('favorite') ? $request->favorite : 0;
+        // $validatedData['favorite'] = $request->has('favorite') ? $request->favorite : 0;
 
         Post::create($validatedData);
 
@@ -103,11 +105,12 @@ class DashboardPostController extends Controller
         $rules = [
             'title' => 'required|max:255|regex:/^[A-Za-z\s]+$/',
             'category_id' => 'required',
-            'image' => 'image|file|max:1024', //size file foto berapa?
+            // 'image' => 'image|file|max:1024', //size file foto berapa?
+            'image' => 'image|file|max:1024|mimes:jpeg,png,jpg,gif,svg,webp,avif',
             'body' => 'required',
             'status' => 'required|in:available,not_available', // Validasi status
             'price' => 'required|numeric|min:0', // Validasi harga
-            'favorite' => 'nullable|boolean'
+            // 'favorite' => 'nullable|boolean'
         ];
         
         if($request->slug != $post->slug){
@@ -115,7 +118,7 @@ class DashboardPostController extends Controller
         }
 
         $validatedData = $request->validate($rules);
-        $validatedData['favorite'] = $request->has('favorite') ? $request->favorite : 0;
+        // $validatedData['favorite'] = $request->has('favorite') ? $request->favorite : 0;
 
         if($request->file('image')) { //kalo kosong = null/false, gimanaaa?? gambarnya apa?
 
@@ -132,7 +135,7 @@ class DashboardPostController extends Controller
         Post::where('id', $post->id)
             ->update($validatedData);
 
-        return redirect('/dashboard/posts')->with('success', 'New Menu has been updated!');
+        return redirect('/dashboard/posts')->with('success', 'Menu has been updated!');
 
     }
 
@@ -144,7 +147,7 @@ class DashboardPostController extends Controller
         
         Post::destroy($post->id);
 
-        return redirect('/dashboard/posts')->with('success', 'New Menu has been deleted!');
+        return redirect('/dashboard/posts')->with('success', 'Menu has been deleted!');
 
     }
 

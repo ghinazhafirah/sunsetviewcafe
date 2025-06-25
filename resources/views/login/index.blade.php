@@ -74,10 +74,10 @@
 
                 <button class="w-100 btn btn-warning rounded-3 font-bold" type="submit">Login</button>
 
-                <div class="d-flex flex-row justify-content-center gap-2 font-sans mt-3">
+                <!-- <div class="d-flex flex-row justify-content-center gap-2 font-sans mt-3">
                     <p>Not Registered?</p>
                     <a href="/register" class="hover:underline font-bold">Register Now!</a>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

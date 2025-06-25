@@ -89,7 +89,8 @@
                 <span><strong>Rp {{ number_format($order->total_price, 0, ',', '.') }}</strong></span>
             </p>
 
-            @if ($order->status == 'pending')
+            {{-- Hanya tampilkan tombol konfirmasi jika status pending DAN metode pembayaran adalah 'cash' --}}
+            @if ($order->status == 'pending' && $order->payment_method == 'cash')
                 <form action="{{ route('dashboard.confirmPayment', $order->id) }}" method="POST" class="mt-4">
                     @csrf
                     <button type="submit" class="btn btn-primary">Konfirmasi Pembayaran</button>

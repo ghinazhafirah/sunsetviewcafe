@@ -25,7 +25,7 @@
                             <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}"
                                 class="card-img-top w-100 menu-image">
                         @else
-                            <img src="{{ asset('img/notavailable.png') }}" alt="Image Not Available"
+                            <img src="{{ asset('img/notavailable.webp') }}" alt="Image Not Available"
                                 class="card-img-top w-100 menu-image">
                         @endif
                     </div>

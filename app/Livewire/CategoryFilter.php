@@ -19,7 +19,7 @@ class CategoryFilter extends Component
     protected $queryString = [
         'selectedCategory' => ['except' => null],
         'search' => ['except' => ''],
-       
+
     ];
 
     //   // Tambahkan listener untuk event dari browser (JavaScript)
@@ -29,22 +29,22 @@ class CategoryFilter extends Component
 
     public function mount($tableNumber = null)
     {
-    //     // Debugging: Cek nilai selectedCategory yang datang dari Livewire/URL
-    // \Log::info('Mount Awal - $this->selectedCategory:', ['value' => $this->selectedCategory]);
+        //     // Debugging: Cek nilai selectedCategory yang datang dari Livewire/URL
+        // \Log::info('Mount Awal - $this->selectedCategory:', ['value' => $this->selectedCategory]);
 
-    // // Ambil nomor meja dari parameter atau session
-    // if ($tableNumber) {
-    //     $this->tableNumber = $tableNumber;
-    //     session(['tableNumber' => $this->tableNumber]); // Simpan ke session
-    // } else {
-    //     $this->tableNumber = session('tableNumber', null); // Ambil dari session jika tersedia
-    // }
+        // // Ambil nomor meja dari parameter atau session
+        // if ($tableNumber) {
+        //     $this->tableNumber = $tableNumber;
+        //     session(['tableNumber' => $this->tableNumber]); // Simpan ke session
+        // } else {
+        //     $this->tableNumber = session('tableNumber', null); // Ambil dari session jika tersedia
+        // }
 
-    // \Log::info('Nomor meja yang diambil:', ['tableNumber' => $this->tableNumber]);
-    // \Log::info('Mount Akhir - $this->selectedCategory:', ['value' => $this->selectedCategory]);
-    // // Pemicu event saat komponen pertama kali dimuat atau di-refresh
-    // $this->dispatch('requestCartData');
-    //     Log::info('[CategoryFilter PHP] Mounted, dispatched requestCartData.');
+        // \Log::info('Nomor meja yang diambil:', ['tableNumber' => $this->tableNumber]);
+        // \Log::info('Mount Akhir - $this->selectedCategory:', ['value' => $this->selectedCategory]);
+        // // Pemicu event saat komponen pertama kali dimuat atau di-refresh
+        // $this->dispatch('requestCartData');
+        //     Log::info('[CategoryFilter PHP] Mounted, dispatched requestCartData.');
         $this->tableNumber = $tableNumber;
     }
 
@@ -79,12 +79,12 @@ class CategoryFilter extends Component
     public function filterByCategory($categoryId)
     {
         $this->selectedCategory = $categoryId;
-          \Log::info('filterByCategory called - new selectedCategory:', ['value' => $this->selectedCategory]);
+        \Log::info('filterByCategory called - new selectedCategory:', ['value' => $this->selectedCategory]);
         $this->search = ''; // Bersihkan pencarian saat filter kategori diterapkan
         //   $this->dispatch('requestCartData');
     }
 
-     public function performSearch()
+    public function performSearch()
     {
         // Livewire secara otomatis merender ulang pada perubahan properti publik
         // Untuk wire:keydown.enter, metode ini memastikan pencarian "difinalisasi" jika debounce digunakan
@@ -104,7 +104,7 @@ class CategoryFilter extends Component
 
     public function render()
     {
-        
+
         // Debugging log untuk melihat nilai search
         // \Log::info('Search term (render): ' . $this->search);
         // \Log::info('Render - selectedCategory:', ['value' => $this->selectedCategory]);
@@ -134,7 +134,7 @@ class CategoryFilter extends Component
         //     'tableNumber' => $this->tableNumber,
         // ]);
 
-         $query = Post::query();
+        $query = Post::query();
 
         if ($this->selectedCategory) {
             $query->where('category_id', $this->selectedCategory);
@@ -143,7 +143,7 @@ class CategoryFilter extends Component
         if ($this->search) {
             $query->where(function ($q) {
                 $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('excerpt', 'like', '%' . $this->search . '%');
+                    ->orWhere('excerpt', 'like', '%' . $this->search . '%');
             });
         }
 

@@ -83,7 +83,7 @@
                         <div class="col-md-6">
                             <label for="year" class="form-label">Tahun:</label>
                             <select name="year" id="year" class="form-select">
-                                @foreach (range(Carbon\Carbon::now()->year - 5, Carbon\Carbon::now()->year + 1) as $y)
+                                @foreach (range(Carbon\Carbon::now()->year , Carbon\Carbon::now()->year + 6) as $y)
                                     <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>
                                         {{ $y }}</option>
                                 @endforeach

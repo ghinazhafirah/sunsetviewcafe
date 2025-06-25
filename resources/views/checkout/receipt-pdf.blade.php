@@ -143,11 +143,11 @@
 <body>
     <div class="container">
         <table class="header-table">
-            <tr>
+            <!-- <tr>
                 <td class="header-logo">
                    <img src="{{ public_path('img/logocafecrop.png') }}" alt="Logo Cafe" style="height: 38px; margin-bottom: 2px;">
                 </td>
-            </tr>
+            </tr> -->
             <tr>
                 <td class="header-text-cell">
                     <span class="cafe-name">SUNSET VIEW CAFE</span><br>
@@ -160,7 +160,7 @@
 
         <hr>
 
-        <h4 class="text-center">Struk Pembayaran</h4>
+        <h4 class="text-center">Setruk Pembayaran</h4>
         <hr>
 
         {{-- Kode Transaksi & Waktu --}}
@@ -169,7 +169,7 @@
                 <div>
                     <strong>#Pesanan</strong>
                     <span style="float: right">
-                        <strong>{{ $order->kode_transaction }}</strong>
+                        <strong>{{ $order->order_id }}</strong>
                     </span>
                 </div>
                 <div>
@@ -220,7 +220,7 @@
             </tbody>
         </table>
         <hr>
-        @if (strtolower($order->payment_method) !== 'cash')
+        <!-- @if (strtolower($order->payment_method) !== 'cash')
         <table style="width: 100%;">
             <tr>
                 <td class="text-start"><strong>Subtotal:</strong></td>
@@ -231,7 +231,7 @@
                 <td class="text-end">Rp {{ number_format($order->tax, 0, ',', '.') }}</td>
             </tr>
         </table>
-        @endif
+        @endif -->
 
         <p class="text-start"><strong>Total Bayar:</strong>
             <span style="float: right">Rp
